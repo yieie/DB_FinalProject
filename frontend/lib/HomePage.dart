@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 import 'Navbar.dart';
 
 class HomePage extends StatelessWidget {
@@ -6,61 +8,73 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("Building HomePage");
     return Scaffold(
-          backgroundColor: Colors.white,
-          appBar: const Navbar(),
-          body: const CarouselExample()
+      backgroundColor: Colors.white,
+      appBar: const Navbar(),
+      body: const Center(child: TeacherInfoButton()), // 使用一個按鈕
     );
   }
 }
 
-class CarouselExample extends StatefulWidget {
-  const CarouselExample({super.key});
+class TeacherInfoButton extends StatefulWidget {
+  const TeacherInfoButton({super.key});
 
   @override
-  State<CarouselExample> createState() => _CarouselExampleState();
+  _TeacherInfoButtonState createState() => _TeacherInfoButtonState();
 }
 
-class _CarouselExampleState extends State<CarouselExample> {
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: ConstrainedBox(
-        constraints: const BoxConstraints(maxHeight: 200),
-        child: CarouselView(
-          itemExtent: 330,
-          shrinkExtent: 200,
-          children: List<Widget>.generate(20, (int index) {
-            return UncontainedLayoutCard(index: index, label: 'Item $index');
-          }),
-        ),
-      ),
-    );
+class _TeacherInfoButtonState extends State<TeacherInfoButton> {
+  String teacherName = ''; // 存儲查詢結果
+
+  // 發送請求來查詢老師資料
+  Future<void> fetchTeacherName() async {
+    print('Fetching teacher name for teacherId 1115526');
+    try {
+      final response = await http.get(
+        Uri.parse('http://localhost:8080/api/teachers/1115526')
+      );
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> data = json.decode(response.body);
+        setState(() {
+          teacherName = data['teacherName'] ?? 'No name found';
+        });
+        print('Fetched teacher name: $teacherName');
+      } else {
+        setState(() {
+          teacherName = 'Error fetching name';
+        });
+        print('Failed to fetch teacher name: ${response.statusCode}');
+      }
+    } catch (e) {
+      setState(() {
+        teacherName = 'Network error';
+      });
+      print('Failed to fetch teacher name: $e');
+    }
   }
-}
-
-class UncontainedLayoutCard extends StatelessWidget {
-  const UncontainedLayoutCard({
-    super.key,
-    required this.index,
-    required this.label,
-  });
-
-  final int index;
-  final String label;
 
   @override
   Widget build(BuildContext context) {
-    return ColoredBox(
-      color: Colors.primaries[index % Colors.primaries.length].withOpacity(0.5),
-      child: Center(
-        child: Text(
-          label,
-          style: const TextStyle(color: Colors.white, fontSize: 20),
-          overflow: TextOverflow.clip,
-          softWrap: false,
+    print("Building TeacherInfoButton");
+
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        ElevatedButton(
+          onPressed: fetchTeacherName, // 按下後查詢
+          child: const Text('Fetch Teacher Info'),
         ),
-      ),
+        if (teacherName.isNotEmpty)
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              teacherName,
+              style: const TextStyle(fontSize: 18, color: Colors.black),
+            ),
+          ),
+      ],
     );
   }
 }
