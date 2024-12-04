@@ -1,5 +1,5 @@
 package com.example.demo.model;
-
+// service 層
 public class Teacher {
     private int teacherId;
     private String teacherName;

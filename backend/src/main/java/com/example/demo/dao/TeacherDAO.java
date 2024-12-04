@@ -14,7 +14,7 @@ public class TeacherDAO {
     public void addTeacher(Teacher teacher) {
         String sql = "INSERT INTO TEACHER (TEACHER_ID, TeacherName, JobType, Department, Organization) VALUES (?, ?, ?, ?, ?)";
         
-        try (Connection conn = DatabaseConnection.getConnection();
+        try(Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             
             pstmt.setString(1, String.valueOf(teacher.getTeacherId()));
@@ -33,13 +33,13 @@ public class TeacherDAO {
         String sql = "SELECT * FROM TEACHER WHERE TEACHER_ID = ?";
         Teacher teacher = null;
         
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try(Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) { // prepared statement 表示一個SQL語句，可以用?來代替參數
             
-            pstmt.setString(1, teacherId);
+            pstmt.setString(1, teacherId); 
             ResultSet rs = pstmt.executeQuery();
             
-            if (rs.next()) {
+            if(rs.next()) {
                 teacher = new Teacher();
                 teacher.setTeacherId(rs.getInt("TEACHER_ID"));
                 teacher.setTeacherName(rs.getString("TeacherName"));
@@ -58,11 +58,11 @@ public class TeacherDAO {
         List<Teacher> teachers = new ArrayList<>();
         String sql = "SELECT * FROM TEACHER";
         
-        try (Connection conn = DatabaseConnection.getConnection();
+        try(Connection conn = DatabaseConnection.getConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
             
-            while (rs.next()) {
+            while(rs.next()) {
                 Teacher teacher = new Teacher();
                 teacher.setTeacherId(rs.getInt("TEACHER_ID"));
                 teacher.setTeacherName(rs.getString("TeacherName"));
@@ -71,7 +71,7 @@ public class TeacherDAO {
                 teacher.setOrganization(rs.getString("Organization"));
                 teachers.add(teacher);
             }
-        } catch (SQLException e) {
+        } catch(SQLException e) {
             e.printStackTrace();
         }
         
@@ -81,7 +81,7 @@ public class TeacherDAO {
     public void updateTeacher(Teacher teacher) {
         String sql = "UPDATE TEACHER SET TeacherName = ?, JobType = ?, Department = ?, Organization = ? WHERE TEACHER_ID = ?";
         
-        try (Connection conn = DatabaseConnection.getConnection();
+        try(Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             
             pstmt.setString(1, teacher.getTeacherName());
@@ -91,7 +91,7 @@ public class TeacherDAO {
             pstmt.setString(5, String.valueOf(teacher.getTeacherId()));
             
             pstmt.executeUpdate();
-        } catch (SQLException e) {
+        } catch(SQLException e) {
             e.printStackTrace();
         }
     }
@@ -99,12 +99,12 @@ public class TeacherDAO {
     public void deleteTeacher(String teacherId) {
         String sql = "DELETE FROM TEACHER WHERE TEACHER_ID = ?";
         
-        try (Connection conn = DatabaseConnection.getConnection();
+        try(Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             
             pstmt.setString(1, teacherId);
             pstmt.executeUpdate();
-        } catch (SQLException e) {
+        } catch(SQLException e) {
             e.printStackTrace();
         }
     }

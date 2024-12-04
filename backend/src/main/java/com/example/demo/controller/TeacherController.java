@@ -21,7 +21,7 @@ public class TeacherController {
     @GetMapping("/{teacherId}")
     public ResponseEntity<Teacher> getTeacherById(@PathVariable String teacherId) {
         Teacher teacher = teacherDAO.getTeacherById(teacherId);
-        if (teacher != null) {
+        if(teacher != null) {
             return ResponseEntity.ok(teacher);
         }
         return ResponseEntity.notFound().build();
@@ -34,10 +34,7 @@ public class TeacherController {
     }
 
     @PutMapping("/{teacherId}")
-    public ResponseEntity<Teacher> updateTeacher(
-        @PathVariable int teacherId, 
-        @RequestBody Teacher teacher
-    ) {
+    public ResponseEntity<Teacher> updateTeacher(@PathVariable int teacherId, @RequestBody Teacher teacher) {
         teacher.setTeacherId(teacherId);
         teacherDAO.updateTeacher(teacher);
         return ResponseEntity.ok(teacher);
