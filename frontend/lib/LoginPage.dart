@@ -9,57 +9,86 @@ class LoginPage extends StatelessWidget{
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: const Navbar(),
-      body:const Identity(),
+      body:const LoginForm(),
     );
   }
 }
 
-class Identity extends StatefulWidget{
-  const Identity({super.key});
+class LoginForm extends StatefulWidget{
+  const LoginForm({super.key});
 
   @override
-  State<Identity> createState() => _IdentityState();
+  State<LoginForm> createState() => _LoginFormState();
 
 }
 
-class _IdentityState extends State<Identity>{
+class _LoginFormState extends State<LoginForm>{
+  final _loginfromkey=GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context){
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Container(
+    return Align(
+      alignment: Alignment.center,
+      child: Container(
+          width: 350,
+          height: 200,
           alignment: Alignment.center,
-          height: 100,
-          width: 200,
-          decoration: BoxDecoration(
-            border: Border.all(),
-            borderRadius: BorderRadius.circular(10)
+          // decoration: BoxDecoration(
+          //   border:Border.all(),
+          // ),
+          child: Form(
+            key:_loginfromkey,
+            child: Column(
+              children: [
+                TextFormField(
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: '帳號',
+                    
+                  ),
+                  validator: (value){
+                    if(value==null||value.isEmpty){
+                      return '帳號請勿為空值';
+                    }
+                    return null;
+                  },
+                ),
+                Container(height: 10),
+                TextFormField(
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: '密碼',
+                    
+                  ),
+                  validator: (value){
+                    if(value==null||value.isEmpty){
+                      return '密碼請勿為空值';
+                    }
+                    return null;
+                  },
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 20),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        if (_loginfromkey.currentState!.validate()) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Processing Data')),
+                          );
+                        }
+                      },
+                      child: const Text('登入'),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor:Colors.white60,
+                        foregroundColor: Colors.black
+                      ),
+                      ),
+                  )
+              ],
+            ),
           ),
-          child: Text("學生"),
-        ),
-        Container(
-          alignment: Alignment.center,
-          height: 100,
-          width: 200,
-          decoration: BoxDecoration(
-            border: Border.all(),
-            borderRadius: BorderRadius.circular(10)
-          ),
-          child: Text("指導老師"),
-        ),
-        Container(
-          alignment: Alignment.center,
-          height: 100,
-          width: 200,
-          decoration: BoxDecoration(
-            border: Border.all(),
-            borderRadius: BorderRadius.circular(10)
-          ),
-          child: Text("評審委員")
-        )
-      ],
-      
+         ),
     );
 
   }

@@ -12,7 +12,7 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: const Navbar(),
-      body: const Center(child: TeacherInfoButton()), // 使用一個按鈕
+      body: const Center(child: TeacherInfoButton()),
     );
   }
 }
@@ -25,33 +25,62 @@ class TeacherInfoButton extends StatefulWidget {
 }
 
 class _TeacherInfoButtonState extends State<TeacherInfoButton> {
-  String teacherName = ''; // 存儲查詢結果
+  List<String> teacherNames = []; // 存儲所有老師名字
+  String teacherName = ''; // 查詢特定 ID 的老師名字
+  String teacherId = ''; // 使用者輸入的老師 ID
 
-  // 發送請求來查詢老師資料
-  Future<void> fetchTeacherName() async {
-    print('Fetching teacher name for teacherId 1115526');
+  // 查詢所有老師名字
+  Future<void> fetchAllTeachers() async {
     try {
       final response = await http.get(
-        Uri.parse('http://localhost:8080/api/teachers/1115526')
+        Uri.parse('http://localhost:8080/api/teachers'),
       );
 
       if (response.statusCode == 200) {
-        final Map<String, dynamic> data = json.decode(response.body);
+        final List<dynamic> data = json.decode(utf8.decode(response.bodyBytes));
+        setState(() {
+          // teacherNames = data.map((teacher) => teacher['teacherName'] ?? 'No name').toList();
+          teacherNames = data.map<String>((teacher) => teacher['teacherName'] ?? 'No name').toList();
+        });
+        print('Fetched all teacher names: $teacherNames');
+      } else {
+        setState(() {
+          teacherNames = ['Error fetching teacher names'];
+        });
+        print('Failed to fetch all teacher names: ${response.statusCode}');
+      }
+    } catch (e) {
+      setState(() {
+        teacherNames = ['Network error'];
+      });
+      print('Failed to fetch all teacher names: $e');
+    }
+  }
+
+  // 查詢特定 ID 的老師名字
+  Future<void> fetchTeacherById() async {
+    try {
+      final response = await http.get(
+        Uri.parse('http://localhost:8080/api/teachers/$teacherId'),
+      );
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> data = json.decode(utf8.decode(response.bodyBytes));
         setState(() {
           teacherName = data['teacherName'] ?? 'No name found';
         });
         print('Fetched teacher name: $teacherName');
       } else {
         setState(() {
-          teacherName = 'Error fetching name';
+          teacherName = 'Teacher not found';
         });
-        print('Failed to fetch teacher name: ${response.statusCode}');
+        print('Failed to fetch teacher by ID: ${response.statusCode}');
       }
     } catch (e) {
       setState(() {
         teacherName = 'Network error';
       });
-      print('Failed to fetch teacher name: $e');
+      print('Failed to fetch teacher by ID: $e');
     }
   }
 
@@ -63,8 +92,30 @@ class _TeacherInfoButtonState extends State<TeacherInfoButton> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         ElevatedButton(
-          onPressed: fetchTeacherName, // 按下後查詢
-          child: const Text('Fetch Teacher Info'),
+          onPressed: fetchAllTeachers,
+          child: const Text('Fetch All Teachers'),
+        ),
+        if (teacherNames.isNotEmpty)
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: teacherNames.map((name) => Text(name, style: const TextStyle(fontSize: 16))).toList(),
+            ),
+          ),
+        const SizedBox(height: 20),
+        TextField(
+          onChanged: (value) {
+            teacherId = value;
+          },
+          decoration: const InputDecoration(
+            labelText: 'Enter Teacher ID',
+            border: OutlineInputBorder(),
+          ),
+        ),
+        const SizedBox(height: 10),
+        ElevatedButton(
+          onPressed: fetchTeacherById,
+          child: const Text('Fetch Teacher By ID'),
         ),
         if (teacherName.isNotEmpty)
           Padding(
