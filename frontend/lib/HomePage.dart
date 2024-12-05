@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 import 'Navbar.dart';
 
 class HomePage extends StatelessWidget {
@@ -8,124 +6,59 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("Building HomePage");
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: const Navbar(),
-      body: const Center(child: TeacherInfoButton()),
+          backgroundColor: Colors.white,
+          appBar: const Navbar(),
+          body: const CarouselExample()
     );
   }
 }
 
-class TeacherInfoButton extends StatefulWidget {
-  const TeacherInfoButton({super.key});
+class CarouselExample extends StatefulWidget {
+  const CarouselExample({super.key});
 
   @override
-  _TeacherInfoButtonState createState() => _TeacherInfoButtonState();
+  State<CarouselExample> createState() => _CarouselExampleState();
 }
 
-class _TeacherInfoButtonState extends State<TeacherInfoButton> {
-  List<String> teacherNames = []; // 存儲所有老師名字
-  String teacherName = ''; // 查詢特定 ID 的老師名字
-  String teacherId = ''; // 使用者輸入的老師 ID
-
-  // 查詢所有老師名字
-  Future<void> fetchAllTeachers() async {
-    try {
-      final response = await http.get(
-        Uri.parse('http://localhost:8080/api/teachers'),
+class _CarouselExampleState extends State<CarouselExample> {
+  @override
+  Widget build(BuildContext context) {
+    return ConstrainedBox(
+        constraints: const BoxConstraints(maxHeight: 200),
+        child: CarouselView(
+          itemExtent: 330,
+          shrinkExtent: 200,
+          children: List<Widget>.generate(20, (int index) {
+            return UncontainedLayoutCard(index: index, label: 'Item $index');
+          }),
+        ),
       );
-
-      if (response.statusCode == 200) {
-        final List<dynamic> data = json.decode(utf8.decode(response.bodyBytes));
-        setState(() {
-          // teacherNames = data.map((teacher) => teacher['teacherName'] ?? 'No name').toList();
-          teacherNames = data.map<String>((teacher) => teacher['teacherName'] ?? 'No name').toList();
-        });
-        print('Fetched all teacher names: $teacherNames');
-      } else {
-        setState(() {
-          teacherNames = ['Error fetching teacher names'];
-        });
-        print('Failed to fetch all teacher names: ${response.statusCode}');
-      }
-    } catch (e) {
-      setState(() {
-        teacherNames = ['Network error'];
-      });
-      print('Failed to fetch all teacher names: $e');
-    }
   }
+}
 
-  // 查詢特定 ID 的老師名字
-  Future<void> fetchTeacherById() async {
-    try {
-      final response = await http.get(
-        Uri.parse('http://localhost:8080/api/teachers/$teacherId'),
-      );
+class UncontainedLayoutCard extends StatelessWidget {
+  const UncontainedLayoutCard({
+    super.key,
+    required this.index,
+    required this.label,
+  });
 
-      if (response.statusCode == 200) {
-        final Map<String, dynamic> data = json.decode(utf8.decode(response.bodyBytes));
-        setState(() {
-          teacherName = data['teacherName'] ?? 'No name found';
-        });
-        print('Fetched teacher name: $teacherName');
-      } else {
-        setState(() {
-          teacherName = 'Teacher not found';
-        });
-        print('Failed to fetch teacher by ID: ${response.statusCode}');
-      }
-    } catch (e) {
-      setState(() {
-        teacherName = 'Network error';
-      });
-      print('Failed to fetch teacher by ID: $e');
-    }
-  }
+  final int index;
+  final String label;
 
   @override
   Widget build(BuildContext context) {
-    print("Building TeacherInfoButton");
-
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        ElevatedButton(
-          onPressed: fetchAllTeachers,
-          child: const Text('Fetch All Teachers'),
+    return ColoredBox(
+      color: Colors.primaries[index % Colors.primaries.length].withOpacity(0.5),
+      child: Center(
+        child: Text(
+          label,
+          style: const TextStyle(color: Colors.white, fontSize: 20),
+          overflow: TextOverflow.clip,
+          softWrap: false,
         ),
-        if (teacherNames.isNotEmpty)
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: teacherNames.map((name) => Text(name, style: const TextStyle(fontSize: 16))).toList(),
-            ),
-          ),
-        const SizedBox(height: 20),
-        TextField(
-          onChanged: (value) {
-            teacherId = value;
-          },
-          decoration: const InputDecoration(
-            labelText: 'Enter Teacher ID',
-            border: OutlineInputBorder(),
-          ),
-        ),
-        const SizedBox(height: 10),
-        ElevatedButton(
-          onPressed: fetchTeacherById,
-          child: const Text('Fetch Teacher By ID'),
-        ),
-        if (teacherName.isNotEmpty)
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              teacherName,
-              style: const TextStyle(fontSize: 18, color: Colors.black),
-            ),
-          ),
-      ],
+      ),
     );
   }
 }
