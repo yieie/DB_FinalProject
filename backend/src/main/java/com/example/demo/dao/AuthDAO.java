@@ -8,31 +8,33 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 public class AuthDAO {
     public boolean authenticate(String username, String password) {
-        System.out.println("username: " + username);
-        String sql = "SELECT COUNT(*) FROM USERS WHERE username = ? AND password = ?";
+        String sql = "SELECT password FROM USERS WHERE username = ?";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, username);
-            pstmt.setString(2, password);
-            System.out.println("pstmt: " + pstmt);
             ResultSet rs = pstmt.executeQuery();
-            if (rs.next() && rs.getInt(1) > 0) {
-                return true;
+            if (rs.next()) {
+                String encodedPassword = rs.getString("password"); // 取出加密的密碼
+                return new BCryptPasswordEncoder().matches(password, encodedPassword); // 比較加密密碼
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return false;
     }
+    
 
     public boolean register(Auth auth) {
         String sql = "INSERT INTO USERS (username, password) VALUES (?, ?)";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, String.valueOf(auth.getUsername()));
-            pstmt.setString(2, auth.getPassword());
+            pstmt.setString(1, auth.getUsername());
+            // pstmt.setString(2, auth.getPassword());
+            pstmt.setString(2, new BCryptPasswordEncoder().encode(auth.getPassword()));
             pstmt.executeUpdate();
             return true;
         } catch (SQLException e) {

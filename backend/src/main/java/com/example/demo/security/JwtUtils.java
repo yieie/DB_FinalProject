@@ -1,38 +1,40 @@
 package com.example.demo.security;
 
-import java.util.Date;
-
+import org.springframework.beans.factory.annotation.Value;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import java.util.Date;
+import org.springframework.stereotype.Component;
 
+@Component
 public class JwtUtils {
-    private static final String SECRET_KEY = "your-secret-key";
+
+    @Value("${jwt.secret}")
+    private String secretKey;
+
     private static final long EXPIRATION_TIME = 86400000; // 1 天（以毫秒計）
 
-    // 生成 JWT Token
-    public static String generateToken(String username) {
+    public String generateToken(String username) {
         return Jwts.builder()
                 .setSubject(username)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-                .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
+                .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
     }
 
-    // 驗證 JWT Token
-    public static boolean validateToken(String token) {
+    public boolean validateToken(String token) {
         try {
-            Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token);
+            Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
             return true;
         } catch (Exception e) {
             return false;
         }
     }
 
-    // 從 Token 中提取使用者名稱
-    public static String getUsernameFromToken(String token) {
+    public String getUsernameFromToken(String token) {
         return Jwts.parser()
-                .setSigningKey(SECRET_KEY)
+                .setSigningKey(secretKey)
                 .parseClaimsJws(token)
                 .getBody()
                 .getSubject();
