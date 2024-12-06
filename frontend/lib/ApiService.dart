@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 
 class ApiService {
-  final Dio _dio = Dio(BaseOptions(baseUrl: 'http://localhost:8080/api')); // 改為 HTTP
+  final Dio _dio = Dio(BaseOptions(baseUrl: 'http://localhost:8081/api')); // 改為 HTTP
   //傳帳號密碼給後端伺服器，伺服器回傳token
   Future<String?> login(String username, String password) async {
     try {
