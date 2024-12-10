@@ -11,11 +11,11 @@ public class AnnDAO {
     public List<Ann> getAllAnnouncements() {
         List<Ann> announcements = new ArrayList<>();
         String sql = "SELECT * FROM ANN";
-        try (Connection conn = DatabaseConnection.getConnection();
+        try(Connection conn = DatabaseConnection.getConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
 
-            while (rs.next()) {
+            while(rs.next()) {
                 Ann ann = new Ann();
                 ann.setAnnID(rs.getInt("AnnID"));
                 ann.setAnnTitle(rs.getString("AnnTitle"));
@@ -28,7 +28,7 @@ public class AnnDAO {
                 ann.setAnnTime(rs.getTimestamp("AnnTime").toLocalDateTime());
                 announcements.add(ann);
             }
-        } catch (SQLException e) {
+        } catch(SQLException e) {
             e.printStackTrace();
         }
         return announcements;
@@ -37,7 +37,7 @@ public class AnnDAO {
     public boolean addAnnouncement(Ann ann) {
         String sql = "INSERT INTO ANN (AnnTitle, AnnInfo, Poster, File_Name, File_Type, File_Data, AdminID, AnnTime) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-        try (Connection conn = DatabaseConnection.getConnection();
+        try(Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, ann.getAnnTitle());
@@ -50,7 +50,7 @@ public class AnnDAO {
             pstmt.setTimestamp(8, Timestamp.valueOf(ann.getAnnTime()));
             pstmt.executeUpdate();
             return true;
-        } catch (SQLException e) {
+        } catch(SQLException e) {
             e.printStackTrace();
         }
         return false;
