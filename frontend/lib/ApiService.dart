@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'DataStruct.dart';
 
 class ApiService {
   final Dio _dio = Dio(BaseOptions(baseUrl: 'http://localhost:8081/api')); // 改為 HTTP
@@ -19,5 +20,24 @@ class ApiService {
       }
       return null;
     }
+  }
+
+  //拿取Announcement資料，使用get查詢，目前只拿取date、title、info
+  //AnnStruct結構可參照DataStruct.dart
+  Future<List<AnnStruct>> getAnn() async{
+    final response = await _dio.get('/Ann/list');
+    await Future.delayed(Duration(seconds: 1));
+    if(response.statusCode == 200){
+      final data = response.data;
+      if (data != null) {
+        return (data as List).map((json) => AnnStruct.fromJson(json)).toList();
+      } else {
+        throw Exception('Response data is null');
+      }
+    }
+    else{
+      throw Exception('Failed to get Announcement');
+    }
+
   }
 }

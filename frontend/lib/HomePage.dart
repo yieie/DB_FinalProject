@@ -1,7 +1,10 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:db_finalproject/ApiService.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 import 'Navbar.dart';
+import 'ApiService.dart';
+import 'DataStruct.dart';
 
 
 
@@ -25,6 +28,7 @@ class CarouselSlidePage extends StatelessWidget{
   CarouselSlidePage({required this.width,required this.height});
   final double width;
   final double height;
+  
   
   @override
   Widget build(BuildContext context) {
@@ -53,7 +57,7 @@ class CarouselSlidePage extends StatelessWidget{
 
                 SizedBox(
                   width:iswidthful?1000:width,
-                  child: LatestANN(),
+                  child: LatestAnn(),
                 )
 
               ],
@@ -115,12 +119,44 @@ class CarouselSlide extends StatelessWidget {
   }
 }
 
-//最新公告
-class LatestANN extends StatelessWidget{
-  LatestANN({super.key});
+//最新公告，表格上只會顯示data、title，其他資訊要點進去才看得到(還沒寫)
+class LatestAnn extends StatefulWidget{
+  const LatestAnn({super.key});
 
   @override
-  Widget build(BuildContext context){
+  _LastestAnnState createState() => _LastestAnnState();
+}
+
+class _LastestAnnState extends State<LatestAnn>{
+  final ApiService _apiService = ApiService();
+  List<AnnStruct> AnnList = [];
+
+  Future<void> fetchAnnouncements() async {
+    AnnStruct test1=AnnStruct('111', '我是測試資料1', '111');
+    AnnStruct test2=AnnStruct('2222', '我是測試資料2', '222');
+    try {
+      AnnList = await _apiService.getAnn();
+      setState((){});
+      // 更新 UI 或處理邏輯
+      print('Fetched ${AnnList!.length} announcements');
+    } catch (e) {
+      print('Error: $e');
+      setState((){
+        AnnList = [test1,test2];
+      });
+    }
+  }
+
+   @override
+  void initState() {
+    super.initState();
+    fetchAnnouncements(); // 在初始化時開始異步加載資料
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // print("AnnList:");
+    // print(AnnList.isNotEmpty ? AnnList.first.date : "No data");
     return Column(
       children: [
         Container(
@@ -128,62 +164,29 @@ class LatestANN extends StatelessWidget{
           padding: EdgeInsets.only(left: 10),
           child: Text("最新消息"),
         ),
-
         Container(
           height: 2,
-          //doesn't work
-          // padding: EdgeInsets.only(bottom: 50),
           color: Colors.black26,
         ),
-
-        Table(
-          columnWidths: {
-            0:FlexColumnWidth(1),
-            1:FlexColumnWidth(5),
-            2:FlexColumnWidth(1)
-          },
-          children: [
-            TableRow(
-              children: [
-                Container(
-                  child: Text("時間1"),
-                ),
-
-                Container(
-                  child: Text("標題1"),
-                ),
-
-                Container(
-                  child: Text("詳細資料1"),
-                ),
-              ]
-            ),
-            TableRow(
-              children: [
-                Container(
-                  child: Text("時間2"),
-                ),
-
-                Container(
-                  child: Text("標題2"),
-                ),
-
-                Container(
-                  child: Text("詳細資料2"),
-                ),
-              ]
-            )
-          ],
-        )
+        AnnList.isEmpty
+            ? Center(child: CircularProgressIndicator()) // 顯示載入中
+            : Table(
+                columnWidths: {
+                  0: FlexColumnWidth(1),
+                  1: FlexColumnWidth(5),
+                },
+                children: AnnList.map((item) => TableRow(children: <Widget>[
+                  Container(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text(item.date),
+                  ),
+                  Container(
+                    padding: EdgeInsets.all(8.0),
+                    child: Text(item.title),
+                  ),
+                ])).toList(),
+              ),
       ],
     );
   }
-}
-
-class ANN {
-  String date;
-  String title;
-  String info;
-
-  ANN(this.date,this.title,this.info);
 }
