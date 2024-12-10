@@ -22,7 +22,7 @@ public class AnnController {
     @PostMapping("/add")
     public ResponseEntity<String> addAnnouncement(@RequestBody Ann ann) {
         boolean isAdded = annDAO.addAnnouncement(ann);
-        if (isAdded) {
+        if(isAdded) {
             return ResponseEntity.status(HttpStatus.CREATED).body("Announcement added successfully");
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to add announcement");
