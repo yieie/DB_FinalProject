@@ -1,43 +1,57 @@
-import 'package:dio/dio.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'DataStruct.dart';
 
 class ApiService {
-  final Dio _dio = Dio(BaseOptions(baseUrl: 'http://localhost:8081/api')); // 改為 HTTP
-  //傳帳號密碼給後端伺服器，伺服器回傳token
-  Future<String?> login(String username, String password) async {
+  static const String baseUrl = 'http://localhost:8080/api';
+
+  static Future<String?> login(String username, String password) async {
+    final uri = Uri.parse('$baseUrl/auth/login');
     try {
-      final response = await _dio.post('/auth/login', data: {
-        'username': username,
-        'password': password,
-      });
-      return response.data['token']; // 返回 JWT Token
-    } catch (e) {
-      print('登入失敗: $e');
-      if (e is DioException) {
-        print('DioError: ${e.message}');
-        print('Response Data: ${e.response?.data}');
-        print('Response Status Code: ${e.response?.statusCode}');
+      final response = await http.post(
+        uri,
+        headers: {
+          'Content-Type': 'application/json', //Content-Type是JSON
+        },
+        body: jsonEncode({ //body JSON格式
+          'username': username,
+          'password': password,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        return response.body;
+      } else {
+        print("Error: ${response.statusCode} ${response.body}");
+        return null; // 登入失敗
       }
-      return null;
+    } catch (e) {
+      print("Request failed: $e");
+      return null; // 處理例外
     }
   }
 
   //拿取Announcement資料，使用get查詢，目前只拿取date、title、info
   //AnnStruct結構可參照DataStruct.dart
-  Future<List<AnnStruct>> getAnn() async{
-    final response = await _dio.get('/Ann/list');
-    await Future.delayed(Duration(seconds: 1));
-    if(response.statusCode == 200){
-      final data = response.data;
-      if (data != null) {
-        return (data as List).map((json) => AnnStruct.fromJson(json)).toList();
+  Future<List<AnnStruct>> getAnn() async {
+    final uri = Uri.parse('$baseUrl/Ann/list');
+    try {
+      final response = await http.get(uri);
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        if (data != null) {
+          // 將 JSON 轉換為 AnnStruct 列表
+          return (data as List).map((json) => AnnStruct.fromJson(json)).toList();
+        } else {
+          throw Exception('Response data is null');
+        }
       } else {
-        throw Exception('Response data is null');
+        print("Error: ${response.statusCode} ${response.body}");
+        throw Exception('Failed to get Announcement');
       }
+    } catch (e) {
+      print("Request failed: $e");
+      throw Exception('Error fetching Announcements');
     }
-    else{
-      throw Exception('Failed to get Announcement');
-    }
-
   }
 }
