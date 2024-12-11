@@ -175,14 +175,24 @@ class _LastestAnnState extends State<LatestAnn>{
                   0: FlexColumnWidth(1),
                   1: FlexColumnWidth(5),
                 },
-                children: AnnList.map((item) => TableRow(children: <Widget>[
-                  Container(
-                    padding: EdgeInsets.all(8.0),
-                    child: Text(item.date),
-                  ),
-                  Container(
-                    padding: EdgeInsets.all(8.0),
-                    child: Text(item.title),
+                children: AnnList.map((item) => TableRow(children: [
+                  GestureDetector(
+                    onTap: () {
+                      print(item.title);
+                      Navigator.pushNamed(context,'/Ann');
+                    } ,
+                    child: Row(
+                        children: <Widget>[
+                          Container(
+                            padding: EdgeInsets.all(8.0),
+                            child: Text(item.date),
+                          ),
+                          Container(
+                            padding: EdgeInsets.all(8.0),
+                            child: Text(item.title),
+                          ),
+                        ],
+                      ),
                   ),
                 ])).toList(),
               ),
