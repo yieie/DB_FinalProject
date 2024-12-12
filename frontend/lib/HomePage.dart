@@ -44,11 +44,7 @@ class CarouselSlidePage extends StatelessWidget{
 
                 SizedBox(
                   width: iswidthful?1000:width,
-                  child: CarouselSlide(
-                    didSelected: (int index) {
-                      print("didTapped $index");
-                    },
-                   ),
+                  child: CarouselSlide(),
                 ),
 
                 Padding(padding: EdgeInsets.only(top: 20)),
@@ -70,49 +66,66 @@ class CarouselSlidePage extends StatelessWidget{
   }
 }
 
-class CarouselSlide extends StatelessWidget {
-  CarouselSlide({
-    super.key,
-    required this.didSelected
-  });
-  final Function(int index) didSelected;
+class CarouselSlide extends StatefulWidget{
+  const CarouselSlide({super.key});
+
+  @override
+  _CarouselSlideState createState() => _CarouselSlideState();
+}
+
+class _CarouselSlideState extends State<CarouselSlide> {
+  int _current = 0;
+  final CarouselSliderController _controller = CarouselSliderController();
+
+  List<String> list = [
+    'http://localhost:8081/images/carousel/display1.jpg',
+    'http://localhost:8081/images/carousel/display2.png'
+    ];
 
   @override
   Widget build(BuildContext context){
-    return CarouselSlider(
-      options:CarouselOptions(
-        aspectRatio: 30/12,
-        viewportFraction: 1.0,
-        enableInfiniteScroll: true,
-        autoPlay: true,
-        autoPlayInterval: const Duration(seconds: 2),
-      ),
-      items: List<Widget>.generate(5,(int index){
-        return GestureDetector(
-          onTap: () => didSelected(index),
-          child: Container(
-            margin: EdgeInsets.symmetric(horizontal: 5.0),
-            decoration: BoxDecoration(color: Colors.transparent),
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: Container(
-                      color: Colors.primaries[
-                          Random().nextInt(Colors.primaries.length)]),
-                ),
-                Positioned(
-                  child: Text(
-                    "$index",
-                    style: TextStyle(fontSize: 30, color: Colors.white),
-                  ),
-                ),
-              ],
-            ),
+    
+
+    return Stack(
+      alignment: AlignmentDirectional.bottomCenter,
+      children: [
+        CarouselSlider(
+          options: CarouselOptions(
+            aspectRatio: 30/12,
+            viewportFraction: 1.0,
+            enableInfiniteScroll: true,
+            autoPlay: true,
+            autoPlayInterval: const Duration(seconds: 2),
+            scrollPhysics: const NeverScrollableScrollPhysics(),
+            onPageChanged: (index, reason) {
+                setState(() {
+                  _current = index; // 更新當前索引
+                });
+              },
           ),
-        );
-      }),
+          items: list.map((item) => GestureDetector(
+            child: Image.network(item),
+          )).toList(),
+          carouselController: _controller
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: list.asMap().entries.map((entry){
+            return GestureDetector(
+              onTap: () => _controller.animateToPage(entry.key),
+              child: Container(
+                width: 10.0,
+                height: 10.0,
+                margin: const EdgeInsets.symmetric(vertical: 8.0,horizontal: 4.0),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: (Theme.of(context).brightness == Brightness.dark ? Colors.white:Colors.black).withOpacity(_current == entry.key? 0.9:0.4)
+                ),
+              ),
+            );
+          }).toList(),
+        )
+      ]
     );
   }
 }

@@ -100,7 +100,7 @@ class _AnnDetailPageState extends State<AnnDetailPage>{
                   ),
 
                   if(AnnDetail.imageurl!=null)
-                    Image.network('http://localhost:8081/images/testpic1.png'),
+                    // Image.network('http://localhost:8081/images/testpic1.png'),
 
                   //還沒有實際文件檔案可以測試，所以先印出文件名稱
                   if(AnnDetail.filename!=null && AnnDetail.filetype!=null && AnnDetail.filedata!=null)
