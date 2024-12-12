@@ -78,6 +78,7 @@ class _CarouselSlideState extends State<CarouselSlide> {
   final CarouselSliderController _controller = CarouselSliderController();
 
   List<String> list = [
+    // 'http://localhost:8081/images/testpic1.png',
     'http://localhost:8081/images/carousel/display1.jpg',
     'http://localhost:8081/images/carousel/display2.png'
     ];

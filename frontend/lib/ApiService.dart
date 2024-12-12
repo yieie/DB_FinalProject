@@ -65,7 +65,7 @@ class ApiService {
         final data = jsonDecode(response.body);
         if (data != null) {
           // 將 JSON 轉換為 AnnStruct 列表
-          final Map<String, dynamic> data = jsonDecode(response.body);
+          // final List<dynamic> data = json.decode(response.body);
           return AnnStruct.fromDetailJson(data);
         } else {
           throw Exception('Response data is null');

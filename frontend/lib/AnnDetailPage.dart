@@ -20,6 +20,7 @@ class AnnDetailPage extends StatefulWidget{
 }
 
 class _AnnDetailPageState extends State<AnnDetailPage>{
+  bool _isLoading = true;
   final ApiService _apiService = ApiService();
   late AnnStruct AnnDetail;
 
@@ -29,15 +30,18 @@ class _AnnDetailPageState extends State<AnnDetailPage>{
     /*
       這裡測試連後端時要記得註解&解註解
     */
-    AnnDetail = AnnStruct(id: 1,date:'2024-12-11', title: '我是測試資料1', info:'嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨',imageurl: '這是假的照片url',filename: '這是測試的檔案名稱',filedata: '123',filetype: '123');
-    // fetchAnnDetails(widget.AnnID);
+    // AnnDetail = AnnStruct(id: 1,date:'2024-12-11', title: '我是測試資料1', info:'嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨',imageurl: '這是假的照片url',filename: '這是測試的檔案名稱',filedata: '123',filetype: '123');
+    fetchAnnDetails(widget.AnnID);
   }
 
   Future<void> fetchAnnDetails(int id) async {
     AnnStruct test1=AnnStruct(id: 1,date:'2024-12-11', title: '我是測試資料1', info:'嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨',imageurl: '這是假的照片url',filename: '這是測試的檔案名稱',filedata: '123',filetype: '123');
     try {
+      await Future.delayed(Duration(seconds: 2));
       AnnDetail = await _apiService.getAnnDetail(id);
-      setState((){});
+      setState((){
+        _isLoading = false;
+      });
       // 更新 UI 或處理邏輯
       print('Fetched ${AnnDetail!} announcements');
     } catch (e) {
@@ -57,7 +61,9 @@ class _AnnDetailPageState extends State<AnnDetailPage>{
       backgroundColor: Colors.white,
       appBar: Navbar(),
       body: SafeArea(
-        child: Row(
+        child: _isLoading
+            ? Center(child: CircularProgressIndicator()) // 顯示加載指示器
+            :Row(
           children: [
 
             if(iswidthful)
