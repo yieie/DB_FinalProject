@@ -12,14 +12,24 @@ class AnnStruct{
   AnnStruct({required this.id,required this.date,required this.title,
             this.info,this.imageurl,this.filename,this.filetype,this.filedata});
 
-  factory AnnStruct.fromBasicJson(Map<String, dynamic> json){
-    return AnnStruct(id: json['AnnID'], date: json['AnnDate'], title: json['AnnTitle']);
+  factory AnnStruct.fromBasicJson(Map<String, dynamic> json) {
+    return AnnStruct(
+      id: json['annID'] as int,
+      date: json['annTime'] as String,
+      title: json['annTitle'] as String,
+    );
   }
 
-  factory AnnStruct.fromDetailJson(Map<String, dynamic> json){
-    return AnnStruct(id: json['AnnID'], date: json['AnnDate'], 
-                    title: json['AnnTitle'], info: json['AnnInfo'], 
-                    imageurl:  json['Poster'], filename: json['File_Name'], 
-                    filetype:  json['File_Type'], filedata:  json['File_Data']);
+  factory AnnStruct.fromDetailJson(Map<String, dynamic> json) {
+    return AnnStruct(
+      id: json['annID'] as int,
+      date: json['annTime'] as String,
+      title: json['annTitle'] as String,
+      info: json['annInfo'] as String?,
+      imageurl: json['poster'] as String?,
+      filename: json['fileName'] as String?,
+      filetype: json['fileType'] as String?,
+      filedata: json['fileData'] as String?,
+    );
   }
 }

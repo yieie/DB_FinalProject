@@ -1,15 +1,16 @@
 package com.example.demo.model;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Ann {
     private int annID;
     private String annTitle;
     private String annInfo;
-    private String poster;
-    private String fileName;
+    private String poster="";
+    private String fileName="";
     private String fileType;
-    private String fileData;
+    private String fileData="";
     private String adminID;
     private LocalDateTime annTime;
 
@@ -77,8 +78,15 @@ public class Ann {
         this.adminID = adminID;
     }
 
-    public LocalDateTime getAnnTime() {
-        return annTime;
+    // public LocalDateTime getAnnTime() {
+    //     return annTime;
+    // }
+    public String getAnnTime() {
+        if (annTime != null) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            return annTime.format(formatter);
+        }
+        return null;
     }
 
     public void setAnnTime(LocalDateTime annTime) {
@@ -87,16 +95,16 @@ public class Ann {
 
     @Override
     public String toString() {
-        return "Ann{" +
+        return "ann{" +
                 "annID=" + annID +
                 ", annTitle='" + annTitle + '\'' +
                 ", annInfo='" + annInfo + '\'' +
-                ", poster='" + poster + '\'' +
+                ", aoster='" + poster + '\'' +
                 ", fileName='" + fileName + '\'' +
                 ", fileType='" + fileType + '\'' +
                 ", fileData='" + fileData + '\'' +
                 ", adminID='" + adminID + '\'' +
-                ", annTime=" + annTime +
+                ", annTime=" + getAnnTime() +
                 '}';
     }
 }

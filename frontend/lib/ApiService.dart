@@ -42,6 +42,7 @@ class ApiService {
         final data = jsonDecode(response.body);
         if (data != null) {
           // 將 JSON 轉換為 AnnStruct 列表
+          print("Decoded JSON: $data");
           return (data as List).map((json) => AnnStruct.fromBasicJson(json)).toList();
         } else {
           throw Exception('Response data is null');
@@ -64,7 +65,8 @@ class ApiService {
         final data = jsonDecode(response.body);
         if (data != null) {
           // 將 JSON 轉換為 AnnStruct 列表
-          return data.map((json) => AnnStruct.fromDetailJson(json));
+          final Map<String, dynamic> data = jsonDecode(response.body);
+          return AnnStruct.fromDetailJson(data);
         } else {
           throw Exception('Response data is null');
         }
