@@ -8,23 +8,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AnnDAO {
-    public List<Ann> getAllAnnouncements() {
+    public List<Ann> getBasicAnnouncements() {
         List<Ann> announcements = new ArrayList<>();
-        String sql = "SELECT * FROM ANN";
+        String sql = "SELECT AnnID, AnnTitle, AnnTime FROM ANN";
         try(Connection conn = DatabaseConnection.getConnection();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
-
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql)) {
             while(rs.next()) {
                 Ann ann = new Ann();
                 ann.setAnnID(rs.getInt("AnnID"));
                 ann.setAnnTitle(rs.getString("AnnTitle"));
-                ann.setAnnInfo(rs.getString("AnnInfo"));
-                ann.setPoster(rs.getString("Poster"));
-                ann.setFileName(rs.getString("File_Name"));
-                ann.setFileType(rs.getString("File_Type"));
-                ann.setFileData(rs.getString("File_Data"));
-                ann.setAdminID(rs.getString("AdminID"));
                 ann.setAnnTime(rs.getTimestamp("AnnTime").toLocalDateTime());
                 announcements.add(ann);
             }
@@ -33,6 +26,35 @@ public class AnnDAO {
         }
         return announcements;
     }
+
+    public List<Ann> getAnnById(int AnnID) {
+        List<Ann> announcements = new ArrayList<>();
+        String sql = "SELECT * FROM ANN WHERE AnnID = ?";
+        try(Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, AnnID);
+            try(ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    Ann ann = new Ann();
+                    ann.setAnnID(rs.getInt("AnnID"));
+                    ann.setAnnTitle(rs.getString("AnnTitle"));
+                    ann.setAnnInfo(rs.getString("AnnInfo"));
+                    ann.setPoster(rs.getString("Poster"));
+                    ann.setFileName(rs.getString("File_Name"));
+                    ann.setFileType(rs.getString("File_Type"));
+                    ann.setFileData(rs.getString("File_Data"));
+                    ann.setAdminID(rs.getString("AdminID"));
+                    ann.setAnnTime(rs.getTimestamp("AnnTime").toLocalDateTime());
+                    announcements.add(ann);
+                    System.out.println(ann);
+                }
+            }
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
+        return announcements;
+    }
+    
 
     public boolean addAnnouncement(Ann ann) {
         String sql = "INSERT INTO ANN (AnnTitle, AnnInfo, Poster, File_Name, File_Type, File_Data, AdminID, AnnTime) " +
