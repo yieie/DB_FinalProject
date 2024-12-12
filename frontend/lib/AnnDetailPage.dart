@@ -29,8 +29,8 @@ class _AnnDetailPageState extends State<AnnDetailPage>{
     /*
       這裡測試連後端時要記得註解&解註解
     */
-    AnnDetail = AnnStruct(id: 1,date:'2024-12-11', title: '我是測試資料1', info:'嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨',imageurl: '這是假的照片url',filename: '這是測試的檔案名稱',filedata: '123',filetype: '123');
-    // fetchAnnDetails(widget.AnnID);
+    // AnnDetail = AnnStruct(id: 1,date:'2024-12-11', title: '我是測試資料1', info:'嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨',imageurl: '這是假的照片url',filename: '這是測試的檔案名稱',filedata: '123',filetype: '123');
+    fetchAnnDetails(widget.AnnID);
   }
 
   Future<void> fetchAnnDetails(int id) async {

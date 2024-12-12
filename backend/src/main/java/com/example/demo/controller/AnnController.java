@@ -25,12 +25,10 @@ public class AnnController {
     }
 
     @GetMapping("/details/{id}")
-    public ResponseEntity<List<Ann>> getAllAnnouncements(@PathVariable("id") int id) {
-        List<Ann> announcements = annDAO.getAnnById(id);
+    public ResponseEntity<Ann> getAllAnnouncements(@PathVariable("id") int id) {
+        Ann announcements = annDAO.getAnnById(id);
         System.out.println(announcements);
-        return ResponseEntity.ok()
-        .contentType(MediaType.APPLICATION_JSON)
-        .body(announcements);
+        return ResponseEntity.ok(announcements);
     }
     
 

@@ -27,15 +27,15 @@ public class AnnDAO {
         return announcements;
     }
 
-    public List<Ann> getAnnById(int AnnID) {
-        List<Ann> announcements = new ArrayList<>();
+    public Ann getAnnById(int AnnID) {
+        Ann ann = null;
         String sql = "SELECT * FROM ANN WHERE AnnID = ?";
         try(Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, AnnID);
             try(ResultSet rs = pstmt.executeQuery()) {
-                while (rs.next()) {
-                    Ann ann = new Ann();
+                if(rs.next()) {
+                    ann = new Ann();
                     ann.setAnnID(rs.getInt("AnnID"));
                     ann.setAnnTitle(rs.getString("AnnTitle"));
                     ann.setAnnInfo(rs.getString("AnnInfo"));
@@ -45,14 +45,13 @@ public class AnnDAO {
                     ann.setFileData(rs.getString("File_Data"));
                     ann.setAdminID(rs.getString("AdminID"));
                     ann.setAnnTime(rs.getTimestamp("AnnTime").toLocalDateTime());
-                    announcements.add(ann);
                     System.out.println(ann);
                 }
             }
         } catch(SQLException e) {
             e.printStackTrace();
         }
-        return announcements;
+        return ann;
     }
     
 
