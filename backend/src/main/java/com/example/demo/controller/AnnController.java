@@ -68,8 +68,8 @@ public class AnnController {
             if (files != null) {
                 for (MultipartFile file : files) {
                     // DAO那邊要回傳檔案路徑給我
-                    // String filePath = annDAO.saveFile(file.getOriginalFilename(), file.getBytes());
-                    // ann.addFile(file.getOriginalFilename(), file.getContentType(), filePath);
+                    String filePath = annDAO.saveFile(file.getOriginalFilename(), file.getBytes());
+                    ann.addFile(file.getOriginalFilename(), file.getContentType(), filePath);
     
                 }
             }
@@ -78,14 +78,14 @@ public class AnnController {
             if (images != null) {
                 for (MultipartFile image : images) {
                     // DAO那邊要回傳圖片路徑給我
-                    // String imagePath = annDAO.saveFile(image.getOriginalFilename(), image.getBytes());
-                    // ann.addImage(image.getOriginalFilename(), image.getContentType(), imagePath);
+                    String imagePath = annDAO.saveFile(image.getOriginalFilename(), image.getBytes());
+                    ann.addImage(image.getOriginalFilename(), image.getContentType(), imagePath);
                 }
             }
             System.out.println(ann);
 
 
-            // boolean isAdded = annDAO.addAnnouncement(ann);
+            //boolean isAdded = annDAO.addAnnouncement(ann);
             boolean isAdded = true;
             if (isAdded) {
                 return ResponseEntity.status(HttpStatus.CREATED).body("Announcement added successfully");

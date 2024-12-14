@@ -145,7 +145,7 @@ public class WorkshopDAO {
         String lecturerSql = "UPDATE lecturer SET LectName = ?, LectTitle = ?, LectPhone = ?, LectEmail = ?, LectAddress = ? WHERE WSID = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
-            PreparedStatement workshopStmt = conn.prepareStatement(workshopSql, Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement workshopStmt = conn.prepareStatement(workshopSql);
             PreparedStatement lecturerStmt = conn.prepareStatement(lecturerSql)) {
 
             String sqlDate = workshop.getWsdate();

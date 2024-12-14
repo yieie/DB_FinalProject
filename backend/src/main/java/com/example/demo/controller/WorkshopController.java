@@ -2,7 +2,9 @@ package com.example.demo.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +24,26 @@ import java.util.Map;
 @RequestMapping("/api/Workshop")
 public class WorkshopController {
     private final WorkshopDAO workshopDAO = new WorkshopDAO();
+
+    @GetMapping("/all")
+    public ResponseEntity<List<Workshop>> getAllWorkshops() {
+        // List<Workshop> workshops = workshopDAO.getAllWorkshops();
+
+        // 假資料
+        List<Workshop> workshops = new ArrayList<>();
+        Workshop workshop1 = new Workshop();
+        workshop1.setWsid(1);
+        workshop1.setWsdate("2021-12-01");
+        workshop1.setWstime("09:00");
+        workshop1.setWstopic("Python");
+        workshop1.setLectName("王小明");
+        workshop1.setLecttitle("教授");
+        workshop1.setLectphone("0912345678");
+        workshop1.setLectemail("teacher.gamil");
+        workshop1.setLectaddr("國立高雄大學");
+        workshops.add(workshop1);
+        return ResponseEntity.ok(workshops);
+    }
     
     @GetMapping("/{id}")
     public ResponseEntity<Workshop> getWorkshopById(@PathVariable int id) {

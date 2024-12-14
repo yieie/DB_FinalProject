@@ -1,7 +1,7 @@
 // import 'package:carousel_slider/carousel_slider.dart';
 import 'package:db_finalproject/core/services/ApiService.dart';
 import 'package:db_finalproject/data/Team.dart';
-import 'package:db_finalproject/student/data/Student.dart';
+import 'package:db_finalproject/data/Student.dart';
 import 'package:db_finalproject/widgets/Sidebar.dart';
 import 'package:flutter/material.dart';
 import 'package:db_finalproject/widgets/Navbar.dart';
@@ -48,7 +48,7 @@ class _DashboardState extends State<Dashboard>{
   Widget build(BuildContext context){
     final scrSize = MediaQuery.of(context).size;
     final double screenWidth = scrSize.width-250;
-    bool iswidthful = screenWidth > 1000 ? true : false;
+    bool iswidthful = screenWidth > 850 ? true : false;
     return SingleChildScrollView(
       child:SafeArea(
           child: Row(
@@ -62,7 +62,6 @@ class _DashboardState extends State<Dashboard>{
                   Padding(padding: EdgeInsets.only(top: 20)),
 
                   TeamsCond(apiService: _apiService,rowheight: 30,screenWidth: screenWidth),
-
                   // Padding(padding: EdgeInsets.only(top: 20)),
 
                   // SizedBox(
@@ -142,7 +141,7 @@ class _TeamsCondState extends State<TeamsCond>{
   Widget build(BuildContext context){
     return 
           Container(
-            width: widget.screenWidth>1000?1000:widget.screenWidth*0.9,
+            width: widget.screenWidth>850?850:widget.screenWidth*0.9,
             height: 500,
             decoration: BoxDecoration(
               color: Colors.grey[100],

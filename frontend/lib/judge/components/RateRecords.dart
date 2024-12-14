@@ -23,7 +23,9 @@ class _RateRecordsState extends State<RateRecords> {
         scoredTeams = [
           Score(
             teamid: "2024team001",
-            judgeEmail: "judge@example.com",
+            teamtype: '創意發想組',
+            teamname: '我們超強的',
+            judgename: "judge@example.com",
             Rate1: "85",
             Rate2: "90",
             Rate3: "88",
@@ -31,7 +33,9 @@ class _RateRecordsState extends State<RateRecords> {
           ),
           Score(
             teamid: "2024team002",
-            judgeEmail: "judge@example.com",
+            teamtype: '創意發想組',
+            teamname: '我們超若的',
+            judgename: "judge@example.com",
             Rate1: "78",
             Rate2: "82",
             Rate3: "80",

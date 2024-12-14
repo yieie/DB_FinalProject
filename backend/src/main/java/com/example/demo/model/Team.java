@@ -7,7 +7,7 @@ public class Team {
     private String teamtype;
     private String consent;
     private String affidavit;
-    private String teamState;
+    private String teamstate;
     private String teacheremail;
     private int amounts;
     private int approved;
@@ -74,11 +74,11 @@ public class Team {
     }
 
     public String getTeamState() {
-        return teamState;
+        return teamstate;
     }
 
-    public void setTeamState(String teamState) {
-        this.teamState = teamState;
+    public void setTeamState(String teamstate) {
+        this.teamstate = teamstate;
     }
 
     public String getTeacherEmail() {
@@ -212,7 +212,7 @@ public class Team {
     @Override
     public String toString() {
         return "Team [teamid=" + teamid + ", teamname=" + teamname + ", teamrank=" + teamrank + ", teamtype=" + teamtype
-                + ", consent=" + consent + ", affidavit=" + affidavit + ", teamState=" + teamState + ", teacheremail="
+                + ", consent=" + consent + ", affidavit=" + affidavit + ", teamstate=" + teamstate + ", teacheremail="
                 + teacheremail + ", amounts=" + amounts + ", approved=" + approved + ", notreview=" + notreview
                 + ", incomplete=" + incomplete + ", qualifying=" + qualifying + ", finalround=" + finalround
                 + ", workid=" + workid + ", workname=" + workname + ", worksummary=" + worksummary + ", worksdgs="

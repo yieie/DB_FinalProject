@@ -33,7 +33,7 @@ void main() {
 
         if (uri.path =='/'){
           // return MaterialPageRoute(builder: (context) => HomePage());
-          return MaterialPageRoute(builder: (context) => AdminMainPage());
+          return MaterialPageRoute(builder: (context) => StuMainPage());
           // return MaterialPageRoute(builder: (context)=>UploadFiles());
         }else if (uri.path == '/login'){
           return MaterialPageRoute(builder: (context) => LoginPage());
@@ -48,6 +48,11 @@ void main() {
           final String annid=uri.queryParameters['annid']??'-1';
           return MaterialPageRoute(
             builder: (context) => AddNEditAnnouncement(annid: annid)
+          );
+        }else if (uri.path =='/team/review'){
+          final String teamid=uri.queryParameters['teamid']!;
+          return MaterialPageRoute(
+            builder: (context) => showDetailTeam(teamid: teamid)
           );
         }
       }

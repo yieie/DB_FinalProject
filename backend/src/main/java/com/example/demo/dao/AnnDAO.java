@@ -61,8 +61,8 @@ public class AnnDAO {
     }
 
     public boolean addAnnouncement(Ann ann) {
-        String sql = "INSERT INTO ANN (AnnTitle, AnnInfo, Poster, File_Name, File_Type, AdminID, AnnTime) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO ann_annposter (AnnPoster, AnnID) " +
+                "VALUES (?, ?)";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 

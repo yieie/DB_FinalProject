@@ -2,7 +2,7 @@ import 'package:db_finalproject/common/logic/RegisterService.dart';
 import 'package:flutter/material.dart';
 import 'package:db_finalproject/widgets/Navbar.dart';
 import 'package:db_finalproject/core/services/ApiService.dart';
-import 'package:db_finalproject/student/data/Student.dart';
+import 'package:db_finalproject/data/Student.dart';
 
 class RegisterPage extends StatelessWidget {
 

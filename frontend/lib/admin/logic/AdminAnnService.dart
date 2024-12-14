@@ -6,6 +6,7 @@ import 'package:http/http.dart';
 class AdminAnnService{
   final ApiService _apiService = ApiService();
 
+  //新增公告，包含所有檔案、照片、ann詳細資料(id預設為-1、info、admin)
   Future<void> addAnnouncement(
     Announcement ann,
     List<PlatformFile>? files,
@@ -39,6 +40,7 @@ class AdminAnnService{
     print('addAnnouncement:');
   }
 
+  //修改公告，包含所有檔案、照片、Ann的詳細資料(id、info、admin)
   Future<void> editAnnouncement(
     Announcement ann,
     List<PlatformFile>? files,
