@@ -33,3 +33,39 @@ class AnnStruct{
     );
   }
 }
+
+class UserStruct{
+  String id;
+  String passwd;
+  String name;
+  String email;
+  String sexual;
+  String phone;
+
+  UserStruct({
+    required this.id,
+    required this.passwd,
+    required this.name,
+    required this.email,
+    required this.sexual,
+    required this.phone
+  });
+}
+
+class StuStruct extends UserStruct{
+  String major;
+  String grade;
+  String? teamid;
+
+  StuStruct({
+    required super.id,
+    required super.passwd,
+    required super.name,
+    required super.email,
+    required super.sexual,
+    required super.phone,
+    required this.major,
+    required this.grade
+  });
+
+}

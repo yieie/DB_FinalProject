@@ -6,7 +6,7 @@ import 'DataStruct.dart';
 class ApiService {
   static const String baseUrl = 'http://localhost:8081/api';
 
-  static Future<String?> login(String username, String password) async {
+  static Future<String?> login(String usertype,String username, String password) async {
     final uri = Uri.parse('$baseUrl/auth/login');
     try {
       final response = await http.post(
@@ -15,8 +15,41 @@ class ApiService {
           'Content-Type': 'application/json', //Content-Type是JSON
         },
         body: jsonEncode({ //body JSON格式
+          // 'usertype': usertype,
           'username': username,
           'password': password,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        return response.body;
+      } else {
+        print("Error: ${response.statusCode} ${response.body}");
+        return null; // 登入失敗
+      }
+    } catch (e) {
+      print("Request failed: $e");
+      return null; // 處理例外
+    }
+  }
+
+  static Future<String?> register(StuStruct stu) async {
+    final uri = Uri.parse('$baseUrl/auth/register');
+    try {
+      final response = await http.post(
+        uri,
+        headers: {
+          'Content-Type': 'application/json', //Content-Type是JSON
+        },
+        body:  jsonEncode({ //body JSON格式
+          'id': stu.id,
+          'passwd': stu.passwd,
+          'name': stu.name,
+          'mail': stu.email,
+          'sexual': stu.sexual,
+          'phone': stu.phone,
+          'major': stu.major,
+          'grade': stu.grade
         }),
       );
 
