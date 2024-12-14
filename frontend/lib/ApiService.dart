@@ -16,7 +16,7 @@ class ApiService {
         },
         body: jsonEncode({ //body JSON格式
           // 'usertype': usertype,
-          'username': username,
+          'username': username, 
           'password': password,
         }),
       );
