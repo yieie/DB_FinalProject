@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'DataStruct.dart';
 
 class ApiService {
-  static const String baseUrl = 'http://localhost:8081/api';
+  static const String baseUrl = 'http://localhost:8080/api';
 
   static Future<String?> login(String usertype,String username, String password) async {
     final uri = Uri.parse('$baseUrl/auth/login');

@@ -310,7 +310,7 @@ class _RegisterFormState extends State<RegisterForm> {
                       onChanged: (String? value) {
                         print(value);
                         setState(() {
-                          _major = value!.trim();
+                          _grade = value!.trim();
                         });
                       },
                       items: grade.map((String item) {

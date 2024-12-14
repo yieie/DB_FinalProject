@@ -59,7 +59,7 @@ public class AnnDAO {
         String sql = "INSERT INTO ANN (AnnTitle, AnnInfo, Poster, File_Name, File_Type, File_Data, AdminID, AnnTime) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try(Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, ann.getAnnTitle());
             pstmt.setString(2, ann.getAnnInfo());
@@ -73,7 +73,7 @@ public class AnnDAO {
             return true;
         } catch(SQLException e) {
             e.printStackTrace();
+            return false;
         }
-        return false;
     }
 }
