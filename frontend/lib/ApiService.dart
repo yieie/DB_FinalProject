@@ -6,6 +6,11 @@ import 'DataStruct.dart';
 class ApiService {
   static const String baseUrl = 'http://localhost:8081/api';
 
+  /*
+   * 登入及註冊區域
+   * 
+   */
+
   static Future<String?> login(String usertype,String username, String password) async {
     final uri = Uri.parse('$baseUrl/auth/login');
     try {
@@ -65,8 +70,11 @@ class ApiService {
     }
   }
 
-  //拿取Announcement資料，使用get查詢，只拿取id、date、title
-  //AnnStruct結構可參照DataStruct.dart
+  /*
+   * 公告事項區域
+   * 
+   */
+
   Future<List<AnnStruct>> getAnnBasic() async {
     final uri = Uri.parse('$baseUrl/Ann/list');
     try {
@@ -112,4 +120,54 @@ class ApiService {
       throw Exception('Error fetching Announcements');
     }
   }
+
+  /*
+   * 系統管理員操作區域
+   * 
+   */
+
+  Future<TeamsStatus> getTeamsStatus() async{
+    final url = Uri.parse('$baseUrl/Teams/Status');
+    try{
+      final response = await http.get(url);
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        if (data != null) {
+          // 將 JSON 轉換為 AnnStruct 列表
+          // final List<dynamic> data = json.decode(response.body);
+          return TeamsStatus.fromJson(data);
+        } else {
+          throw Exception('Response data is null');
+        }
+      } else {
+        print("Error: ${response.statusCode} ${response.body}");
+        throw Exception('Failed to get Announcement');
+      }
+    } catch (e) {
+      print("Request failed: $e");
+      throw Exception('Error fetching Announcements');
+    }
+  }
+
+  Future<List<TeamStruct>> getBasicAllTeam() async{
+     final url = Uri.parse('$baseUrl/Teams/Cond');
+    try{
+      final response = await http.get(url);
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        if (data != null) {
+          return (data as List).map((json) => TeamStruct.fromBasicJson(json)).toList();
+        } else {
+          throw Exception('Response data is null');
+        }
+      } else {
+        print("Error: ${response.statusCode} ${response.body}");
+        throw Exception('Failed to get Announcement');
+      }
+    } catch (e) {
+      print("Request failed: $e");
+      throw Exception('Error fetching Announcements');
+    }
+  }
+
 }

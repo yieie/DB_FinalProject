@@ -206,8 +206,7 @@ class _RegisterFormState extends State<RegisterForm> {
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
-                  controller: _passwdController, // 綁定控制器
-                  obscureText: true,
+                  controller: _emailController, // 綁定控制器
                   decoration: const InputDecoration(
                     // border: OutlineInputBorder(),
                     labelText: '電子郵件',
@@ -250,7 +249,6 @@ class _RegisterFormState extends State<RegisterForm> {
                 const SizedBox(height: 20),
                 TextFormField(
                   controller: _phoneController, // 綁定控制器
-                  obscureText: true,
                   decoration: const InputDecoration(
                     // border: OutlineInputBorder(),
                     labelText: '電話號碼',
@@ -266,7 +264,7 @@ class _RegisterFormState extends State<RegisterForm> {
                 const SizedBox(height: 20),
                 Row(
                   children:[
-                    /* Text("院所："),
+                    /* /* Text("院所："),
                     DropdownButton(
                       value: _college,
                       icon: Icon(Icons.keyboard_arrow_down),
@@ -284,7 +282,7 @@ class _RegisterFormState extends State<RegisterForm> {
                         );
                       }).toList(),
                     ), */
-                    // const Spacer(),
+                    // const Spacer(), */
                     Text("系別："),
                     DropdownButton<String>(
                       value: _major,
@@ -296,7 +294,7 @@ class _RegisterFormState extends State<RegisterForm> {
                           _major = value!;
                         });
                       },
-                      items: major.map((item) {
+                      items: major.map((String item) {
                         return DropdownMenuItem(
                           value: item,
                           child: Text(item),
@@ -306,13 +304,13 @@ class _RegisterFormState extends State<RegisterForm> {
                     const Spacer(),
                     Text("年級："),
                     DropdownButton<String>(
-                      value: _major,
+                      value: _grade,
                       icon: Icon(Icons.keyboard_arrow_down),
                       dropdownColor: Colors.white,
                       onChanged: (String? value) {
                         print(value);
                         setState(() {
-                          _major = value!.trim();
+                          _grade = value!;
                         });
                       },
                       items: grade.map((String item) {

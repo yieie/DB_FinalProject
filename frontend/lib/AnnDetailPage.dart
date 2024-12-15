@@ -35,7 +35,7 @@ class _AnnDetailPageState extends State<AnnDetailPage>{
   }
 
   Future<void> fetchAnnDetails(int id) async {
-    AnnStruct test1=AnnStruct(id: 1,date:'2024-12-11', title: '我是測試資料1', info:'嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨',imageurl: '這是假的照片url',filename: '這是測試的檔案名稱',filedata: '123',filetype: '123');
+    AnnStruct test1=AnnStruct(id: 1,date:'2024-12-11', title: '我是測試資料1', info:'嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨');
     try {
       await Future.delayed(Duration(seconds: 2));
       AnnDetail = await _apiService.getAnnDetail(id);
@@ -105,14 +105,14 @@ class _AnnDetailPageState extends State<AnnDetailPage>{
                     child: Text(AnnDetail.info!),
                   ),
 
-                  if(AnnDetail.imageurl!=null)
+                  // if(AnnDetail.imageurl!=null)
                     // Image.network('http://localhost:8081/images/testpic1.png'),
 
                   //還沒有實際文件檔案可以測試，所以先印出文件名稱
-                  if(AnnDetail.filename!=null && AnnDetail.filetype!=null && AnnDetail.filedata!=null)
-                    Container(
-                      child: Text(AnnDetail.filename!),
-                    )
+                  // if(AnnDetail.filename!=null && AnnDetail.filetype!=null && AnnDetail.filedata!=null)
+                  //   Container(
+                  //     child: Text(AnnDetail.filename!),
+                  //   )
                 ],
               ),
             ),
