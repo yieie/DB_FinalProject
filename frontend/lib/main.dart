@@ -9,6 +9,7 @@ import 'HomePage.dart';
 import 'LoginPage.dart';
 import 'AuthProvider.dart';
 import 'RegisterPage.dart';
+import 'UploadImg.dart';
 
 void main() {
   runApp(
@@ -25,7 +26,7 @@ void main() {
       initialRoute: '/',
       routes:{
         // '/':(context) =>HomePage(),
-        '/':(context) =>JudgeMainPage(),
+        '/':(context) =>HomePage(),
         '/login':(context)=>LoginPage(),
         '/register':(context)=>RegisterPage(),
         // '/teacher':(context)=>TrMainPage()
