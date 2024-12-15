@@ -32,10 +32,8 @@ class _StuMainPageState extends State<StuMainPage>{
         ]
       )
     );
-
   }
 }
-
 class Dashboard extends StatefulWidget{
   
   @override

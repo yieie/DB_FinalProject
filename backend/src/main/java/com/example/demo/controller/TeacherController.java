@@ -12,37 +12,33 @@ import java.util.List;
 public class TeacherController {
     private TeacherDAO teacherDAO = new TeacherDAO();
 
-    @PostMapping
-    public ResponseEntity<Teacher> createTeacher(@RequestBody Teacher teacher) {
-        teacherDAO.addTeacher(teacher);
-        return ResponseEntity.status(HttpStatus.CREATED).body(teacher);
+    @PostMapping("/login")
+    public ResponseEntity<String> teacherLogin(@RequestBody Teacher teacher) {
+        String teacherId = teacher.getTrId();
+        String teacherPasswd = teacher.getTrPasswd();
+        
+        /*等DAO寫好，會傳前端輸入的老師帳號密碼，後端要驗證對不對 */
+        // boolean isAuthenticated = teacherDAO.authenticate(teacherId, teacherPasswd);
+        // if(isAuthenticated) {
+        //     return ResponseEntity.ok("Login successful");
+        // }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
     }
 
-    @GetMapping("/{teacherId}")
-    public ResponseEntity<Teacher> getTeacherById(@PathVariable String teacherId) {
-        Teacher teacher = teacherDAO.getTeacherById(teacherId);
-        if(teacher != null) {
-            return ResponseEntity.ok(teacher);
-        }
-        return ResponseEntity.notFound().build();
-    }
-
-    @GetMapping
-    public ResponseEntity<List<Teacher>> getAllTeachers() {
-        List<Teacher> teachers = teacherDAO.getAllTeachers();
-        return ResponseEntity.ok(teachers);
-    }
-
-    @PutMapping("/{teacherId}")
-    public ResponseEntity<Teacher> updateTeacher(@PathVariable int teacherId, @RequestBody Teacher teacher) {
-        teacher.setTeacherId(teacherId);
-        teacherDAO.updateTeacher(teacher);
-        return ResponseEntity.ok(teacher);
-    }
-
-    @DeleteMapping("/{teacherId}")
-    public ResponseEntity<Void> deleteTeacher(@PathVariable String teacherId) {
-        teacherDAO.deleteTeacher(teacherId);
-        return ResponseEntity.noContent().build();
-    }
+    // @PostMapping("/register")
+    // public ResponseEntity<String> teacherRegister(@RequestBody Teacher teacher) {
+    //     String teacherId = teacher.getTrId();
+    //     String teacherPasswd = teacher.getTrPasswd();
+    //     String teacherName = teacher.getTrName();
+    //     String teacherJobType = teacher.getTrJobType();
+    //     String teacherDepartment = teacher.getTrDepartment();
+    //     String teacherOrganization = teacher.getTrOrganization();
+        
+    //     /*等DAO寫好，需要insert teacher的每個attribute */
+    //     // boolean isRegistered = teacherDAO.register(teacherId, teacherPasswd, teacherName, teacherJobType, teacherDepartment, teacherOrganization);
+    //     // if(isRegistered) {
+    //     //     return ResponseEntity.status(HttpStatus.CREATED).body("Register successful");
+    //     // }
+    //     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to register");
+    // }
 }

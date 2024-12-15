@@ -24,18 +24,4 @@ public class AuthDAO {
         }
         return false;
     }
-
-    public boolean register(Auth auth) {
-        String sql = "INSERT INTO admin (AdminID, AdminPasswd) VALUES (?, ?)";
-        try(Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, auth.getUsername());
-            pstmt.setString(2, auth.getPassword());
-            pstmt.executeUpdate();
-            return true;
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
 }
