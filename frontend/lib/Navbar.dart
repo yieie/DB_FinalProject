@@ -24,14 +24,14 @@ class _NavbarState extends State<Navbar> {
     final authProvider = Provider.of<AuthProvider>(context);
     String? currentRoute = ModalRoute.of(context)?.settings.name;
     return AppBar(
-      backgroundColor: Colors.black26,
+      backgroundColor: Colors.grey.shade300,
       automaticallyImplyLeading: false, // 禁用返回按鈕
       leading: 
       authProvider.isLoggedIn? 
       IconButton(
         icon:Icon(Icons.menu),
         onPressed: (){
-          Scaffold.of(context).openDrawer();
+          authProvider.clicksidebar();
         },
       )
       :null
