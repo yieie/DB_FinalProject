@@ -1,6 +1,7 @@
 // import 'dart:ffi';
 
 import 'package:db_finalproject/Admin/AdminMainPage.dart';
+import 'package:db_finalproject/Stu/StuMainPage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'HomePage.dart';

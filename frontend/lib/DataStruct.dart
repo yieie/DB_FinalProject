@@ -41,7 +41,7 @@ class AnnStruct{
 
 class UserStruct{
   String id;
-  String passwd;
+  String? passwd;
   String name;
   String email;
   String sexual;
@@ -49,7 +49,7 @@ class UserStruct{
 
   UserStruct({
     required this.id,
-    required this.passwd,
+    this.passwd,
     required this.name,
     required this.email,
     required this.sexual,
@@ -65,13 +65,15 @@ class StuStruct extends UserStruct{
 
   StuStruct({
     required super.id,
-    required super.passwd,
+    super.passwd,
     required super.name,
     required super.email,
     required super.sexual,
     required super.phone,
     required this.major,
-    required this.grade
+    required this.grade,
+    this.isLeader,
+    this.teamid
   });
 }
 
