@@ -131,7 +131,7 @@ class _CarouselSlideState extends State<CarouselSlide> {
   }
 }
 
-//最新公告，表格上只會顯示data、title，其他資訊要點進去才看得到(還沒寫)
+//最新公告，表格上只會顯示data、title，其他資訊要點進去才看得到
 class LatestAnn extends StatefulWidget{
   const LatestAnn({super.key});
 

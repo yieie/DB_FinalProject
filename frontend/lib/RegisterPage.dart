@@ -264,7 +264,7 @@ class _RegisterFormState extends State<RegisterForm> {
                 const SizedBox(height: 20),
                 Row(
                   children:[
-                    /* Text("院所："),
+                    /* /* Text("院所："),
                     DropdownButton(
                       value: _college,
                       icon: Icon(Icons.keyboard_arrow_down),
@@ -282,7 +282,7 @@ class _RegisterFormState extends State<RegisterForm> {
                         );
                       }).toList(),
                     ), */
-                    // const Spacer(),
+                    // const Spacer(), */
                     Text("系別："),
                     DropdownButton<String>(
                       value: _major,
@@ -294,7 +294,7 @@ class _RegisterFormState extends State<RegisterForm> {
                           _major = value!;
                         });
                       },
-                      items: major.map((item) {
+                      items: major.map((String item) {
                         return DropdownMenuItem(
                           value: item,
                           child: Text(item),
@@ -310,7 +310,7 @@ class _RegisterFormState extends State<RegisterForm> {
                       onChanged: (String? value) {
                         print(value);
                         setState(() {
-                          _grade = value!.trim();
+                          _grade = value!;
                         });
                       },
                       items: grade.map((String item) {
