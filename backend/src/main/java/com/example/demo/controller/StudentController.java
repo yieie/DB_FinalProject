@@ -34,7 +34,7 @@ public class StudentController {
         String stuEmail = stu.getStuEmail();
         String stuDepartment = stu.getStuDepartment();
         String stuGrade = stu.getStuGrade();
-        
+        System.out.println(stu);
         /*等DAO寫好，需要insert student的每個attribute */
         // boolean isRegistered = studentDAO.register(stuId, stuPasswd, stuName, stuSexual, stuPhone, stuEmail, stuDepartment, stuGrade);
         // if(isRegistered) {

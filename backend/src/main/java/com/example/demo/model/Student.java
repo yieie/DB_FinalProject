@@ -77,7 +77,7 @@ public class Student {
     @Override
     public String toString() {
         return "Student{" +
-                "stuId='" + stuId + '\'' +
+                "stuID='" + stuId + '\'' +
                 ", stuPasswd='" + stuPasswd + '\'' +
                 ", stuName='" + stuName + '\'' +
                 ", stuSexual='" + stuSexual + '\'' +
