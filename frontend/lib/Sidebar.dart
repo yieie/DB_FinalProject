@@ -5,7 +5,6 @@ import 'package:db_finalproject/Admin/admin.dart';
 import 'package:db_finalproject/Judge/judge.dart';
 import 'package:db_finalproject/Stu/stu.dart';
 import 'package:db_finalproject/Tr/tr.dart';
-import 'PersonalData.dart';
 
 class Sidebar extends StatefulWidget{
   @override
