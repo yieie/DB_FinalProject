@@ -186,3 +186,49 @@ class WorkShopStruct {
     required this.wstopic
   });
 }
+
+class TeacherJudgeStruct {
+  String tjEmail;
+  String tjPasswd;
+  String tjName;
+  String tjSex;
+  String tjPhone;
+
+  TeacherJudgeStruct({
+    required this.tjEmail,
+    required this.tjPasswd,
+    required this.tjName,
+    required this.tjSex,
+    required this.tjPhone
+  });
+}
+
+class TeacherStruct extends TeacherJudgeStruct{
+  String? trJobType;
+  String? trDepartment;
+  String? trOriganization;
+
+  TeacherStruct({
+    required super.tjEmail,
+    required super.tjPasswd,
+    required super.tjName,
+    required super.tjSex,
+    required super.tjPhone,
+    this.trJobType,
+    this.trDepartment,
+    this.trOriganization
+  });
+}
+
+class JudgeStruct extends TeacherJudgeStruct{
+  String? jTitle;
+
+  JudgeStruct({
+    required super.tjEmail,
+    required super.tjPasswd,
+    required super.tjName,
+    required super.tjSex,
+    required super.tjPhone,
+    this.jTitle
+  });
+}

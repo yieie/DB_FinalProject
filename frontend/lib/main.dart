@@ -27,7 +27,7 @@ void main() {
       initialRoute: '/',
       routes:{
         // '/':(context) =>HomePage(),
-        '/':(context) =>JudgeMainPage(),
+        '/':(context) =>TrMainPage(),
         '/login':(context)=>LoginPage(),
         '/register':(context)=>RegisterPage(),
         // '/teacher':(context)=>TrMainPage()

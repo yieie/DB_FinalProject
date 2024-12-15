@@ -22,12 +22,32 @@ class _PersonalDataState extends State<PersonalData> {
     "StuEmail": "example@email.com",
     "StuDepartment": "資訊工程系",
     "StuGrade": "四年級",
-    "IsLeader": 0,
+  };
+
+  final Map<String, dynamic> _teacherData = {
+    "tjEmail": "teacher@example.com",
+    "tjPasswd": "password123",
+    "tjName": "李老師",
+    "tjSex": "男",
+    "tjPhone": "0987654321",
+    "trJobType": "教授",
+    "trDepartment": "資訊工程系",
+    "trOrganization": "某大學",
+  };
+
+  final Map<String, dynamic> _judgeData = {
+    "tjEmail": "judge@example.com",
+    "tjPasswd": "password123",
+    "tjName": "王評審",
+    "tjSex": "女",
+    "tjPhone": "0975123456",
+    "jTitle": "首席評審",
   };
 
   @override
   Widget build(BuildContext context) {
     final authProvider = Provider.of<AuthProvider>(context);
+    final userType = authProvider.usertype;
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -70,22 +90,11 @@ class _PersonalDataState extends State<PersonalData> {
                         key: _formKey,
                         child: Column(
                           children: [
-                            // 學號(只讀)
-                            TextFormField(
-                              initialValue: _studentData["StuID"],
-                              decoration: InputDecoration(
-                                labelText: '學號 (不可更改)',
-                                border: OutlineInputBorder(),
-                                filled: true,
-                                fillColor: Colors.grey[200],
-                              ),
-                              readOnly: true,
-                            ),
-                            SizedBox(height: 20),
-                            // 可編輯欄位
-                            ..._buildEditableFields(),
+                            if (userType == "stu") ..._buildStudentFields(),
+                            if (userType == "tr") ..._buildTeacherFields(),
+                            if (userType == "judge") ..._buildJudgeFields(),
                             SizedBox(
-                              width: 200, // 調整按鈕寬度
+                              width: 200,
                               child: ElevatedButton(
                                 onPressed: () {
                                   if (_formKey.currentState!.validate()) {
@@ -100,14 +109,14 @@ class _PersonalDataState extends State<PersonalData> {
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10),
                                   ),
-                                  backgroundColor: Colors.blue, // 使用藍色背景
-                                  foregroundColor: Colors.white, // 使用白色字體
+                                  backgroundColor: Colors.blue,
+                                  foregroundColor: Colors.white,
                                 ),
                                 child: Text(
                                   '儲存修改',
                                   style: TextStyle(
-                                    fontSize: 16, 
-                                    fontWeight: FontWeight.bold, // 字體加粗
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
                                   ),
                                 ),
                               ),
@@ -127,40 +136,80 @@ class _PersonalDataState extends State<PersonalData> {
     );
   }
 
-  List<Widget> _buildEditableFields() {
-    // 定義所有可編輯欄位
-    final fields = [
-      {"key": "StuPasswd", "label": "密碼"},
-      {"key": "StuName", "label": "姓名"},
-      {"key": "StuSex", "label": "性別"},
-      {"key": "StuPhone", "label": "聯絡方式"},
-      {"key": "StuEmail", "label": "Email"},
-      {"key": "StuDepartment", "label": "系所"},
-      {"key": "StuGrade", "label": "年級"},
+  List<Widget> _buildStudentFields() {
+    return [
+      _buildReadOnlyField("學號", _studentData["StuID"]),
+      _buildEditableField("密碼", "StuPasswd", _studentData),
+      _buildEditableField("姓名", "StuName", _studentData),
+      _buildEditableField("性別", "StuSex", _studentData),
+      _buildEditableField("聯絡方式", "StuPhone", _studentData),
+      _buildEditableField("Email", "StuEmail", _studentData),
+      _buildEditableField("系所", "StuDepartment", _studentData),
+      _buildEditableField("年級", "StuGrade", _studentData),
     ];
+  }
 
-    return fields.map((field) {
-      return Padding(
-        padding: const EdgeInsets.only(bottom: 20),
-        child: TextFormField(
-          initialValue: _studentData[field["key"]],
-          decoration: InputDecoration(
-            labelText: field["label"],
-            border: OutlineInputBorder(),
-            filled: true,
-            fillColor: Colors.grey[50],
-          ),
-          validator: (value) {
-            if (value == null || value.trim().isEmpty) {
-              return '${field["label"]}不能為空';
-            }
-            return null;
-          },
-          onSaved: (value) {
-            //_studentData[field["key"]] = value;
-          },
+  List<Widget> _buildTeacherFields() {
+    return [
+      _buildReadOnlyField("Email", _teacherData["tjEmail"]),
+      _buildEditableField("密碼", "tjPasswd", _teacherData),
+      _buildEditableField("姓名", "tjName", _teacherData),
+      _buildEditableField("性別", "tjSex", _teacherData),
+      _buildEditableField("聯絡方式", "tjPhone", _teacherData),
+      _buildEditableField("職位", "trJobType", _teacherData),
+      _buildEditableField("系所", "trDepartment", _teacherData),
+      _buildEditableField("組織", "trOrganization", _teacherData),
+    ];
+  }
+
+  List<Widget> _buildJudgeFields() {
+    return [
+      _buildReadOnlyField("Email", _judgeData["tjEmail"]),
+      _buildEditableField("密碼", "tjPasswd", _judgeData),
+      _buildEditableField("姓名", "tjName", _judgeData),
+      _buildEditableField("性別", "tjSex", _judgeData),
+      _buildEditableField("聯絡方式", "tjPhone", _judgeData),
+      _buildEditableField("職稱", "jTitle", _judgeData),
+    ];
+  }
+
+  Widget _buildReadOnlyField(String label, String value) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 20),
+      child: TextFormField(
+        initialValue: value,
+        decoration: InputDecoration(
+          labelText: label,
+          border: OutlineInputBorder(),
+          filled: true,
+          fillColor: Colors.grey[200],
         ),
-      );
-    }).toList();
+        readOnly: true,
+      ),
+    );
+  }
+
+  Widget _buildEditableField(String label, String key, Map<String, dynamic> data) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 20),
+      child: TextFormField(
+        initialValue: data[key],
+        decoration: InputDecoration(
+          labelText: label,
+          border: OutlineInputBorder(),
+          filled: true,
+          fillColor: Colors.grey[50],
+        ),
+        validator: (value) {
+          if (value == null || value.trim().isEmpty) {
+            return '$label不能為空';
+          }
+          return null;
+        },
+        onSaved: (value) {
+          data[key] = value;
+        },
+      ),
+    );
   }
 }
