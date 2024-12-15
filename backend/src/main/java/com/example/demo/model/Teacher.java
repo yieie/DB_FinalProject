@@ -1,60 +1,70 @@
 package com.example.demo.model;
 // service 層
 public class Teacher {
-    private int teacherId;
-    private String teacherName;
-    private int jobType;
-    private String department;
-    private String organization;
-
-    public int getTeacherId() {
-        return teacherId;
+    private String trId;
+    private String trPasswd;
+    private String trName;
+    private String trJobType;
+    private String trDepartment;
+    private String trOrganization;
+    
+    public String getTrId() {
+        return trId;
     }
 
-    public void setTeacherId(int teacherId) {
-        this.teacherId = teacherId;
+    public void setTrId(String trId) {
+        this.trId = trId;
     }
 
-    public String getTeacherName() {
-        return teacherName;
+    public String getTrPasswd() {
+        return trPasswd;
     }
 
-    public void setTeacherName(String teacherName) {
-        this.teacherName = teacherName;
+    public void setTrPasswd(String trPasswd) {
+        this.trPasswd = trPasswd;
     }
 
-    public int getJobType() {
-        return jobType;
+    public String getTrName() {
+        return trName;
     }
 
-    public void setJobType(int jobType) {
-        this.jobType = jobType;
+    public void setTrName(String trName) {
+        this.trName = trName;
     }
 
-    public String getDepartment() {
-        return department;
+    public String getTrJobType() {
+        return trJobType;
     }
 
-    public void setDepartment(String department) {
-        this.department = department;
+    public void setTrJobType(String trJobType) {
+        this.trJobType = trJobType;
     }
 
-    public String getOrganization() {
-        return organization;
+    public String getTrDepartment() {
+        return trDepartment;
     }
 
-    public void setOrganization(String organization) {
-        this.organization = organization;
+    public void setTrDepartment(String trDepartment) {
+        this.trDepartment = trDepartment;
+    }
+
+    public String getTrOrganization() {
+        return trOrganization;
+    }
+
+    public void setTrOrganization(String trOrganization) {
+        this.trOrganization = trOrganization;
     }
 
     @Override
     public String toString() {
         return "Teacher{" +
-                "teacherId='" + teacherId + '\'' +
-                ", teacherName='" + teacherName + '\'' +
-                ", jobType='" + jobType + '\'' +
-                ", department='" + department + '\'' +
-                ", organization='" + organization + '\'' +
+                "trId='" + trId + '\'' +
+                ", trPasswd='" + trPasswd + '\'' +
+                ", trName='" + trName + '\'' +
+                ", trJobType='" + trJobType + '\'' +
+                ", trDepartment='" + trDepartment + '\'' +
+                ", trOrganization='" + trOrganization + '\'' +
                 '}';
     }
 }

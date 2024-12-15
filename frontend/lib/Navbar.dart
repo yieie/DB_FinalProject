@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'HomePage.dart';
+import 'package:provider/provider.dart';
+import 'AuthProvider.dart';
+
 //獨立導航條，方面在不同頁面重複使用
 class Navbar extends StatefulWidget implements PreferredSizeWidget {
+  
   const Navbar({super.key});
 
   @override
@@ -12,15 +16,26 @@ class Navbar extends StatefulWidget implements PreferredSizeWidget {
 }
 
 class _NavbarState extends State<Navbar> {
-  bool _isLoggedIn = false;
+  // bool _isLoggedIn = false;
   
 
   @override
   Widget build(BuildContext context) {
+    final authProvider = Provider.of<AuthProvider>(context);
     String? currentRoute = ModalRoute.of(context)?.settings.name;
     return AppBar(
-      backgroundColor: Colors.black26,
+      backgroundColor: Colors.grey.shade300,
       automaticallyImplyLeading: false, // 禁用返回按鈕
+      leading: 
+      authProvider.isLoggedIn? 
+      IconButton(
+        icon:Icon(Icons.menu),
+        onPressed: (){
+          authProvider.clicksidebar();
+        },
+      )
+      :null
+      ,
       title: const Text('第十二屆激發學生創意競賽'),
       actions: [
         TextButton(
@@ -38,25 +53,31 @@ class _NavbarState extends State<Navbar> {
           style: TextButton.styleFrom(foregroundColor: Colors.black),
           child: const Text('首頁'),
         ),
-        if (_isLoggedIn)
+        if (authProvider.isLoggedIn)
           TextButton(
             onPressed: () {
               setState(() {
-                _isLoggedIn = false;
+                authProvider.logout();
               });
             },
             child: const Text('登出'),
           )
         else
-          TextButton(
-            onPressed: () {
-              setState(() {
-                _isLoggedIn = true;
-              });
-              Navigator.pushNamed(context, '/');
-              Navigator.pushNamed(context, '/login');
-            },
-            child: const Text('登入'),
+          Row(
+            children: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/login');
+                },
+                child: const Text('登入'),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/register');
+                },
+                child: const Text('註冊'),
+              ),
+            ],
           ),
       ],
     );

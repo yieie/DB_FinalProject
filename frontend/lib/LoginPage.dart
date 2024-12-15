@@ -3,22 +3,90 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'Navbar.dart';
 import 'ApiService.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
+import 'AuthProvider.dart';
+import 'Admin/AdminMainPage.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
+  
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: const Navbar(),
-      body: const LoginForm(),
+      body: const UserType(),
+    );
+  }
+}
+
+class UserType extends StatelessWidget {
+  const UserType({super.key});
+  
+
+  @override
+  Widget build(BuildContext context){
+    return Align(
+      alignment: Alignment.center,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            "請選擇您的身份別",
+            style: TextStyle(fontSize: 24),),
+          SizedBox(height: 100),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  minimumSize: Size(200,50),
+                  backgroundColor: Colors.white24,
+                  foregroundColor: Colors.black
+                ),
+                onPressed: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => LoginForm(usertype: "stu")));
+                }, 
+                child: Text("學生")
+              ),
+              SizedBox(width: 20),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  minimumSize: Size(200,50),
+                  backgroundColor: Colors.white24,
+                  foregroundColor: Colors.black
+                ),
+                onPressed: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => LoginForm(usertype: "Tr")));
+                }, 
+                child: Text("老師")
+              ),
+              SizedBox(width: 20),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  minimumSize: Size(200,50),
+                  backgroundColor: Colors.white24,
+                  foregroundColor: Colors.black
+                ),
+                onPressed: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => LoginForm(usertype: "admin")));
+                }, 
+                child: Text("系統管理員")
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
 
 class LoginForm extends StatefulWidget {
-  const LoginForm({super.key});
+  final String usertype;
+  const LoginForm({super.key,required this.usertype});
+  
 
   @override
   State<LoginForm> createState() => _LoginFormState();
@@ -29,18 +97,22 @@ class _LoginFormState extends State<LoginForm> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final ApiService _apiService = ApiService();
+  
 
   Future<void> _login() async {
     String username = _usernameController.text;
     String password = _passwordController.text;
 
-    String? response = await ApiService.login(username, password);
+    String? response = await ApiService.login(widget.usertype,username, password);
 
     if (response != null) {
       print("登入成功: $response");
+      Provider.of<AuthProvider>(context, listen: false).login();
+      Provider.of<AuthProvider>(context, listen: false).chageusertype(widget.usertype);
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('登入成功')),
       );
+      Navigator.push(context, MaterialPageRoute(builder: (context) => AdminMainPage()));
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('登入失敗，請檢查帳號密碼')),
@@ -50,7 +122,10 @@ class _LoginFormState extends State<LoginForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Align(
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: Navbar(),
+      body: Align(
       alignment: Alignment.center,
       child: Container(
         width: 350,
@@ -93,7 +168,12 @@ class _LoginFormState extends State<LoginForm> {
               ),
               const SizedBox(height: 20),
               ElevatedButton(
-                onPressed: _login,
+                onPressed:_login
+                //  (){
+                //   print("usertype:");
+                //   print(widget.usertype);
+                // }
+                ,
                 child: const Text('登入'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.white60,
@@ -104,6 +184,7 @@ class _LoginFormState extends State<LoginForm> {
           ),
         ),
       ),
+    )
     );
   }
 }
