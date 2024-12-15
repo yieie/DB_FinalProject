@@ -1,6 +1,7 @@
 // import 'dart:ffi';
 
 import 'package:db_finalproject/Admin/AdminMainPage.dart';
+import 'package:db_finalproject/Judge/JudgeMainPage.dart';
 import 'package:db_finalproject/Tr/TrMainPage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -23,8 +24,8 @@ void main() {
       ),
       initialRoute: '/',
       routes:{
-        '/':(context) =>HomePage(),
-        // '/':(context) =>TrMainPage(),
+        // '/':(context) =>HomePage(),
+        '/':(context) =>JudgeMainPage(),
         '/login':(context)=>LoginPage(),
         '/register':(context)=>RegisterPage(),
         // '/teacher':(context)=>TrMainPage()
