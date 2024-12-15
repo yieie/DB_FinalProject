@@ -103,6 +103,7 @@ class _TeamsCondState extends State<TeamsCond>{
   TeamStruct team=TeamStruct(
     teamid: "2024team001", 
     teamname: "我們這一隊", 
+    teamtype: "創意發想",
     workid: "2024work001",
     state: "待審核",
     consent: "1111",

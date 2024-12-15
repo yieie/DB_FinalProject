@@ -47,7 +47,7 @@ class _SidebarState extends State<Sidebar> {
           ),
         );
       }
-    }else if (str == 'stu'){
+    }else if (usertype == 'stu'){
       if(str=='個人資料管理'){
         return 
         Navigator.push(

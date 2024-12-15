@@ -101,12 +101,12 @@ class TeamsCond extends StatefulWidget{
 class _TeamsCondState extends State<TeamsCond>{
   TeamsStatus status=TeamsStatus(amounts: 0, approved: 0, notreview: 0, incomplete: 0, qualifying: 0, finalround: 0);
   List<TeamStruct> teams=[
-    TeamStruct(teamid: "2024team001", teamname: "我們這一隊", workid: "2024work001",state: "待審核",consent: "1111"),
-    TeamStruct(teamid: "2024team321", teamname: "你說都的隊", workid: "2024work001",state: "已補件",affidavit: "1111",consent: "1111"),
-    TeamStruct(teamid: "2024team456", teamname: "對對隊", workid: "2024work001",state: "需補件",workintro: "1111"),
-    TeamStruct(teamid: "2024team021", teamname: "不可能不隊", workid: "2024work001",state: "已審核",affidavit: "1111"),
-    TeamStruct(teamid: "2024team091", teamname: "對啦隊", workid: "2024work001",state: "初賽隊伍",consent: "1111",workintro: "1111"),
-    TeamStruct(teamid: "2024team102", teamname: "感覺對了就隊", workid: "2024work001",state: "決賽隊伍",workintro: "1111" ,consent: "1111",affidavit: "1111")
+    TeamStruct(teamid: "2024team001", teamname: "我們這一隊", workid: "2024work001", teamtype: "創意實作",state: "待審核",consent: "1111"),
+    TeamStruct(teamid: "2024team321", teamname: "你說都的隊", workid: "2024work001", teamtype: "創意實作",state: "已補件",affidavit: "1111",consent: "1111"),
+    TeamStruct(teamid: "2024team456", teamname: "對對隊", workid: "2024work001", teamtype: "創意實作",state: "需補件",workintro: "1111"),
+    TeamStruct(teamid: "2024team021", teamname: "不可能不隊", workid: "2024work001", teamtype: "創意實作",state: "已審核",affidavit: "1111"),
+    TeamStruct(teamid: "2024team091", teamname: "對啦隊", workid: "2024work001", teamtype: "創意實作",state: "初賽隊伍",consent: "1111",workintro: "1111"),
+    TeamStruct(teamid: "2024team102", teamname: "感覺對了就隊", workid: "2024work001", teamtype: "創意實作",state: "決賽隊伍",workintro: "1111" ,consent: "1111",affidavit: "1111")
   ];
   
   Future<void> fetchstatus() async{
@@ -133,12 +133,12 @@ class _TeamsCondState extends State<TeamsCond>{
       print('Error: $e');
       //測試用資
       setState((){
-        teams=[ TeamStruct(teamid: "2024team001", teamname: "我們這一隊", workid: "2024work001",state: "待審核",consent: "1111"),
-                TeamStruct(teamid: "2024team321", teamname: "你說都的隊", workid: "2024work001",state: "已補件",affidavit: "1111",consent: "1111"),
-                TeamStruct(teamid: "2024team456", teamname: "對對隊", workid: "2024work001",state: "需補件",workintro: "1111"),
-                TeamStruct(teamid: "2024team021", teamname: "不可能不隊", workid: "2024work001",state: "已審核",affidavit: "1111"),
-                TeamStruct(teamid: "2024team091", teamname: "對啦隊", workid: "2024work001",state: "初賽隊伍",consent: "1111",workintro: "1111"),
-                TeamStruct(teamid: "2024team102", teamname: "感覺對了就隊", workid: "2024work001",state: "決賽隊伍",workintro: "1111" ,consent: "1111",affidavit: "1111")
+        teams=[ TeamStruct(teamid: "2024team001", teamname: "我們這一隊", workid: "2024work001", teamtype: "創意實作",state: "待審核",consent: "1111"),
+                TeamStruct(teamid: "2024team321", teamname: "你說都的隊", workid: "2024work001", teamtype: "創意實作",state: "已補件",affidavit: "1111",consent: "1111"),
+                TeamStruct(teamid: "2024team456", teamname: "對對隊", workid: "2024work001", teamtype: "創意實作",state: "需補件",workintro: "1111"),
+                TeamStruct(teamid: "2024team021", teamname: "不可能不隊", workid: "2024work001", teamtype: "創意實作",state: "已審核",affidavit: "1111"),
+                TeamStruct(teamid: "2024team091", teamname: "對啦隊", workid: "2024work001", teamtype: "創意實作",state: "初賽隊伍",consent: "1111",workintro: "1111"),
+                TeamStruct(teamid: "2024team102", teamname: "感覺對了就隊", workid: "2024work001", teamtype: "創意實作",state: "決賽隊伍",workintro: "1111" ,consent: "1111",affidavit: "1111")
                 ];
       });
     }

@@ -1,4 +1,5 @@
 // import 'package:carousel_slider/carousel_slider.dart';
+import 'package:db_finalproject/Sidebar.dart';
 import 'package:flutter/material.dart';
 import '../Navbar.dart';
 import 'package:db_finalproject/ApiService.dart';
@@ -25,12 +26,12 @@ class _TrMainPageState extends State<TrMainPage> {
       // 測試用數據
       setState(() {
         teacherTeams = [
-          TeamStruct(teamid: "2024team001", teamname: "隊伍 A", state: "待審核", workid: "work001", workname: "作品 A", worksummary: "作品簡介 A"),
-          TeamStruct(teamid: "2024team002", teamname: "隊伍 B", state: "已審核", workid: "work002", workname: "作品 B", worksummary: "作品簡介 B"),
-          TeamStruct(teamid: "2024team003", teamname: "隊伍 C", state: "需補件", workid: "work003", workname: "作品 C", worksummary: "作品簡介 C"),
-          TeamStruct(teamid: "2024team004", teamname: "隊伍 D", state: "已補件", workid: "work004", workname: "作品 D", worksummary: "作品簡介 D"),
-          TeamStruct(teamid: "2024team005", teamname: "隊伍 E", state: "初賽隊伍", workid: "work005", workname: "作品 E", worksummary: "作品簡介 E"),
-          TeamStruct(teamid: "2024team006", teamname: "隊伍 F", state: "決賽隊伍", workid: "work006", workname: "作品 F", worksummary: "作品簡介 F"),
+          TeamStruct(teamid: "2024team001", teamname: "隊伍 A", teamtype: "創意實作", state: "待審核", workid: "work001", workname: "作品 A", worksummary: "作品簡介 A"),
+          TeamStruct(teamid: "2024team002", teamname: "隊伍 B", teamtype: "創意實作", state: "已審核", workid: "work002", workname: "作品 B", worksummary: "作品簡介 B"),
+          TeamStruct(teamid: "2024team003", teamname: "隊伍 C", teamtype: "創意實作", state: "需補件", workid: "work003", workname: "作品 C", worksummary: "作品簡介 C"),
+          TeamStruct(teamid: "2024team004", teamname: "隊伍 D", teamtype: "創意實作", state: "已補件", workid: "work004", workname: "作品 D", worksummary: "作品簡介 D"),
+          TeamStruct(teamid: "2024team005", teamname: "隊伍 E", teamtype: "創意實作", state: "初賽隊伍", workid: "work005", workname: "作品 E", worksummary: "作品簡介 E"),
+          TeamStruct(teamid: "2024team006", teamname: "隊伍 F", teamtype: "創意實作", state: "決賽隊伍", workid: "work006", workname: "作品 F", worksummary: "作品簡介 F"),
         ];
       });
     }
@@ -56,6 +57,7 @@ class _TrMainPageState extends State<TrMainPage> {
             margin: EdgeInsets.only(left: authProvider.isSidebarOpen ? 250 : 0),
             child: Dashboard(teacherTeams: teacherTeams),
           ),
+          Sidebar(),
         ],
       ),
     );

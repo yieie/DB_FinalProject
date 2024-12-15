@@ -62,6 +62,7 @@ class StuStruct extends UserStruct{
   String grade;
   bool? isLeader;
   String? teamid;
+  String? stuIdCard;
 
   StuStruct({
     required super.id,
@@ -73,7 +74,8 @@ class StuStruct extends UserStruct{
     required this.major,
     required this.grade,
     this.isLeader,
-    this.teamid
+    this.teamid,
+    this.stuIdCard
   });
 }
 
@@ -110,6 +112,7 @@ class TeamStruct {
   String teamid;
   String teamname;
   String? rank;
+  String teamtype;
   String? affidavit;
   String? consent;
   String? teacheremail;
@@ -135,17 +138,51 @@ class TeamStruct {
     this.worksummary,this.worksdgs,
     this.workposter,this.workyturl,
     this.workgithub,this.workyear,
-    this.workintro
+    this.workintro, 
+    required this.teamtype
   });
 
   factory TeamStruct.fromBasicJson(Map<String, dynamic> json){
     return TeamStruct(
       teamid: json['teamid'] as String,
       teamname: json['teamname'] as String,
+      teamtype: json['teamtype'] as String,
       workid: json['workid'] as String,
       workintro: json['workintro'] as String?,
       consent: json['consent'] as String?,
       affidavit: json['affidavit'] as String?
     );
   } 
+}
+
+class ScoreStruct {
+  String? Rate1;
+  String? Rate2;
+  String? Rate3;
+  String? Rate4;
+  String teamid;
+  String judgeEmail;
+
+  ScoreStruct({
+    this.Rate1,
+    this.Rate2,
+    this.Rate3,
+    this.Rate4,
+    required this.teamid,
+    required this.judgeEmail
+  });
+}
+
+class WorkShopStruct {
+  int wsid;
+  String wsdate;
+  String wstime;
+  String wstopic;
+
+  WorkShopStruct({
+    required this.wsid,
+    required this.wsdate,
+    required this.wstime,
+    required this.wstopic
+  });
 }

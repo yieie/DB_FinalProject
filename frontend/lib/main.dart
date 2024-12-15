@@ -2,6 +2,7 @@
 
 import 'package:db_finalproject/Admin/AdminMainPage.dart';
 import 'package:db_finalproject/Judge/JudgeMainPage.dart';
+import 'package:db_finalproject/Stu/stu.dart';
 import 'package:db_finalproject/Tr/TrMainPage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -26,7 +27,7 @@ void main() {
       initialRoute: '/',
       routes:{
         // '/':(context) =>HomePage(),
-        '/':(context) =>HomePage(),
+        '/':(context) =>StuMainPage(),
         '/login':(context)=>LoginPage(),
         '/register':(context)=>RegisterPage(),
         // '/teacher':(context)=>TrMainPage()
