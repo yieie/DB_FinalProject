@@ -1,15 +1,15 @@
 // import 'dart:ffi';
 
-import 'package:db_finalproject/Admin/AdminMainPage.dart';
-import 'package:db_finalproject/Judge/JudgeMainPage.dart';
-import 'package:db_finalproject/Stu/stu.dart';
-import 'package:db_finalproject/Tr/TrMainPage.dart';
+import 'package:db_finalproject/features/admin/presentation/AdminMainPage.dart';
+import 'package:db_finalproject/features/judge/presentation/JudgeMainPage.dart';
+import 'package:db_finalproject/features/student/presentation/stu.dart';
+import 'package:db_finalproject/features/teacher/presentation/TrMainPage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'HomePage.dart';
-import 'LoginPage.dart';
-import 'AuthProvider.dart';
-import 'RegisterPage.dart';
+import 'features/common/presentation/HomePage.dart';
+import 'features/common/presentation/LoginPage.dart';
+import 'core/services/AuthProvider.dart';
+import 'features/common/presentation/RegisterPage.dart';
 import 'UploadImg.dart';
 
 void main() {
@@ -26,8 +26,8 @@ void main() {
       ),
       initialRoute: '/',
       routes:{
-        // '/':(context) =>HomePage(),
-        '/':(context) =>TrMainPage(),
+        '/':(context) =>HomePage(),
+        // '/':(context) =>AdminMainPage(),
         '/login':(context)=>LoginPage(),
         '/register':(context)=>RegisterPage(),
         // '/teacher':(context)=>TrMainPage()
