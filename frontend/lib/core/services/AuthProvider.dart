@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
 class AuthProvider with ChangeNotifier {
-  bool _isLoggedIn = false;
+  bool _isLoggedIn = true;
   bool get isLoggedIn => _isLoggedIn;
-  String _usertype = "none";
+  String _usertype = "admin";
   String get usertype => _usertype;
+  String _useraccount = 'null';
+  String get useraccount => _useraccount;
 
   bool _isSidebarOpen = false;
   bool get isSidebarOpen => _isSidebarOpen;
@@ -17,6 +19,8 @@ class AuthProvider with ChangeNotifier {
   void logout() {
     _isLoggedIn = false;
     _usertype="none";
+    _useraccount = "null";
+    _isSidebarOpen = false;
     notifyListeners();
   }
 
