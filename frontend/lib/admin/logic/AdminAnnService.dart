@@ -37,6 +37,7 @@ class AdminAnnService{
         additionalData: ann.toJson()
         );
     }
+    print('addAnnouncement:');
   }
 
   Future<void> editAnnouncement(
