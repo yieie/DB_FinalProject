@@ -1,3 +1,4 @@
+import 'package:db_finalproject/admin/logic/JudgeService.dart';
 import 'package:db_finalproject/core/services/AuthProvider.dart';
 import 'package:db_finalproject/data/Judge.dart';
 import 'package:db_finalproject/widgets/Navbar.dart';
@@ -227,22 +228,32 @@ class AddJudgeForm extends StatefulWidget {
 
 class _AddJudgeFormState extends State<AddJudgeForm> {
   final _nameController = TextEditingController();
-  final _genderController = TextEditingController();
+  String _sexual="無";
   final _phoneController = TextEditingController();
   final _emailController = TextEditingController();
   final _titleController = TextEditingController();
+  final JudgeService _judgeService = JudgeService();
 
   // 儲存修改的資料
   void _saveChanges() {
+    Judge? judge;
     setState(() {
-      Judge judge= Judge(
+      judge= Judge(
         id: _emailController.text,
         name: _nameController.text, 
         email: _emailController.text, 
-        sexual: _genderController.text, 
-        phone: _phoneController.text);
+        sexual: _sexual, 
+        phone: _phoneController.text,
+        title: _titleController.text
+        );
     });
+    print(judge!.id);
+    print(judge!.title);
+    print(judge!.name);
+    print(judge!.sexual);
+    print(judge!.phone);
     Navigator.of(context).pop(); // 關閉修改表單
+    _judgeService.addJudge(judge!);
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("使用者資料已更新")));
   }
 
@@ -255,10 +266,34 @@ class _AddJudgeFormState extends State<AddJudgeForm> {
           controller: _nameController,
           decoration: InputDecoration(labelText: "姓名"),
         ),
-        TextField(
-          controller: _genderController,
-          decoration: InputDecoration(labelText: "性別"),
+        SizedBox(height: 10,),
+        const Text("生理性別"),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Radio<String>(
+              value: "男",
+              groupValue: _sexual,
+              onChanged: (value) {
+                setState(() {
+                  _sexual = "男";
+                });
+              },
+            ),
+            Text("男"),
+            Radio<String>(
+              value: "女",
+              groupValue: _sexual,
+              onChanged: (value) {
+                setState(() {
+                  _sexual = "女";
+                });
+              },
+            ),
+            Text("女"),
+          ],
         ),
+        SizedBox(height: 10,),
         TextField(
           controller: _emailController,
           decoration: InputDecoration(labelText: "email"),
