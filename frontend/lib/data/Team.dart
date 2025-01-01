@@ -37,6 +37,7 @@ class Team {
       teamid: json['teamid'] as String,
       teamname: json['teamname'] as String,
       teamtype: json['teamtype'] as String,
+      state: json['state'] as String,
       workid: json['workid'] as String?,
       workintro: json['workintro'] as String?,
       consent: json['consent'] as String?,
