@@ -1,5 +1,5 @@
 import 'package:db_finalproject/common/data/RegisterRepository.dart';
-import 'package:db_finalproject/student/data/Student.dart';
+import 'package:db_finalproject/data/Student.dart';
 
 class RegisterService {
   final RegisterRepository _registerRepository = RegisterRepository();

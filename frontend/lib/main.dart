@@ -49,6 +49,11 @@ void main() {
           return MaterialPageRoute(
             builder: (context) => AddNEditAnnouncement(annid: annid)
           );
+        }else if (uri.path =='/team/review'){
+          final String teamid=uri.queryParameters['teamid']!;
+          return MaterialPageRoute(
+            builder: (context) => showDetailTeam(teamid: teamid)
+          );
         }
       }
     )
