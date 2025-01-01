@@ -43,6 +43,7 @@ class AdminTeamService {
     return response;
   }
 
+  //修改隊伍狀態
   Future<dynamic> editTeamState(String teamid,String state) async{
     final response = await _apiService.post('/Team/$teamid/edit', {'state':state});
   }
