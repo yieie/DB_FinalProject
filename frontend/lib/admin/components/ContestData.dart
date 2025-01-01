@@ -58,7 +58,7 @@ class _ContestDataState extends State<ContestData> {
 class selectBar extends StatefulWidget{
   final years=["2024","2023","2022","2021","2020","2019","2018","2017","2016","2015","2014","2013","2012"];
   final teamtype=["全組別","創意發想組","創業實作組"];
-  final teamstaus=["無","報名待審核","已審核","待審核初賽資料","需補件","已補件","初賽隊伍","決賽隊伍"];
+  final teamstaus=["無","報名待審核","已審核","待審核初賽資格","需補件","已補件","初賽隊伍","決賽隊伍"];
   String _selectedyears="2024";
   String _selectedteamtype="全組別";
   String _selectedteamstatus="無";
