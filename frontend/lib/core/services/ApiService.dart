@@ -5,8 +5,8 @@ import 'package:file_picker/file_picker.dart';
 import 'package:http/http.dart' as http;
 
 class ApiService {
-  // static const String baseUrl = 'http://localhost:8080/api';
-  static const String baseUrl = 'http://localhost:8081/api';
+  static const String baseUrl = 'http://localhost:8080/api';
+  // static const String baseUrl = 'http://localhost:8081/api';
 
 
   Future<dynamic> get(String endpoint) async{
@@ -47,6 +47,7 @@ class ApiService {
     final request = http.MultipartRequest('POST', uri);
     if(files != null){
       for (var file in files) {
+        print(request.fields);
         request.files.add(
           await http.MultipartFile.fromBytes(
             'files', // 對應後端的字段名
@@ -71,6 +72,7 @@ class ApiService {
 
     if (additionalData != null) {
       request.fields.addAll(additionalData.map((key, value) => MapEntry(key, value.toString())));
+      print(request.fields);
     }
 
     print("請求 URL: ${request.url}");

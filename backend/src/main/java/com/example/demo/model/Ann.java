@@ -2,17 +2,28 @@ package com.example.demo.model;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class Ann {
     private int annID;
     private String annTitle;
     private String annInfo;
-    private String poster="";
-    private String fileName="";
+    private String poster = "";
+    private byte[] posterData; // 保留，如果需要直接存 Poster 的 byte[]
+    private String fileName = "";
     private String fileType;
-    private String fileData="";
+    private String fileData = "";
     private String adminID;
+
+    // @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDateTime annTime;
+
+    private List<FileData> files = new ArrayList<>();
+    private List<FileData> images = new ArrayList<>();
 
     public int getAnnID() {
         return annID;
@@ -44,6 +55,14 @@ public class Ann {
 
     public void setPoster(String poster) {
         this.poster = poster;
+    }
+
+    public byte[] getPosterData() {
+        return posterData;
+    }
+
+    public void setPosterData(byte[] posterData) {
+        this.posterData = posterData;
     }
 
     public String getFileName() {
@@ -78,9 +97,6 @@ public class Ann {
         this.adminID = adminID;
     }
 
-    // public LocalDateTime getAnnTime() {
-    //     return annTime;
-    // }
     public String getAnnTime() {
         if (annTime != null) {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -93,18 +109,58 @@ public class Ann {
         this.annTime = annTime;
     }
 
+    public void addFile(String fileName, String fileType, String filePath) {
+        this.files.add(new FileData(fileName, fileType, filePath));
+    }
+
+    public void addImage(String fileName, String fileType, String filePath) {
+        this.images.add(new FileData(fileName, fileType, filePath));
+    }
+
+    public List<FileData> getFiles() {
+        return files;
+    }
+
+    public List<FileData> getImages() {
+        return images;
+    }
+
     @Override
     public String toString() {
-        return "ann{" +
+        return "Ann{" +
                 "annID=" + annID +
                 ", annTitle='" + annTitle + '\'' +
                 ", annInfo='" + annInfo + '\'' +
-                ", aoster='" + poster + '\'' +
+                ", poster='" + poster + '\'' +
                 ", fileName='" + fileName + '\'' +
                 ", fileType='" + fileType + '\'' +
                 ", fileData='" + fileData + '\'' +
                 ", adminID='" + adminID + '\'' +
                 ", annTime=" + getAnnTime() +
                 '}';
+    }
+
+    private static class FileData {
+        private String fileName;
+        private String fileType;
+        private String filePath;
+
+        public FileData(String fileName, String fileType, String filePath) {
+            this.fileName = fileName;
+            this.fileType = fileType;
+            this.filePath = filePath;
+        }
+
+        public String getFileName() {
+            return fileName;
+        }
+
+        public String getFileType() {
+            return fileType;
+        }
+
+        public String getFilePath() {
+            return filePath;
+        }
     }
 }
