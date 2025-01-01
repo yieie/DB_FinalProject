@@ -21,6 +21,7 @@ import java.text.ParseException;
 
 public class WorkshopDAO {
     public String convertTo24(String time12Hour) {
+
         // 去除首尾空格
         time12Hour = time12Hour.trim();
     
@@ -47,7 +48,34 @@ public class WorkshopDAO {
         // 格式化為 24 小時制時間字串，並加上秒數部分
         return String.format("%02d:%02d:00", hour, minute);
     }
-    
+
+    public Workshop getWorkshopById(int id){
+        Workshop workshop = null;
+        String sql = "SELECT w.WSID, WSDate, WSTime, WSTopic, LectName, LectTitle, LectPhone, LectEmail, LectAddress"+
+        "FROM work_shop as w, lecturer as l WHERE w.WSID = ? and w.WSID = l.WSID";
+        try(Connection conn = DatabaseConnection.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, id); 
+
+            ResultSet rs = pstmt.executeQuery();
+            if(rs.next()) {
+                workshop = new Workshop();
+                workshop.setWsid(rs.getInt("WSID"));
+                workshop.setWsdate(rs.getDate("WSDate").toString());
+                workshop.setWstime(rs.getTime("WSTime").toString());
+                workshop.setWstopic(rs.getString("WSTopic"));
+                workshop.setLectName(rs.getString("LectName"));
+                workshop.setLecttitle(rs.getString("LectTitle"));
+                workshop.setLectphone(rs.getString("LectPhone"));
+                workshop.setLectemail(rs.getString("LectEmail"));
+                workshop.setLectaddr(rs.getString("LectAddress"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return workshop;
+    }
+
     public boolean addWorkshop(Workshop workshop) {
         String workshopSql = "INSERT INTO work_shop (WSDate, WSTime, WSTopic) VALUES (?, ?, ?)";
         String lecturerSql = "INSERT INTO lecturer (LectName, LectTitle, LectPhone, LectEmail, LectAddress, WSID) VALUES (?, ?, ?, ?, ?, ?)";
