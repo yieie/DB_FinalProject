@@ -128,7 +128,7 @@ class _TeamsCondState extends State<TeamsCond>{
       print('Fetched ${teams} announcements');
     } catch (e) {
       print('Error: $e');
-      //測試用資
+      // 測試用資
       setState((){
         teams=[ Team(teamid: "2024team001", teamname: "我們這一隊", workid: "2024work001", teamtype: "創意實作",state: "待審核",consent: "1111"),
                 Team(teamid: "2024team321", teamname: "你說都的隊", workid: "2024work001", teamtype: "創意實作",state: "已補件",affidavit: "1111",consent: "1111"),
@@ -144,8 +144,8 @@ class _TeamsCondState extends State<TeamsCond>{
   @override
   void initState() {
     super.initState();
-    // fetchstatus();
-    // fetchBasicAllTeam();
+    fetchstatus();
+    fetchBasicAllTeam();
   }
 
   @override

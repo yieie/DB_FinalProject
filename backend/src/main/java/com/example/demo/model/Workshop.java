@@ -7,7 +7,7 @@ public class Workshop {
     private String wsdate;
     private String wstime;
     private String wstopic;
-    @JsonProperty("lectname")
+    // @JsonProperty("lectname")
     private String lectname;
     private String lecttitle;
     private String lectphone;
@@ -66,7 +66,7 @@ public class Workshop {
         return wstopic;
     }
 
-    public String getLectName() {
+    public String getlectname() {
         return lectname;
     }
 
@@ -93,7 +93,7 @@ public class Workshop {
                 ", wsdate='" + wsdate + '\'' +
                 ", wstime='" + wstime + '\'' +
                 ", wstopic='" + wstopic + '\'' +
-                ", lectName='" + lectname + '\'' +
+                ", lectname='" + lectname + '\'' +
                 ", lecttitle='" + lecttitle + '\'' +
                 ", lectphone='" + lectphone + '\'' +
                 ", lectemail='" + lectemail + '\'' +

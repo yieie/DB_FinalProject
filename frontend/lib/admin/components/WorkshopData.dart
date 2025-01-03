@@ -64,6 +64,7 @@ class _WorkshopDataState extends State<WorkshopData> {
   Future<void> fetchAllWorkshop() async{
     try{
       workshops = await _workshopService.getAllWorkshop();
+      setState(() {});
     }catch(e){
       print(e);
       workshops = [
@@ -112,7 +113,7 @@ class _WorkshopDataState extends State<WorkshopData> {
             ]
           ),
           SizedBox(height: 20),
-          Expanded(
+          workshops == null ? Center(child: CircularProgressIndicator()) : Expanded(
             child: ListView.builder(
               itemCount: workshops!.length,
               itemBuilder: (context, index) {
