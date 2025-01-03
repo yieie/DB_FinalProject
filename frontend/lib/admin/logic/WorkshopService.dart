@@ -4,6 +4,11 @@ import 'package:db_finalproject/core/services/ApiService.dart';
 class WorkshopService{
   final ApiService _apiService = ApiService();
 
+  Future<List<Workshop>> getAllWorkshop() async{
+    final response = await _apiService.get('/Workshop');
+    return (response as List).map((json) => Workshop.fromJson(json)).toList();
+  } 
+
   //獲取Workshop資訊
   Future<Workshop> getWorkshop(String id) async{
     final response = await _apiService.get('/Workshop/$id');
