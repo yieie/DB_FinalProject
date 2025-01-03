@@ -15,7 +15,7 @@ public class Ann {
     private byte[] posterData; // 保留，如果需要直接存 Poster 的 byte[]
     private String fileName = "";
     private String fileType;
-    private String fileData = "";
+    private byte[] fileData;
     private String adminID;
 
     // @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
@@ -81,11 +81,11 @@ public class Ann {
         this.fileType = fileType;
     }
 
-    public String getFileData() {
+    public byte[] getFileData() {
         return fileData;
     }
 
-    public void setFileData(String fileData) {
+    public void setFileData(byte[] fileData) {
         this.fileData = fileData;
     }
 
@@ -134,7 +134,6 @@ public class Ann {
                 ", poster='" + poster + '\'' +
                 ", fileName='" + fileName + '\'' +
                 ", fileType='" + fileType + '\'' +
-                ", fileData='" + fileData + '\'' +
                 ", adminID='" + adminID + '\'' +
                 ", annTime=" + getAnnTime() +
                 '}';
