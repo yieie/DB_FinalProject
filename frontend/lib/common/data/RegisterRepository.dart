@@ -1,4 +1,4 @@
-import 'package:db_finalproject/student/data/Student.dart';
+import 'package:db_finalproject/data/Student.dart';
 import 'package:db_finalproject/core/services/ApiService.dart';
 
 class RegisterRepository {

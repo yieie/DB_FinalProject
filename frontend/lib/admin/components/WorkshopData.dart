@@ -57,10 +57,30 @@ class WorkshopData extends StatefulWidget {
 }
 
 class _WorkshopDataState extends State<WorkshopData> {
-  List<Workshop> workshops = [
-    Workshop(wsid: 1, wsdate: "2024-12-25", wstime: "9:00", wstopic: "創造力", lectName: "王老師"),
-    Workshop(wsid: 2, wsdate: "2024-12-25", wstime: "10:00", wstopic: "實現力", lectName: "李教授"),
-  ];
+  List<Workshop>? workshops;
+
+  WorkshopService _workshopService = WorkshopService();
+
+  Future<void> fetchAllWorkshop() async{
+    try{
+      workshops = await _workshopService.getAllWorkshop();
+      setState(() {});
+    }catch(e){
+      print(e);
+      workshops = [
+        Workshop(wsid: 1, wsdate: "2024-12-25", wstime: "9:00", wstopic: "創造力", lectName: "王老師"),
+        Workshop(wsid: 2, wsdate: "2024-12-25", wstime: "10:00", wstopic: "實現力", lectName: "李教授"),
+      ];
+    }
+  }
+
+  @override
+  void initState(){
+    super.initState();
+    fetchAllWorkshop();
+
+    
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -93,11 +113,11 @@ class _WorkshopDataState extends State<WorkshopData> {
             ]
           ),
           SizedBox(height: 20),
-          Expanded(
+          workshops == null ? Center(child: CircularProgressIndicator()) : Expanded(
             child: ListView.builder(
-              itemCount: workshops.length,
+              itemCount: workshops!.length,
               itemBuilder: (context, index) {
-                final workshop = workshops[index];
+                final workshop = workshops![index];
                 return Card(
                   color: Colors.grey.shade200,
                   margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),

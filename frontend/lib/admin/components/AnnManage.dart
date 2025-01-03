@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:db_finalproject/core/services/AuthProvider.dart';
 import 'package:db_finalproject/widgets/Sidebar.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:file_picker/file_picker.dart';
 import 'dart:io';
 import 'dart:html' as html;

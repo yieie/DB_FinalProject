@@ -10,6 +10,6 @@ class TeamRepository {
     final response = await _apiService.get('/Teams/Cond');
     // return (jsonDecode(response.body) as List).map((json) => Team.fromBasicJson(json)).toList();
     // 不用decode，因為ApiService已經decode過了
-    return (response as List).map((json) => Team.fromBasicJson(json)).toList();
+    return (response as List).map((json) => Team.fromJson(json)).toList();
   } 
 }

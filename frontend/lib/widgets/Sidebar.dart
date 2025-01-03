@@ -1,3 +1,4 @@
+import 'package:db_finalproject/admin/components/ViewScores.dart';
 import 'package:db_finalproject/core/services/AuthProvider.dart';
 import 'package:db_finalproject/admin/components/JudgeData.dart';
 import 'package:db_finalproject/admin/components/WorkshopData.dart';
@@ -16,7 +17,7 @@ class Sidebar extends StatefulWidget{
 
 class _SidebarState extends State<Sidebar> {
   final Map<String, List<String>> userSidebar = {
-    "admin": ['公告管理','工作坊管理','評審資料管理',"比賽資訊暨隊伍管理"],
+    "admin": ['公告管理','工作坊管理','評審資料管理',"隊伍管理","查看評分資料"],
     "stu": ["個人資料管理","隊伍報名管理","文件上傳","工作坊報名"],
     "tr": ["個人資料管理","指導隊伍管理"],
     "judge": ["評分紀錄"],
@@ -56,12 +57,20 @@ class _SidebarState extends State<Sidebar> {
             builder: (context) => JudgeDataFrame(),
           ),
         );
-      }else{
+      }else if(str == '隊伍管理'){
         return 
         Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) => ContestData(),
+          ),
+        );
+      }else{
+        return 
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ViewScores(),
           ),
         );
       }

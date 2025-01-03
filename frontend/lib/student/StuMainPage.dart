@@ -1,7 +1,7 @@
 // import 'package:carousel_slider/carousel_slider.dart';
 import 'package:db_finalproject/core/services/ApiService.dart';
 import 'package:db_finalproject/data/Team.dart';
-import 'package:db_finalproject/student/data/Student.dart';
+import 'package:db_finalproject/data/Student.dart';
 import 'package:db_finalproject/widgets/Sidebar.dart';
 import 'package:flutter/material.dart';
 import 'package:db_finalproject/widgets/Navbar.dart';

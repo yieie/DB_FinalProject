@@ -1,8 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:http/http.dart' as http;
+import 'dart:html' as html;
+
 
 class ApiService {
   static const String baseUrl = 'http://localhost:8080/api';
@@ -92,6 +93,32 @@ class ApiService {
       return jsonDecode(responseBody);
     } else {
       throw Exception('HTTP Error: ${response.statusCode}');
+    }
+  }
+
+  Future<dynamic> downloadFile(String fileName) async {
+    final fileUrl = "$baseUrl/$fileName";
+    
+    try {
+      // 發送請求獲取檔案
+      final response = await http.get(Uri.parse(fileUrl));
+
+      if (response.statusCode == 200) {
+        // 使用 `dart:html` 創建下載鏈接
+        final blob = html.Blob([response.bodyBytes]);
+        final url = html.Url.createObjectUrlFromBlob(blob);
+        final anchor = html.AnchorElement(href: url)
+          ..target = 'blank'
+          ..download = fileName
+          ..click();
+        html.Url.revokeObjectUrl(url); // 釋放資源
+      } else {
+        print("下載失敗: ${response.statusCode}");
+        return "下載失敗";
+      }
+    } catch (e) {
+      print("下載錯誤: $e");
+      return "下載錯誤";
     }
   }
 

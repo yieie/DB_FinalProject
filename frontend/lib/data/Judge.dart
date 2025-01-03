@@ -16,6 +16,7 @@ class Judge extends User{
   });
 
   Map<String,dynamic> toJson(){
+    
     return {
       'judgeid':email,
       'judgepasswd': passwd,
