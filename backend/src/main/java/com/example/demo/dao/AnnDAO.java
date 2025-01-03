@@ -61,17 +61,36 @@ public class AnnDAO {
     }
 
     public boolean addAnnouncement(Ann ann) {
-        String sql = "INSERT INTO ann_annposter (AnnPoster, AnnID) " +
-                "VALUES (?, ?)";
+        String sql1 = "INSERT INTO ann (AnnTitle, AnnInfo, AnnTime, AdminID) VALUES (?, ?, ?, ?)";
+        String sql2 = "INSERT INTO ann_annposter (AnnPoster, AnnID) VALUES (?, ?)";
+        String sql3 = "INSERT INTO ann_annfile (AnnFileURL, AnnFileName, AnnID) VALUES (?, ?, ?)";
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+             PreparedStatement pstmt1 = conn.prepareStatement(sql1, Statement.RETURN_GENERATED_KEYS);
+             PreparedStatement pstmt2 = conn.prepareStatement(sql2);
+             PreparedStatement pstmt3 = conn.prepareStatement(sql3)) {
 
+            pstmt1.setString(1, ann.getPoster());
+            pstmt1.setString(2, ann.getAnnInfo());
+            pstmt1.setTimestamp(3, Timestamp.valueOf(ann.getAnnTime()));
+            pstmt1.setString(4, ann.getAdminID());
+            
+            pstmt1.executeUpdate();
+            ResultSet rs = pstmt1.getGeneratedKeys();
+            if (rs.next()) {
+                int ann_ID = rs.getInt(1);
+                String posterPath = saveFile(ann.getPoster(), ann.getPosterData());
+                pstmt2.setString(1, posterPath);
+                pstmt2.setInt(2, ann_ID);
+
+                String filePath = saveFile(ann.getFileName(), ann.getFileData());
+                pstmt3.setString(1, filePath);
+                pstmt3.setString(2, ann.getFileName());
+            }
             pstmt.setString(1, ann.getAnnTitle());
             pstmt.setString(2, ann.getAnnInfo());
 
             // 儲存海報並返回相對路徑
-            String posterPath = saveFile(ann.getPoster(), ann.getPosterData());
-            pstmt.setString(3, posterPath);
+            
 
             pstmt.setString(4, ann.getFileName());
             pstmt.setString(5, ann.getFileType());

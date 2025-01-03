@@ -125,7 +125,7 @@ public class WorkshopDAO {
             if (rs.next()) {
                 int wsid = rs.getInt(1); // 自動生成的 WSID
                 // 插入 lecturers
-                lecturerStmt.setString(1, workshop.getLectName());
+                lecturerStmt.setString(1, workshop.getLectname());
                 lecturerStmt.setString(2, workshop.getLecttitle());
                 lecturerStmt.setString(3, workshop.getLectphone());
                 lecturerStmt.setString(4, workshop.getLectemail());
@@ -160,7 +160,7 @@ public class WorkshopDAO {
             workshopStmt.setInt(4, workshop.getWsid());
             workshopStmt.executeUpdate();
 
-            lecturerStmt.setString(1, workshop.getLectName());
+            lecturerStmt.setString(1, workshop.getLectname());
             lecturerStmt.setString(2, workshop.getLecttitle());
             lecturerStmt.setString(3, workshop.getLectphone());
             lecturerStmt.setString(4, workshop.getLectemail());
