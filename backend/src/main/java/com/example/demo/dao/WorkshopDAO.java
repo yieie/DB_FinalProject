@@ -49,6 +49,32 @@ public class WorkshopDAO {
         return String.format("%02d:%02d:00", hour, minute);
     }
 
+    public Workshop getAllWorkshop(){
+        Workshop workshop = null;
+        String sql = "SELECT w.WSID, WSDate, WSTime, WSTopic, LectName, LectTitle, LectPhone, LectEmail, LectAddress"+
+        "FROM work_shop as w, lecturer as l where w.WSID = l.WSID";
+        try(Connection conn = DatabaseConnection.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            ResultSet rs = pstmt.executeQuery();
+            if(rs.next()) {
+                workshop = new Workshop();
+                workshop.setWsid(rs.getInt("WSID"));
+                workshop.setWsdate(rs.getDate("WSDate").toString());
+                workshop.setWstime(rs.getTime("WSTime").toString());
+                workshop.setWstopic(rs.getString("WSTopic"));
+                workshop.setLectName(rs.getString("LectName"));
+                workshop.setLecttitle(rs.getString("LectTitle"));
+                workshop.setLectphone(rs.getString("LectPhone"));
+                workshop.setLectemail(rs.getString("LectEmail"));
+                workshop.setLectaddr(rs.getString("LectAddress"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return workshop;
+    }
+
     public Workshop getWorkshopById(int id){
         Workshop workshop = null;
         String sql = "SELECT w.WSID, WSDate, WSTime, WSTopic, LectName, LectTitle, LectPhone, LectEmail, LectAddress"+
@@ -107,6 +133,41 @@ public class WorkshopDAO {
                 lecturerStmt.setInt(6, wsid);
                 lecturerStmt.executeUpdate();
             }
+            return true; // 成功執行
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean updateWorkshop(Workshop workshop){
+        String workshopSql = "UPDATE work_shop SET WSDate = ?, WSTime = ?, WSTopic = ? WHERE WSID = ?";
+        String lecturerSql = "UPDATE lecturer SET LectName = ?, LectTitle = ?, LectPhone = ?, LectEmail = ?, LectAddress = ? WHERE WSID = ?";
+
+        try (Connection conn = DatabaseConnection.getConnection();
+            PreparedStatement workshopStmt = conn.prepareStatement(workshopSql, Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement lecturerStmt = conn.prepareStatement(lecturerSql)) {
+
+            String sqlDate = workshop.getWsdate();
+            workshopStmt.setDate(1, Date.valueOf(sqlDate));
+
+            //12 to 24小時制轉換
+            String time12Hour = workshop.getWstime(); // 去除首尾空格
+            String time24Hour = convertTo24(time12Hour); // 轉換為 24 小時制
+            workshopStmt.setTime(2, Time.valueOf(time24Hour));
+
+            workshopStmt.setString(3, workshop.getWstopic());
+            workshopStmt.setInt(4, workshop.getWsid());
+            workshopStmt.executeUpdate();
+
+            lecturerStmt.setString(1, workshop.getLectName());
+            lecturerStmt.setString(2, workshop.getLecttitle());
+            lecturerStmt.setString(3, workshop.getLectphone());
+            lecturerStmt.setString(4, workshop.getLectemail());
+            lecturerStmt.setString(5, workshop.getLectaddr());
+            lecturerStmt.setInt(6, workshop.getWsid());
+            lecturerStmt.executeUpdate();
+            
             return true; // 成功執行
         } catch (SQLException e) {
             e.printStackTrace();

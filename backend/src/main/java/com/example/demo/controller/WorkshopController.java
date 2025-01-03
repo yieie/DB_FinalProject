@@ -50,8 +50,7 @@ public class WorkshopController {
         // 取得前端傳來的資料
         System.out.println("id: " + id);
 
-        // boolean isUpdated = workshopDAO.updateWorkshop(workshop);
-        boolean isUpdated = true; // 假設更新成功，測試用
+        boolean isUpdated = workshopDAO.updateWorkshop(workshop);
 
         if (isUpdated) {
             return ResponseEntity.status(HttpStatus.OK).body(true); // 成功回傳 true
