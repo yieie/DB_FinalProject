@@ -49,9 +49,9 @@ class ApiService {
       for (var file in files) {
         print(request.fields);
         request.files.add(
-          await http.MultipartFile.fromPath(
+          await http.MultipartFile.fromBytes(
             'files', // 對應後端的字段名
-            file.path!,
+            file.bytes!,
             filename: file.name
           ),
         );
@@ -73,6 +73,16 @@ class ApiService {
     if (additionalData != null) {
       request.fields.addAll(additionalData.map((key, value) => MapEntry(key, value.toString())));
       print(request.fields);
+    }
+
+    print("請求 URL: ${request.url}");
+    print("附加數據 (fields): ${request.fields}");
+
+    print("文件列表 (files):");
+    for (var file in request.files) {
+      print("  - 字段名: ${file.field}");
+      print("    文件名: ${file.filename}");
+      print("    長度: ${file.length}");
     }
 
     final response = await request.send();

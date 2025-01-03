@@ -5,14 +5,15 @@ class AuthProvider with ChangeNotifier {
   bool get isLoggedIn => _isLoggedIn;
   String _usertype = "admin";
   String get usertype => _usertype;
-  String _useraccount = 'null';
+  String _useraccount = 'admin1';
   String get useraccount => _useraccount;
 
   bool _isSidebarOpen = false;
   bool get isSidebarOpen => _isSidebarOpen;
 
-  void login() {
+  void login(String useraccount) {
     _isLoggedIn = true;
+    changeAccount(useraccount);
     notifyListeners(); // 通知所有聽眾更新狀態
   }
 
@@ -33,5 +34,9 @@ class AuthProvider with ChangeNotifier {
   void clicksidebar() {
     _isSidebarOpen = !_isSidebarOpen;
     notifyListeners();
+  }
+
+  void changeAccount(String str){
+    _useraccount=str;
   }
 }

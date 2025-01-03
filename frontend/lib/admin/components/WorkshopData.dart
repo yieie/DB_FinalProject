@@ -145,6 +145,7 @@ class AddNEditWorkshopForm extends StatefulWidget {
 class _AddNEditWorkshopFormState extends State<AddNEditWorkshopForm> {
   final _topicController = TextEditingController();
   TimeOfDay? selectedTime;
+  String formattime="";
   DateTime? selectedDate;
   final _lectnameController = TextEditingController();
   final _lectphoneController = TextEditingController();
@@ -160,7 +161,7 @@ class _AddNEditWorkshopFormState extends State<AddNEditWorkshopForm> {
       workshop=Workshop(
         wsid: int.parse(widget.wsid), 
         wsdate: "${selectedDate!.year}-${selectedDate!.month}-${selectedDate!.day}", 
-        wstime: selectedTime!.format(context), 
+        wstime: formattime, 
         wstopic: _topicController.text,
         lectName: _lectnameController.text,
         lectphone: _lectphoneController.text,
@@ -258,8 +259,16 @@ class _AddNEditWorkshopFormState extends State<AddNEditWorkshopForm> {
     if (picked != null && picked != selectedTime) {
       setState(() {
         selectedTime = picked;
+        formattime=formatTimeOfDay(selectedTime!);
       });
     }
+  }
+
+
+  String formatTimeOfDay(TimeOfDay time) {
+    final hours = time.hour.toString().padLeft(2, '0');
+    final minutes = time.minute.toString().padLeft(2, '0');
+    return '$hours:$minutes';
   }
 
   Future<void> fectchWorkshop() async{
@@ -331,7 +340,7 @@ class _AddNEditWorkshopFormState extends State<AddNEditWorkshopForm> {
                 SizedBox(width: 20,),
                 Text(
                   selectedTime != null
-                      ? "${selectedTime!.format(context)}"
+                      ? formattime
                       : workshop.wstime,
                   style: TextStyle(fontSize: 16),
                 ),

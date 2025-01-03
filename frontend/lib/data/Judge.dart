@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:db_finalproject/data/User.dart';
 
 class Judge extends User{
@@ -12,4 +14,15 @@ class Judge extends User{
     required super.phone,
     this.title
   });
+
+  Map<String,dynamic> toJson(){
+    return {
+      'judgeid':email,
+      'judgepasswd': passwd,
+      'judgename':name,
+      'judgesexual':sexual,
+      'judgephone':phone,
+      'judgetitle':title
+    };
+  }
 }

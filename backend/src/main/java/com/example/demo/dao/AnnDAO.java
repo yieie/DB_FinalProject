@@ -10,7 +10,10 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class AnnDAO {
+
     private static final String UPLOAD_DIR = "uploads/";
 
     public List<Ann> getBasicAnnouncements() {

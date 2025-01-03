@@ -8,7 +8,7 @@ class Team {
   String? teacheremail;
   String? state;
 
-  String workid;
+  String? workid;
   String? workname;
   String? worksummary;
   String? worksdgs;
@@ -21,7 +21,7 @@ class Team {
   Team({
     required this.teamid,
     required this.teamname,
-    required this.workid,
+    this.workid,
     this.rank,this.affidavit,
     this.consent,this.teacheremail,
     this.state,this.workname,
@@ -37,7 +37,8 @@ class Team {
       teamid: json['teamid'] as String,
       teamname: json['teamname'] as String,
       teamtype: json['teamtype'] as String,
-      workid: json['workid'] as String,
+      state: json['state'] as String,
+      workid: json['workid'] as String?,
       workintro: json['workintro'] as String?,
       consent: json['consent'] as String?,
       affidavit: json['affidavit'] as String?

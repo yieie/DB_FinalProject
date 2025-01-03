@@ -16,6 +16,8 @@ import java.util.List;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
+// Ann格式: Ann{annID=-1, annTitle='', annInfo='werwer', poster='', fileName='', fileType='null', fileData='', adminID='admin1', annTime=null}
+// 資料庫要自己加現在的時間 (加上上傳時間)
 
 @RestController
 @RequestMapping("/api/Ann")
@@ -44,154 +46,76 @@ public class AnnController {
 
     @Autowired
     private ObjectMapper objectMapper;
-    // @PostMapping(value = "/add", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
-    // public ResponseEntity<String> addAnnouncement(
-    //         @RequestParam("data") String annJson,
-    //         @RequestParam(value = "files", required = false) MultipartFile[] files,
-    //         @RequestParam(value = "Images", required = false) MultipartFile[] images) {
-    //     try {
-    //         System.out.println("Received JSON: " + annJson);
-    //         // json 轉 Ann 物件
-    //         Ann ann = objectMapper.readValue(annJson, Ann.class);
-            
-    //         // 處理文件上傳
-    //         if (files != null) {
-    //             for (MultipartFile file : files) {
-    //                 String filePath = annDAO.saveFile(file.getOriginalFilename(), file.getBytes());
-    //                 ann.addFile(file.getOriginalFilename(), file.getContentType(), filePath);
-    //             }
-    //         }
-
-    //         // 處理圖片上傳
-    //         if (images != null) {
-    //             for (MultipartFile image : images) {
-    //                 String imagePath = annDAO.saveFile(image.getOriginalFilename(), image.getBytes());
-    //                 ann.addImage(image.getOriginalFilename(), image.getContentType(), imagePath);
-    //             }
-    //         }
-
-    //         // boolean isAdded = annDAO.addAnnouncement(ann);
-    //         boolean isAdded = true; // test
-    //         if (isAdded) {
-    //             return ResponseEntity.status(HttpStatus.CREATED).body("Announcement added successfully");
-    //         } else {
-    //             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to add announcement");
-    //         }
-    //     } catch (IOException e) {
-    //         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error processing request: " + e.getMessage());
-    //     }
-    // }
     @PostMapping(value = "/add", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
     public ResponseEntity<String> addAnnouncement(
-            @RequestParam(value = "annid", required = false) Integer id,
-            @RequestParam(value = "anndate", required = false) String date,
-            @RequestParam(value = "anntitle") String title,
-            @RequestParam(value = "anninfo", required = false) String info,
-            @RequestParam(value = "annadmin", required = false) String admin,
-            @RequestParam(value = "files", required = false) MultipartFile[] files,
-            @RequestParam(value = "Images", required = false) MultipartFile[] images) {
+            @RequestParam("annid") int annId,
+            @RequestParam(value = "anndate", required = false) String annDate,
+            @RequestParam("anntitle") String annTitle,
+            @RequestParam("anninfo") String annInfo,
+            @RequestParam("annadmin") String annAdmin,
+            @RequestPart(value = "files", required = false) MultipartFile[] files,
+            @RequestPart(value = "Images", required = false) MultipartFile[] images) {
         try {
-            // 創建 Announcement 物件
+            // 將 RequestParam 組裝為 Ann 物件
             Ann ann = new Ann();
-            ann.setAnnID(id != null ? id : 0); // 若無 id，設置為 0 或自動遞增
-            ann.setAnnTime(LocalDateTime.parse(date));
-            ann.setAnnTitle(title);
-            ann.setAnnInfo(info);
-            ann.setAdminID(admin);
+            ann.setAnnID(annId);
+            // 資料庫要自己加現在的時間
+            ann.setAnnTitle(annTitle);
+            ann.setAnnInfo(annInfo);
+            ann.setAdminID(annAdmin);
 
-            // 處理文件上傳
+            // 處理文件
             if (files != null) {
                 for (MultipartFile file : files) {
-                    String filePath = annDAO.saveFile(file.getOriginalFilename(), file.getBytes());
-                    ann.addFile(file.getOriginalFilename(), file.getContentType(), filePath);
+                    // DAO那邊要回傳檔案路徑給我
+                    // String filePath = annDAO.saveFile(file.getOriginalFilename(), file.getBytes());
+                    // ann.addFile(file.getOriginalFilename(), file.getContentType(), filePath);
+    
                 }
             }
 
-            // 處理圖片上傳
+            // 處理圖片
             if (images != null) {
                 for (MultipartFile image : images) {
-                    String imagePath = annDAO.saveFile(image.getOriginalFilename(), image.getBytes());
-                    ann.addImage(image.getOriginalFilename(), image.getContentType(), imagePath);
+                    // DAO那邊要回傳圖片路徑給我
+                    // String imagePath = annDAO.saveFile(image.getOriginalFilename(), image.getBytes());
+                    // ann.addImage(image.getOriginalFilename(), image.getContentType(), imagePath);
                 }
             }
+            System.out.println(ann);
 
-            // 保存公告到數據庫
+
             // boolean isAdded = annDAO.addAnnouncement(ann);
-            boolean isAdded = true; // test
+            boolean isAdded = true;
             if (isAdded) {
                 return ResponseEntity.status(HttpStatus.CREATED).body("Announcement added successfully");
             } else {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to add announcement");
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error processing request: " + e.getMessage());
         }
     }
 
-
-    // @PostMapping(value = "/edit/{id}", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
-    // public ResponseEntity<String> editAnnouncement(
-    //         @PathVariable("id") int id,
-    //         @RequestParam("data") String annJson,
-    //         @RequestParam(value = "files", required = false) MultipartFile[] files,
-    //         @RequestParam(value = "Images", required = false) MultipartFile[] images) {
-    //     try {
-    //         System.out.println("Received JSON: " + annJson);
-
-    //         // Parse JSON to Ann object
-    //         Ann ann = objectMapper.readValue(annJson, Ann.class);
-
-    //         ann.setAnnID(id);
-
-    //         // Handle file uploads
-    //         if (files != null) {
-    //             for (MultipartFile file : files) {
-    //                 String filePath = annDAO.saveFile(file.getOriginalFilename(), file.getBytes());
-    //                 ann.addFile(file.getOriginalFilename(), file.getContentType(), filePath);
-    //             }
-    //         }
-
-    //         if (images != null) {
-    //             for (MultipartFile image : images) {
-    //                 String imagePath = annDAO.saveFile(image.getOriginalFilename(), image.getBytes());
-    //                 ann.addImage(image.getOriginalFilename(), image.getContentType(), imagePath);
-    //             }
-    //         }
-
-    //         // boolean isUpdated = annDAO.updateAnnouncement(ann);
-    //         boolean isUpdated = true; // test
-    //         if (isUpdated) {
-    //             return ResponseEntity.ok("Announcement updated successfully");
-    //         } else {
-    //             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to update announcement");
-    //         }
-    //     } catch (IOException e) {
-    //         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error processing request: " + e.getMessage());
-    //     }
-    // }
     @PostMapping(value = "/edit/{id}", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
     public ResponseEntity<String> editAnnouncement(
             @PathVariable("id") int id,
-            @RequestParam(value = "annid", required = false) Integer annId,
-            // @RequestParam(value = "anndate", required = false) String date,
-            @RequestParam(value = "anntitle") String title,
-            @RequestParam(value = "anninfo", required = false) String info,
-            @RequestParam(value = "annadmin", required = false) String admin,
-            @RequestParam(value = "files", required = false) MultipartFile[] files,
-            @RequestParam(value = "Images", required = false) MultipartFile[] images) {
+            @RequestParam("annid") int annId,
+            @RequestParam(value = "anndate", required = false) String annDate,
+            @RequestParam("anntitle") String annTitle,
+            @RequestParam("anninfo") String annInfo,
+            @RequestParam("annadmin") String annAdmin,
+            @RequestPart(value = "files", required = false) MultipartFile[] files,
+            @RequestPart(value = "Images", required = false) MultipartFile[] images) {
         try {
-            // 檢查日期是否為 null
-            // LocalDate annDate = (date != null && !date.isEmpty()) ? LocalDate.parse(date) : null;
-
-            // 創建 Ann 物件
             Ann ann = new Ann();
-            ann.setAnnID(id); // 使用路徑參數的 id
-            // ann.setAnnTime(LocalDateTime.parse(date));
-            ann.setAnnTitle(title);
-            ann.setAnnInfo(info);
-            ann.setAdminID(admin);
+            // 資料庫要自己加現在的時間
+            ann.setAnnID(id);
+            ann.setAnnTitle(annTitle);
+            ann.setAnnInfo(annInfo);
+            ann.setAdminID(annAdmin);
 
-            // 處理文件上傳
             if (files != null) {
                 for (MultipartFile file : files) {
                     String filePath = annDAO.saveFile(file.getOriginalFilename(), file.getBytes());
@@ -199,27 +123,23 @@ public class AnnController {
                 }
             }
 
-            // 處理圖片上傳
             if (images != null) {
                 for (MultipartFile image : images) {
                     String imagePath = annDAO.saveFile(image.getOriginalFilename(), image.getBytes());
                     ann.addImage(image.getOriginalFilename(), image.getContentType(), imagePath);
                 }
             }
-
-            // 更新公告到數據庫
-            // boolean isUpdated = annDAO.updateAnnouncement(ann);
-            boolean isUpdated = true; // test
+            
+            // boolean isAdded = annDAO.addAnnouncement(ann);
+            boolean isUpdated = true;
             if (isUpdated) {
                 return ResponseEntity.ok("Announcement updated successfully");
             } else {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to update announcement");
             }
-        } catch (DateTimeParseException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid date format: " + e.getMessage());
-        } catch (IOException e) {
+        } catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error processing request: " + e.getMessage());
         }
     }
-
 }

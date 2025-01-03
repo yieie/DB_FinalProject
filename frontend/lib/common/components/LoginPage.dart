@@ -62,7 +62,7 @@ class _LoginFormState extends State<LoginForm> {
 
     if (response != null) {
       print("登入成功: $response");
-      Provider.of<AuthProvider>(context, listen: false).login();
+      Provider.of<AuthProvider>(context, listen: false).login(username);
       Provider.of<AuthProvider>(context, listen: false).chageusertype(usertype!);
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('登入成功')),

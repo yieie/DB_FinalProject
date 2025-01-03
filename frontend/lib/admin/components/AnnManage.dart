@@ -128,8 +128,6 @@ class _AddNEditAnnouncementState extends State<AddNEditAnnouncement> {
   void initState() {
     super.initState();
     print(widget.annid);
-    super.initState();
-    print(widget.annid);
     if(widget.annid != '-1'){
       fetchAnnDetail();
     }
@@ -158,19 +156,20 @@ class _AddNEditAnnouncementState extends State<AddNEditAnnouncement> {
   }
 
   // 儲存修改的公告
-  void _saveAnnouncement() {
+  void _saveAnnouncement(String admin) {
     setState(() {
       ann=Announcement(
         id: int.parse(widget.annid), 
         title: _titleController.text,
         info: _contentController.text,
+        admin: admin
       );
     });
     
     if(widget.annid=='-1'){
       try{
         _adminAnnService.addAnnouncement(
-          Announcement(id: int.parse(widget.annid), title: _titleController.text, info: _contentController.text),
+          ann,
           _selectedFiles, 
           _selectedImgs);
         showDialog(
@@ -185,7 +184,7 @@ class _AddNEditAnnouncementState extends State<AddNEditAnnouncement> {
       }
       catch(e){
         _adminAnnService.editAnnouncement(
-          Announcement(id: int.parse(widget.annid), title: _titleController.text, info: _contentController.text),
+          ann,
           _selectedFiles, 
           _selectedImgs);
         showDialog(
@@ -236,6 +235,7 @@ class _AddNEditAnnouncementState extends State<AddNEditAnnouncement> {
 
   @override
   Widget build(BuildContext context) {
+    final authProvider = Provider.of<AuthProvider>(context);
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
@@ -266,7 +266,7 @@ class _AddNEditAnnouncementState extends State<AddNEditAnnouncement> {
               UploadFiles(onFilesChanged: handleFilesChanged),
               SizedBox(height: 20),
               ElevatedButton(
-                onPressed: _saveAnnouncement,
+                onPressed: ()=>_saveAnnouncement(authProvider.useraccount),
                 child: Text(widget.annid=='-1'?"新增公告":"修改公告"),
               ),
             ],
