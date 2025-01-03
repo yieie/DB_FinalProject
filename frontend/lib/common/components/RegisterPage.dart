@@ -5,10 +5,11 @@ import 'package:db_finalproject/core/services/ApiService.dart';
 import 'package:db_finalproject/data/Student.dart';
 
 class RegisterPage extends StatelessWidget {
+  const RegisterPage({super.key});
 
   @override
   Widget build(BuildContext context){
-    return Scaffold(
+    return const Scaffold(
       backgroundColor: Colors.white,
       appBar: Navbar(),
       body: RegisterForm(),
@@ -63,7 +64,6 @@ class _RegisterFormState extends State<RegisterForm> {
     final response = await _registerService.register(stu);
 
     if (response != null) {
-      print("註冊成功: $response");
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('註冊成功')),
       );
@@ -185,7 +185,7 @@ class _RegisterFormState extends State<RegisterForm> {
                         });
                       },
                     ),
-                    Text("男"),
+                    const Text("男"),
                     Radio<String>(
                       value: "女",
                       groupValue: _sexual,
@@ -195,7 +195,7 @@ class _RegisterFormState extends State<RegisterForm> {
                         });
                       },
                     ),
-                    Text("女"),
+                    const Text("女"),
                   ],
                 ),
                 const SizedBox(height: 20),
@@ -215,13 +215,12 @@ class _RegisterFormState extends State<RegisterForm> {
                 const SizedBox(height: 20),
                 Row(
                   children:[
-                    Text("院所："),
+                    const Text("院所："),
                     DropdownButton(
                       value: _college,
-                      icon: Icon(Icons.keyboard_arrow_down),
+                      icon: const Icon(Icons.keyboard_arrow_down),
                       dropdownColor: Colors.white,
                       onChanged: (String? value) {
-                        print(value);
                         setState((){
                           _college = value!;
                           _major = "請選擇";
@@ -235,13 +234,12 @@ class _RegisterFormState extends State<RegisterForm> {
                       }).toList(),
                     ),
                     const Spacer(),
-                    Text("系別："),
+                    const Text("系別："),
                     DropdownButton<String>(
                       value: _major,
-                      icon: Icon(Icons.keyboard_arrow_down),
+                      icon: const Icon(Icons.keyboard_arrow_down),
                       dropdownColor: Colors.white,
                       onChanged: (String? value) {
-                        print(value);
                         setState(() {
                           _major = value!;
                         });
@@ -254,13 +252,12 @@ class _RegisterFormState extends State<RegisterForm> {
                       }).toList(),
                     ),
                     const Spacer(),
-                    Text("年級："),
+                    const Text("年級："),
                     DropdownButton<String>(
                       value: _grade,
-                      icon: Icon(Icons.keyboard_arrow_down),
+                      icon: const Icon(Icons.keyboard_arrow_down),
                       dropdownColor: Colors.white,
                       onChanged: (String? value) {
-                        print(value);
                         setState(() {
                           _grade = value!;
                         });
@@ -276,11 +273,11 @@ class _RegisterFormState extends State<RegisterForm> {
                 const SizedBox(height: 20),
                 ElevatedButton(
                   onPressed:_register,
-                  child: const Text('註冊'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white60,
                     foregroundColor: Colors.black,
                   ),
+                  child: const Text('註冊'),
                 ),
               ],
             ),

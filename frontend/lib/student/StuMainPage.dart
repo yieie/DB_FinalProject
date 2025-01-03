@@ -1,4 +1,3 @@
-// import 'package:carousel_slider/carousel_slider.dart';
 import 'package:db_finalproject/core/services/ApiService.dart';
 import 'package:db_finalproject/data/Team.dart';
 import 'package:db_finalproject/data/Student.dart';
@@ -9,6 +8,7 @@ import 'package:db_finalproject/core/services/AuthProvider.dart';
 import 'package:provider/provider.dart';
 
 class StuMainPage extends StatefulWidget{
+  const StuMainPage({super.key});
   @override
   State<StuMainPage> createState() => _StuMainPageState();
 }
@@ -19,15 +19,15 @@ class _StuMainPageState extends State<StuMainPage>{
     final authProvider = Provider.of<AuthProvider>(context);
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: Navbar(),
+      appBar: const Navbar(),
       body:Stack(
         
         children:
         [
           AnimatedContainer(
-            duration: Duration(milliseconds: 300),
+            duration: const Duration(milliseconds: 300),
             margin: EdgeInsets.only(left: authProvider.isSidebarOpen ? 250 : 0),
-            child: Dashboard()
+            child:const  Dashboard()
           ),
           Sidebar()
         ]
@@ -36,13 +36,14 @@ class _StuMainPageState extends State<StuMainPage>{
   }
 }
 class Dashboard extends StatefulWidget{
-  
+  const Dashboard({super.key});
+
   @override
   State<Dashboard> createState() =>_DashboardState();
 }
 
 class _DashboardState extends State<Dashboard>{
-  ApiService _apiService = ApiService();
+  final ApiService _apiService = ApiService();
  
   @override
   Widget build(BuildContext context){
@@ -59,15 +60,9 @@ class _DashboardState extends State<Dashboard>{
               
               Column(
                 children: [
-                  Padding(padding: EdgeInsets.only(top: 20)),
+                  const Padding(padding: EdgeInsets.only(top: 20)),
 
                   TeamsCond(apiService: _apiService,rowheight: 30,screenWidth: screenWidth),
-                  // Padding(padding: EdgeInsets.only(top: 20)),
-
-                  // SizedBox(
-                  //   width:iswidthful?1000:screenWidth,
-                  //   child: LatestAnn(),
-                  // )
 
                 ],
               ),
@@ -84,10 +79,10 @@ class _DashboardState extends State<Dashboard>{
 }
 
 class TeamsCond extends StatefulWidget{
-  ApiService apiService;
-  double rowheight;
-  double screenWidth;
-  TeamsCond({required this.apiService, required this.rowheight ,required this.screenWidth});
+  final ApiService apiService;
+  final double rowheight;
+  final double screenWidth;
+  const TeamsCond({super.key, required this.apiService, required this.rowheight ,required this.screenWidth});
   @override
   State<TeamsCond> createState() => _TeamsCondState();
 }
@@ -149,7 +144,7 @@ class _TeamsCondState extends State<TeamsCond>{
             ),
             child: Container(
               alignment: Alignment.topLeft,
-              padding: EdgeInsets.only(top: 15,left: 20,right: 20),
+              padding: const EdgeInsets.only(top: 15,left: 20,right: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -163,31 +158,31 @@ class _TeamsCondState extends State<TeamsCond>{
                       ),
                     ],
                   ),
-                  SizedBox(height: 20,),
+                  const SizedBox(height: 20,),
                   Row(
                     children: [
-                      Spacer(),
-                      Text(
+                      const Spacer(),
+                      const Text(
                         "隊伍ID：2024team321",
                         style:  TextStyle(
                           fontSize:16
                         )
                       ),
-                      Spacer(),
-                      Text(
+                      const Spacer(),
+                      const Text(
                         "隊伍名稱：對拉對",
                         style:  TextStyle(
                           fontSize:16
                         )
                       ),
-                      Spacer(),
+                      const Spacer(),
                       Container(
                         height: widget.rowheight,
                         alignment: Alignment.center,
                         child: Container(
                           height: 30,
                           width: 100,
-                          padding: EdgeInsets.only(top: 4),
+                          padding: const EdgeInsets.only(top: 4),
                           decoration: BoxDecoration(
                             color: team.state == "待審核" ? Colors.grey.shade300 :
                                     team.state == "已審核" ? Colors.green.shade200 :
@@ -201,55 +196,55 @@ class _TeamsCondState extends State<TeamsCond>{
                           child: Text(
                             team.state!,
                             textAlign: TextAlign.center,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 16
                             ),
                           ),
                         )
                       ),
-                      Spacer()
+                      const Spacer()
                     ],
                   ),
-                  SizedBox(height: 5),
+                  const SizedBox(height: 5),
                   Row(
                       children: [
                         Expanded(
                           flex: 4,
                           child: Container(
-                            padding: EdgeInsets.only(left: 15),
-                            child: Text("隊員序號")
+                            padding: const EdgeInsets.only(left: 15),
+                            child: const Text("隊員序號")
                           ),
                         ),
-                        Expanded(
+                        const Expanded(
                           flex: 4,
                           child: Text("姓名"),
                         ),
-                        Expanded(
+                        const Expanded(
                           flex: 4,
                           child: Text("學號"),
                         ),
-                        Expanded(
+                        const Expanded(
                           flex: 4,
                           child: Text("系所"),
                         ),
-                        Expanded(
+                        const Expanded(
                           flex: 2,
                           child: Text("性別",textAlign: TextAlign.center,),
                         ),
-                        Expanded(
+                        const Expanded(
                           flex: 4,
                           child: Text("電話號碼"),
                         ),
-                        Expanded(
+                        const Expanded(
                           flex: 8,
                           child: Text("電子郵件"),
                         ),
 
                       ],
                     ),
-                  teammember.isEmpty? Center(child: CircularProgressIndicator()):
+                  teammember.isEmpty? const Center(child: CircularProgressIndicator()):
                   Table(
-                    border: TableBorder(
+                    border: const TableBorder(
                       top: BorderSide(color: Colors.grey ),
                       bottom: BorderSide(color: Colors.grey ),
                       horizontalInside: BorderSide(color: Colors.grey ),
@@ -257,7 +252,7 @@ class _TeamsCondState extends State<TeamsCond>{
                       right: BorderSide.none,
                       left: BorderSide.none
                     ),
-                    columnWidths: {
+                    columnWidths: const {
                       0: FlexColumnWidth(4),
                       1: FlexColumnWidth(4),
                       2: FlexColumnWidth(4),
@@ -274,7 +269,7 @@ class _TeamsCondState extends State<TeamsCond>{
                         Container(
                           height: widget.rowheight,
                           alignment: Alignment.centerLeft,
-                          padding: EdgeInsets.only(left: 15),
+                          padding: const EdgeInsets.only(left: 15),
                           child: Text(
                             index==0?"隊員1-代表人":"隊員${index+1}",
                             textAlign: TextAlign.left,
@@ -332,8 +327,8 @@ class _TeamsCondState extends State<TeamsCond>{
                     );
                     }).toList(),
                   ),
-                  SizedBox(height: 30,),
-                  Row(
+                  const SizedBox(height: 30,),
+                  const Row(
                     children: [
                       Spacer(),
                       Text(
@@ -352,11 +347,11 @@ class _TeamsCondState extends State<TeamsCond>{
                       Spacer(),
                     ],
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Row(
                     children: [
-                      Spacer(),
-                      Text("作品說明書："),
+                      const Spacer(),
+                      const Text("作品說明書："),
                       Container(
                         height: widget.rowheight,
                         alignment: Alignment.center,
@@ -374,8 +369,8 @@ class _TeamsCondState extends State<TeamsCond>{
                           ),
                         )
                       ),
-                      Spacer(),
-                      Text("切結書："),
+                      const Spacer(),
+                      const Text("切結書："),
                       Container(
                         height: widget.rowheight,
                         alignment: Alignment.center,
@@ -393,8 +388,8 @@ class _TeamsCondState extends State<TeamsCond>{
                           ),
                         )
                       ),
-                      Spacer(),
-                      Text("同意書："),
+                      const Spacer(),
+                      const Text("同意書："),
                       Container(
                         height: widget.rowheight,
                         alignment: Alignment.center,
@@ -412,7 +407,7 @@ class _TeamsCondState extends State<TeamsCond>{
                           ),
                         )
                       ),
-                      Spacer()
+                      const Spacer()
 
                     ],
                   )

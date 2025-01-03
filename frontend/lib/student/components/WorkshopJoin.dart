@@ -7,13 +7,14 @@ import 'package:db_finalproject/data/Workshop.dart';
 import 'package:db_finalproject/core/services/ApiService.dart';
 
 class WorkshopJoin extends StatefulWidget {
+  const WorkshopJoin({super.key});
   @override
-  _WorkshopJoinState createState() => _WorkshopJoinState();
+  State<WorkshopJoin> createState() => _WorkshopJoinState();
 }
 
 class _WorkshopJoinState extends State<WorkshopJoin> {
   List<Workshop> workshops = [];
-  ApiService _apiService = ApiService();
+  final ApiService _apiService = ApiService();
 
   Future<void> fetchWorkshops() async {
     try {
@@ -55,11 +56,11 @@ class _WorkshopJoinState extends State<WorkshopJoin> {
     final authProvider = Provider.of<AuthProvider>(context);
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: Navbar(),
+      appBar: const Navbar(),
       body: Stack(
         children: [
           AnimatedContainer(
-            duration: Duration(milliseconds: 300),
+            duration: const Duration(milliseconds: 300),
             margin: EdgeInsets.only(left: authProvider.isSidebarOpen ? 250 : 0),
             child: Padding(
               padding: const EdgeInsets.all(16.0),
@@ -67,21 +68,21 @@ class _WorkshopJoinState extends State<WorkshopJoin> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    const Text(
                       "報名工作坊",
                       style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     Table(
-                      border: TableBorder(
+                      border: const TableBorder(
                         top: BorderSide(color: Colors.grey),
                         bottom: BorderSide(color: Colors.grey),
                         horizontalInside: BorderSide(color: Colors.grey),
                       ),
-                      columnWidths: {
+                      columnWidths: const {
                         0: FlexColumnWidth(2),
                         1: FlexColumnWidth(2),
                         2: FlexColumnWidth(3),
@@ -92,30 +93,30 @@ class _WorkshopJoinState extends State<WorkshopJoin> {
                           decoration: BoxDecoration(
                             color: Colors.grey.shade300,
                           ),
-                          children: [
+                          children: const [
                             Padding(
-                              padding: const EdgeInsets.all(8.0),
+                              padding: EdgeInsets.all(8.0),
                               child: Text(
                                 "日期",
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.all(8.0),
+                              padding: EdgeInsets.all(8.0),
                               child: Text(
                                 "時間",
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.all(8.0),
+                              padding: EdgeInsets.all(8.0),
                               child: Text(
                                 "主題",
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.all(8.0),
+                              padding: EdgeInsets.all(8.0),
                               child: Text(
                                 "操作",
                                 style: TextStyle(fontWeight: FontWeight.bold),
@@ -142,7 +143,7 @@ class _WorkshopJoinState extends State<WorkshopJoin> {
                                 padding: const EdgeInsets.all(8.0),
                                 child: ElevatedButton(
                                   onPressed: () => registerWorkshop(workshop.wsid),
-                                  child: Text("報名"),
+                                  child: const Text("報名"),
                                 ),
                               ),
                             ],

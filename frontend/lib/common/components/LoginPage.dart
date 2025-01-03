@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import '../../widgets/Navbar.dart';
-import '../../core/services/ApiService.dart';
-import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
-import '../../core/services/AuthProvider.dart';
-import '../../admin/AdminMainPage.dart';
 import 'package:db_finalproject/common/logic/LoginService.dart';
+import 'package:db_finalproject/widgets/Navbar.dart';
+import 'package:db_finalproject/core/services/AuthProvider.dart';
+
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -15,10 +12,10 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    return Scaffold(
+    return const Scaffold(
       backgroundColor: Colors.white,
-      appBar: const Navbar(),
-      body: const LoginForm(),
+      appBar: Navbar(),
+      body: LoginForm(),
     );
   }
 }
@@ -67,7 +64,8 @@ class _LoginFormState extends State<LoginForm> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('登入成功')),
       );
-      Navigator.push(context, MaterialPageRoute(builder: (context) => AdminMainPage()));
+      Navigator.pushNamed(context, '/$usertype');
+      
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('登入失敗，請檢查帳號密碼')),
@@ -82,12 +80,12 @@ class _LoginFormState extends State<LoginForm> {
       child: Container(
         width: 350,
         height: 300,
-        padding: EdgeInsets.all(15),
+        padding: const EdgeInsets.all(15),
         alignment: Alignment.center,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(10),
-          boxShadow:[ BoxShadow(
+          boxShadow:const [ BoxShadow(
             color: Colors.black45,
             offset: Offset(10, 20),
             blurRadius: 45.0,
@@ -96,7 +94,7 @@ class _LoginFormState extends State<LoginForm> {
         ),
         child: Column(
           children: [
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Form(
             key: _loginfromkey,
             child: Column(
@@ -135,15 +133,15 @@ class _LoginFormState extends State<LoginForm> {
                 const SizedBox(height: 20),
                 TextButton(
                   onPressed:_login,
-                  child: const Text('登入',style: TextStyle(fontSize: 16),),
                   style: TextButton.styleFrom(
                     backgroundColor: Colors.grey.shade200,
                     foregroundColor: Colors.black,
                     fixedSize:const Size(200, 50)
                   ),
+                  child: const Text('登入',style: TextStyle(fontSize: 16),),
                 ),
                 Container(
-                  margin: EdgeInsets.only(top: 10,bottom: 10),
+                  margin: const EdgeInsets.only(top: 10,bottom: 10),
                   color: Colors.grey.shade400,
                   height: 1,
                 ),
@@ -152,7 +150,7 @@ class _LoginFormState extends State<LoginForm> {
                   style: TextButton.styleFrom(
                     foregroundColor: Colors.blueAccent
                   ),
-                  child: Text("忘記密碼?",style: TextStyle(decoration: TextDecoration.underline,decorationColor: Colors.blueAccent))
+                  child: const Text("忘記密碼?",style: TextStyle(decoration: TextDecoration.underline,decorationColor: Colors.blueAccent))
                 )
               ],
             ),

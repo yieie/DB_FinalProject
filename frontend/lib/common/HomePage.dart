@@ -22,7 +22,7 @@ class HomePage extends StatelessWidget {
 }
 
 class CarouselSlidePage extends StatelessWidget{
-  CarouselSlidePage({required this.width});
+  const CarouselSlidePage({super.key, required this.width});
   final double width;
   
   @override
@@ -37,18 +37,18 @@ class CarouselSlidePage extends StatelessWidget{
             
             Column(
               children: [
-                Padding(padding: EdgeInsets.only(top: 20)),
+                const Padding(padding: EdgeInsets.only(top: 20)),
 
                 SizedBox(
                   width: iswidthful?1000:width,
-                  child: CarouselSlide(),
+                  child: const CarouselSlide(),
                 ),
 
-                Padding(padding: EdgeInsets.only(top: 20)),
+                const Padding(padding: EdgeInsets.only(top: 20)),
 
                 SizedBox(
                   width:iswidthful?1000:width,
-                  child: LatestAnn(),
+                  child: const LatestAnn(),
                 )
 
               ],
@@ -67,7 +67,7 @@ class CarouselSlide extends StatefulWidget{
   const CarouselSlide({super.key});
 
   @override
-  _CarouselSlideState createState() => _CarouselSlideState();
+  State<CarouselSlide> createState() => _CarouselSlideState();
 }
 
 class _CarouselSlideState extends State<CarouselSlide> {
@@ -133,7 +133,7 @@ class LatestAnn extends StatefulWidget{
   const LatestAnn({super.key});
 
   @override
-  _LastestAnnState createState() => _LastestAnnState();
+  State<LatestAnn> createState() => _LastestAnnState();
 }
 
 class _LastestAnnState extends State<LatestAnn>{
@@ -146,8 +146,6 @@ class _LastestAnnState extends State<LatestAnn>{
     try {
       AnnList = await _announcementService.getBasicAnnouncement();
       setState((){});
-      // 更新 UI 或處理邏輯
-      print('Fetched ${AnnList!.length} announcements');
     } catch (e) {
       print('Error: fectch Announments');
       setState((){
@@ -171,8 +169,8 @@ class _LastestAnnState extends State<LatestAnn>{
       children: [
         Container(
           alignment: Alignment.topLeft,
-          padding: EdgeInsets.only(left: 10,bottom: 10),
-          child: Text(
+          padding: const EdgeInsets.only(left: 10,bottom: 10),
+          child: const Text(
             "最新消息",
             style: TextStyle(fontSize: 20),
           ),
@@ -182,7 +180,7 @@ class _LastestAnnState extends State<LatestAnn>{
           color: Colors.black26,
         ),
         AnnList.isEmpty
-            ? Center(child: CircularProgressIndicator()) // 顯示載入中
+            ? const Center(child: CircularProgressIndicator()) // 顯示載入中
             : Table(
                 children: AnnList.map((item) => TableRow(children: [
                     InkWell(
@@ -204,23 +202,23 @@ class _LastestAnnState extends State<LatestAnn>{
                         child: Row(
                             children: <Widget>[
                               Container(
-                                padding: EdgeInsets.only(top:16.0,left: 10.0,right:32.0,bottom: 16.0),
+                                padding: const EdgeInsets.only(top:16.0,left: 10.0,right:32.0,bottom: 16.0),
                                 child: Text(
                                   item.date!,
-                                  style: TextStyle(fontSize: 16,fontWeight: FontWeight.w100),
+                                  style: const TextStyle(fontSize: 16,fontWeight: FontWeight.w100),
                                 ),
                               ),
                               Container(
-                                padding: EdgeInsets.all(16.0),
+                                padding: const EdgeInsets.all(16.0),
                                 child: Text(
                                   item.title,
-                                  style: TextStyle(fontSize: 16,fontWeight: FontWeight.w600),
+                                  style: const TextStyle(fontSize: 16,fontWeight: FontWeight.w600),
                                   ),
                               ),
-                              Spacer(),
+                              const Spacer(),
                               Container(
-                                padding: EdgeInsets.only(right:16.0),
-                                child: Icon(
+                                padding: const EdgeInsets.only(right:16.0),
+                                child: const Icon(
                                   Icons.chevron_right,
                                   color: Colors.black,
                                 ),

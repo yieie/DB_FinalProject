@@ -13,8 +13,10 @@ import 'dart:io';
 import 'dart:html' as html;
 
 class AnnManage extends StatefulWidget {
+  const AnnManage({super.key});
+
   @override
-  _AnnManageState createState() => _AnnManageState();
+  State<AnnManage> createState() => _AnnManageState();
 }
 
 class _AnnManageState extends State<AnnManage> {
@@ -31,11 +33,11 @@ class _AnnManageState extends State<AnnManage> {
     final authProvider = Provider.of<AuthProvider>(context);
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: Navbar(),
+      appBar: const Navbar(),
       body: Stack(
         children: [
           AnimatedContainer(
-            duration: Duration(milliseconds: 300),
+            duration: const Duration(milliseconds: 300),
             margin: EdgeInsets.only(left: authProvider.isSidebarOpen ? 250 : 0),
             child: Padding(
               padding: const EdgeInsets.all(16.0),
@@ -44,12 +46,12 @@ class _AnnManageState extends State<AnnManage> {
                 children: [
                   Row(
                     children:[ 
-                      Padding(padding: EdgeInsets.only(left: 15)),
-                      Text(
+                      const Padding(padding: EdgeInsets.only(left: 15)),
+                      const Text(
                         "公告管理頁",
                         style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                       ),
-                      Spacer(),
+                      const Spacer(),
                       TextButton(
                         onPressed:(){
                           html.window.open(
@@ -58,7 +60,7 @@ class _AnnManageState extends State<AnnManage> {
                             'width=1000,height=720,left=200,top=100', // 視窗屬性
                           );
                         } ,
-                        child: Row(
+                        child: const Row(
                           children: [
                             Icon(Icons.add_box_outlined,color: Colors.black,),
                             Text("新增公告",style: TextStyle(fontSize: 16),)
@@ -66,7 +68,7 @@ class _AnnManageState extends State<AnnManage> {
                         )), 
                     ]
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Expanded(
                     child: ListView.builder(
                       itemCount: announcement.length,
@@ -74,12 +76,12 @@ class _AnnManageState extends State<AnnManage> {
                         final ann = announcement[index];
                         return Card(
                           color: Colors.grey.shade200,
-                          margin: EdgeInsets.symmetric(vertical: 8),
+                          margin: const EdgeInsets.symmetric(vertical: 8),
                           child: ListTile(
                             title: Text(ann.title),
                             subtitle: Text("發布日期: ${ann.date}"),
                             trailing: IconButton(
-                              icon: Icon(Icons.edit),
+                              icon: const Icon(Icons.edit),
                               onPressed: () {
                                 html.window.open(
                                   '/#/ann/add&edit?annid=${ann.id}', // 新視窗的網址
@@ -105,12 +107,12 @@ class _AnnManageState extends State<AnnManage> {
 }
 
 class AddNEditAnnouncement extends StatefulWidget {
-  final annid;
+  final String annid;
 
-  AddNEditAnnouncement({required this.annid});
+  const AddNEditAnnouncement({super.key, required this.annid});
 
   @override
-  _AddNEditAnnouncementState createState() => _AddNEditAnnouncementState();
+  State<AddNEditAnnouncement> createState() => _AddNEditAnnouncementState();
 }
 
 class _AddNEditAnnouncementState extends State<AddNEditAnnouncement> {
@@ -118,7 +120,7 @@ class _AddNEditAnnouncementState extends State<AddNEditAnnouncement> {
   final _contentController = TextEditingController();
   List<PlatformFile> _selectedFiles = [];
   List<PlatformFile> _selectedImgs = [];
-  File? _attachmentFile;
+  // File? _attachmentFile;
   final AdminAnnService _adminAnnService = AdminAnnService();
   final AnnouncementService _announcementService = AnnouncementService();
   Announcement ann=Announcement(id: -1, title: '');
@@ -126,7 +128,6 @@ class _AddNEditAnnouncementState extends State<AddNEditAnnouncement> {
   @override
   void initState() {
     super.initState();
-    print(widget.annid);
     if(widget.annid != '-1'){
       fetchAnnDetail();
     }
@@ -135,7 +136,7 @@ class _AddNEditAnnouncementState extends State<AddNEditAnnouncement> {
   Future<void> fetchAnnDetail() async{
     try{
       ann = await _announcementService.getDetailAnnouncemnet(int.parse(widget.annid));
-      print('Fetched ${ann!} announcements');
+      // print('Fetched ${ann!} announcements');
     }
     catch(e){
       print('Error: fectch Announments');
@@ -174,7 +175,7 @@ class _AddNEditAnnouncementState extends State<AddNEditAnnouncement> {
         showDialog(
           context: context,
           builder: (BuildContext context) {
-            return AlertDialog(
+            return const AlertDialog(
               backgroundColor: Colors.white,
               title: Text("公告資料已新增，兩秒後關閉此視窗"),
             );
@@ -189,7 +190,7 @@ class _AddNEditAnnouncementState extends State<AddNEditAnnouncement> {
         showDialog(
           context: context,
           builder: (BuildContext context) {
-            return AlertDialog(
+            return const AlertDialog(
               backgroundColor: Colors.white,
               title: Text("公告資料新增失敗"),
             );
@@ -207,7 +208,7 @@ class _AddNEditAnnouncementState extends State<AddNEditAnnouncement> {
         showDialog(
           context: context,
           builder: (BuildContext context) {
-            return AlertDialog(
+            return const AlertDialog(
               backgroundColor: Colors.white,
               title: Text("公告資料已修改，兩秒後關閉此視窗"),
             );
@@ -218,7 +219,7 @@ class _AddNEditAnnouncementState extends State<AddNEditAnnouncement> {
         showDialog(
           context: context,
           builder: (BuildContext context) {
-            return AlertDialog(
+            return const AlertDialog(
               backgroundColor: Colors.white,
               title: Text("公告資料修改失敗"),
             );
@@ -239,31 +240,31 @@ class _AddNEditAnnouncementState extends State<AddNEditAnnouncement> {
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.all(50),
+          padding: const EdgeInsets.all(50),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(widget.annid=='-1'?"新增公告":"修改公告",style: TextStyle(fontSize: 24),),
+              Text(widget.annid=='-1'?"新增公告":"修改公告",style: const TextStyle(fontSize: 24),),
               TextField(
                 controller: _titleController..text= ann.title,
-                decoration: InputDecoration(labelText: "公告標題"),
+                decoration: const InputDecoration(labelText: "公告標題"),
               ),
-              SizedBox(height: 20,),
+              const SizedBox(height: 20,),
               TextField(
                 keyboardType: TextInputType.multiline,
                 minLines: 5,
                 maxLines: null,
                 controller: _contentController..text = ann.info??'',
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   hintText: "公告內容",
                   border: OutlineInputBorder()
                   ),
               ),
-              SizedBox(height: 20,),
+              const SizedBox(height: 20,),
               UploadImgs(onImagesChanged: handleImagesChanged),
-              SizedBox(height: 20,),
+              const SizedBox(height: 20,),
               UploadFiles(onFilesChanged: handleFilesChanged),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: ()=>_saveAnnouncement(authProvider.useraccount),
                 child: Text(widget.annid=='-1'?"新增公告":"修改公告"),

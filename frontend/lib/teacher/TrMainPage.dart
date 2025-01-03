@@ -1,4 +1,3 @@
-// import 'package:carousel_slider/carousel_slider.dart';
 import 'package:db_finalproject/widgets/Sidebar.dart';
 import 'package:flutter/material.dart';
 import '../widgets/Navbar.dart';
@@ -6,15 +5,16 @@ import 'package:db_finalproject/core/services/ApiService.dart';
 import 'package:db_finalproject/data/Team.dart';
 import 'package:db_finalproject/core/services/AuthProvider.dart';
 import 'package:provider/provider.dart';
-// import '../Drawer.dart';
 
 class TrMainPage extends StatefulWidget {
+  const TrMainPage({super.key});
+
   @override
   State<TrMainPage> createState() => _TrMainPageState();
 }
 
 class _TrMainPageState extends State<TrMainPage> {
-  ApiService _apiService = ApiService();
+  final ApiService _apiService = ApiService();
   List<Team> teacherTeams = [];
 
   Future<void> fetchTeacherTeams() async {
@@ -49,11 +49,11 @@ class _TrMainPageState extends State<TrMainPage> {
 
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: Navbar(),
+      appBar: const Navbar(),
       body: Stack(
         children: [
           AnimatedContainer(
-            duration: Duration(milliseconds: 300),
+            duration: const Duration(milliseconds: 300),
             margin: EdgeInsets.only(left: authProvider.isSidebarOpen ? 250 : 0),
             child: Dashboard(teacherTeams: teacherTeams),
           ),
@@ -67,7 +67,7 @@ class _TrMainPageState extends State<TrMainPage> {
 class Dashboard extends StatelessWidget {
   final List<Team> teacherTeams;
 
-  Dashboard({required this.teacherTeams});
+  const Dashboard({super.key, required this.teacherTeams});
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +83,7 @@ class Dashboard extends StatelessWidget {
               Flexible(flex: 1, child: Container(color: Colors.transparent)),
             Column(
               children: [
-                Padding(padding: EdgeInsets.only(top: 20)),
+                const Padding(padding: EdgeInsets.only(top: 20)),
                 TeacherTeamsList(
                   teacherTeams: teacherTeams,
                   rowheight: 30,
@@ -105,7 +105,8 @@ class TeacherTeamsList extends StatelessWidget {
   final double rowheight;
   final double screenWidth;
 
-  TeacherTeamsList({
+  const TeacherTeamsList({
+    super.key,
     required this.teacherTeams,
     required this.rowheight,
     required this.screenWidth,
@@ -121,22 +122,22 @@ class TeacherTeamsList extends StatelessWidget {
       ),
       child: Container(
         alignment: Alignment.topLeft,
-        padding: EdgeInsets.all(20),
+        padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            const Text(
               "隊伍列表",
               style: TextStyle(fontSize: 24),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Table(
-              border: TableBorder(
+              border: const TableBorder(
                 top: BorderSide(color: Colors.grey),
                 bottom: BorderSide(color: Colors.grey),
                 horizontalInside: BorderSide(color: Colors.grey),
               ),
-              columnWidths: {
+              columnWidths: const {
                 0: FlexColumnWidth(2),
                 1: FlexColumnWidth(3),
                 2: FlexColumnWidth(2),
@@ -148,23 +149,23 @@ class TeacherTeamsList extends StatelessWidget {
                     Container(
                       height: rowheight,
                       alignment: Alignment.centerLeft,
-                      padding: EdgeInsets.only(left: 15),
-                      child: Text("隊伍ID", textAlign: TextAlign.left),
+                      padding: const EdgeInsets.only(left: 15),
+                      child: const Text("隊伍ID", textAlign: TextAlign.left),
                     ),
                     Container(
                       height: rowheight,
                       alignment: Alignment.centerLeft,
-                      child: Text("隊伍名稱", textAlign: TextAlign.left),
+                      child: const Text("隊伍名稱", textAlign: TextAlign.left),
                     ),
                     Container(
                       height: rowheight,
                       alignment: Alignment.center,
-                      child: Text("作品名稱", textAlign: TextAlign.center),
+                      child: const Text("作品名稱", textAlign: TextAlign.center),
                     ),
                     Container(
                       height: rowheight,
                       alignment: Alignment.center,
-                      child: Text("報名狀態", textAlign: TextAlign.center),
+                      child: const Text("報名狀態", textAlign: TextAlign.center),
                     ),
                   ],
                 ),
@@ -175,7 +176,7 @@ class TeacherTeamsList extends StatelessWidget {
                         Container(
                           height: rowheight,
                           alignment: Alignment.centerLeft,
-                          padding: EdgeInsets.only(left: 15),
+                          padding: const EdgeInsets.only(left: 15),
                           child: Text(team.teamid, textAlign: TextAlign.left),
                         ),
                         Container(
@@ -207,7 +208,7 @@ class TeacherTeamsList extends StatelessWidget {
                             child: Text(
                               team.state ?? "N/A",
                               textAlign: TextAlign.center,
-                              style: TextStyle(fontSize: 12),
+                              style: const TextStyle(fontSize: 12),
                             ),
                           ),
                         ),

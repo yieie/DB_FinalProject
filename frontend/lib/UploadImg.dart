@@ -1,15 +1,12 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-import 'dart:html' as html;
-import 'dart:typed_data';
 
 class UploadImgs extends StatefulWidget {
   final Function(List<PlatformFile>) onImagesChanged;
 
-  UploadImgs({required this.onImagesChanged});
+  const UploadImgs({super.key, required this.onImagesChanged});
   @override
-  _UploadImgsState createState() => _UploadImgsState();
+  State<UploadImgs> createState() => _UploadImgsState();
 }
 
 class _UploadImgsState extends State<UploadImgs> {
@@ -55,26 +52,26 @@ class _UploadImgsState extends State<UploadImgs> {
                 bottom: BorderSide(color:Colors.grey.shade600)
               )
             ),
-            padding: EdgeInsets.only(top:5,bottom: 4,left: 15,right: 15),
+            padding: const EdgeInsets.only(top:5,bottom: 4,left: 15,right: 15),
             child: Row(
               children: [
-                Text("選擇圖片",style: TextStyle(fontSize: 16),),
-                Spacer(),
+                const Text("選擇圖片",style: TextStyle(fontSize: 16),),
+                const Spacer(),
                 ElevatedButton(
                   onPressed: pickImage,
-                  child: Text('選擇圖片'),
+                  child:const  Text('選擇圖片'),
                 ),
               ],
             ),
           ),
           Expanded(
             child: _selectedImages.isEmpty
-                ? Center(child: Text('尚未選擇圖片'))
+                ?const  Center(child: Text('尚未選擇圖片'))
                 : Scrollbar(
                   thumbVisibility: true,
                   child: GridView.builder(
-                      padding: EdgeInsets.all(10),
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      padding: const EdgeInsets.all(10),
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 3, // 每行顯示3張圖片
                         crossAxisSpacing: 10,
                         mainAxisSpacing: 10,
@@ -102,7 +99,7 @@ class _UploadImgsState extends State<UploadImgs> {
                                 },
                                 child: Container(
                                   color: Colors.white54,
-                                  child: Icon(Icons.close, color: Colors.black)
+                                  child: const Icon(Icons.close, color: Colors.black)
                                 ),
                               ),
                             ),
