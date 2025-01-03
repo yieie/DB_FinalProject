@@ -35,4 +35,75 @@ class Student extends User{
       stuIdCard: json['stuIdCard'] as String?
     );
   }
+
+  @override
+  Map<String,dynamic> toJson(){
+    return {
+      'stuid': id,
+      'stupasswd': passwd,
+      'stuname':name,
+      'stuemail': email,
+      'stusexual':sexual,
+      'stuphone':phone,
+      'stumajor':major,
+      'stugrade':grade,
+      'stuIdCard':stuIdCard
+    };
+  }
+
+  @override
+  void setField(String field,String value){
+    switch (field) {
+      case 'stuid':
+        id = value;
+        break;
+      case 'stupasswd':
+        passwd = value;
+        break;
+      case 'stuname':
+        name = value;
+        break;
+      case 'stuemail':
+        email = value;
+        break;
+      case 'stusexual':
+        sexual = value;
+        break;
+      case 'stuphone':
+        phone = value;
+        break;
+      case 'stumajor':
+        major = value;
+        break;
+      case 'stugrade':
+        grade = value;
+        break;
+      default:
+        break;
+    }
+  }
+
+  @override
+  String getField(String field){
+    switch (field) {
+      case 'stuid':
+        return id;
+      case 'stupasswd':
+        return passwd!;
+      case 'stuname':
+        return name;
+      case 'stuemail':
+        return email;
+      case 'stusexual':
+        return sexual;
+      case 'stuphone':
+        return phone;
+      case 'stumajor':
+        return major;
+      case 'stugrade':
+        return grade;
+      default:
+        return '';
+    }
+  }
 }

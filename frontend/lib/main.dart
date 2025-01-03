@@ -33,7 +33,7 @@ void main() {
 
         if (uri.path =='/'){
           // return MaterialPageRoute(builder: (context) => HomePage());
-          return MaterialPageRoute(builder: (context) => AdminMainPage());
+          return MaterialPageRoute(builder: (context) => StuMainPage());
           // return MaterialPageRoute(builder: (context)=>UploadFiles());
         }else if (uri.path == '/login'){
           return MaterialPageRoute(builder: (context) => LoginPage());

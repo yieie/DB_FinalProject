@@ -1,8 +1,22 @@
+import 'package:db_finalproject/common/logic/PersonalDataService.dart';
+import 'package:db_finalproject/data/Judge.dart';
+import 'package:db_finalproject/data/Student.dart';
+import 'package:db_finalproject/data/Teacher.dart';
+import 'package:db_finalproject/data/User.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:db_finalproject/core/services/AuthProvider.dart';
 import 'package:db_finalproject/widgets/Navbar.dart';
 import 'package:db_finalproject/widgets/Sidebar.dart';
+
+final List<String> major =  [
+  "請選擇","西洋語文學系","運動健康與休閒學系","東亞語文學系","運動競技學系","建築學系","工藝與創意設計學系",
+  "法律學系","政治法律學系","財經法律學系",
+  "應用經濟學系","亞太工商管理學系","財務金融學系","資訊管理學系",
+  "應用數學系","生命科學系","應用化學系","應用物理學系",
+  "電機工程學系","土木與環境工程學系","化學工程及材料工程學系","資訊工程學系"]; 
+final List<String> grade=["請選擇","一年級","二年級","三年級","四年級","五年級","六年級"];
+final List<String> sex = ['男','女'];
 
 class PersonalData extends StatefulWidget {
   @override
@@ -11,43 +25,79 @@ class PersonalData extends StatefulWidget {
 
 class _PersonalDataState extends State<PersonalData> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  PersonalDataService _personalDataService = PersonalDataService();
 
-  // 模擬的初始資料
-  final Map<String, dynamic> _studentData = {
-    "StuID": "12345678", // 學號不可更改
-    "StuPasswd": "password123",
-    "StuName": "張三",
-    "StuSex": "男",
-    "StuPhone": "0912345678",
-    "StuEmail": "example@email.com",
-    "StuDepartment": "資訊工程系",
-    "StuGrade": "四年級",
-  };
+  User? user;
+  Map<String,FocusNode> focusNodes = {};
 
-  final Map<String, dynamic> _teacherData = {
-    "tjEmail": "teacher@example.com",
-    "tjPasswd": "password123",
-    "tjName": "李老師",
-    "tjSex": "男",
-    "tjPhone": "0987654321",
-    "trJobType": "教授",
-    "trDepartment": "資訊工程系",
-    "trOrganization": "某大學",
-  };
+  Future<void> _saveChanges(String usertype) async{
+    try{
+      print(user!.toJson());
+      await _personalDataService.updateUserData(usertype, user!);
+    }catch(e){
+      print(e);
+    }
+  }
 
-  final Map<String, dynamic> _judgeData = {
-    "tjEmail": "judge@example.com",
-    "tjPasswd": "password123",
-    "tjName": "王評審",
-    "tjSex": "女",
-    "tjPhone": "0975123456",
-    "jTitle": "首席評審",
-  };
+  Future<void> fetchUserData(String usertype, String useraccount) async{
+    try{
+      user= await _personalDataService.getUserData(usertype, useraccount);
+      setState(() {});
+    }catch(e){
+      print(e);
+      user = Student(id: 'A1103344', passwd: '1111',name: '王大強', email: 'a1103344@mail.nuk.edu.tw', sexual: '女', phone: '0977888555', major: '資訊管理學系', grade: '四年級');
+      setState(() {});
+    }
+  }
+
+  
+
+  @override
+  void initState() {
+    super.initState();
+    Future.microtask(() {
+      final authProvider = Provider.of<AuthProvider>(context, listen: false);
+      if (authProvider.usertype != 'none' && authProvider.useraccount != 'none') {
+        fetchUserData(authProvider.usertype, authProvider.useraccount);
+      }
+      if(authProvider.usertype == 'stu'){
+        focusNodes = {
+          "stupasswd": FocusNode(),
+          "stuname": FocusNode(),
+          "stuphone": FocusNode(),
+          "stuemail": FocusNode()
+        };
+      }else if(authProvider.usertype == 'tr'){
+        focusNodes = {
+          "trpasswd": FocusNode(),
+          "trname": FocusNode(),
+          "trphone": FocusNode(),
+          "trjobtype": FocusNode(),
+          "trdepartment": FocusNode(),
+          "trorganization": FocusNode()
+        };
+      }else if(authProvider.usertype == 'judge'){
+        focusNodes = {
+          "judgepasswd": FocusNode(),
+          "judgename": FocusNode(),
+          "judgephone": FocusNode(),
+          "judgetitle": FocusNode()
+        };
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    focusNodes.values.forEach((node) => node.dispose()); // 記得在銷毀時清理
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final authProvider = Provider.of<AuthProvider>(context);
     final userType = authProvider.usertype;
+
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -72,6 +122,7 @@ class _PersonalDataState extends State<PersonalData> {
                       ),
                     ),
                     SizedBox(height: 30),
+                    user == null ?Center(child: CircularProgressIndicator()):
                     Container(
                       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 25),
                       decoration: BoxDecoration(
@@ -79,7 +130,7 @@ class _PersonalDataState extends State<PersonalData> {
                         borderRadius: BorderRadius.circular(10),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.grey.withOpacity(0.2),
+                            color: Colors.grey,
                             spreadRadius: 2,
                             blurRadius: 8,
                             offset: Offset(0, 4),
@@ -99,6 +150,7 @@ class _PersonalDataState extends State<PersonalData> {
                                 onPressed: () {
                                   if (_formKey.currentState!.validate()) {
                                     _formKey.currentState!.save();
+                                    _saveChanges(userType);
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(content: Text("資料已成功更新！")),
                                     );
@@ -138,38 +190,38 @@ class _PersonalDataState extends State<PersonalData> {
 
   List<Widget> _buildStudentFields() {
     return [
-      _buildReadOnlyField("學號", _studentData["StuID"]),
-      _buildEditableField("密碼", "StuPasswd", _studentData),
-      _buildEditableField("姓名", "StuName", _studentData),
-      _buildEditableField("性別", "StuSex", _studentData),
-      _buildEditableField("聯絡方式", "StuPhone", _studentData),
-      _buildEditableField("Email", "StuEmail", _studentData),
-      _buildEditableField("系所", "StuDepartment", _studentData),
-      _buildEditableField("年級", "StuGrade", _studentData),
+      _buildReadOnlyField("學號", user!.id),
+      _buildEditableField("密碼", "stupasswd", user!),
+      _buildEditableField("姓名", "stuname", user!),
+      _buildEditableSelectedBox('生理性別', sex, 'stusexual',user!),
+      _buildEditableField("聯絡方式", "stuphone", user!),
+      _buildEditableField("Email", "stuemail", user!),
+      _buildEditableDropdownButton('系所', major , "stumajor", user!),
+      _buildEditableDropdownButton("年級", grade ,"stugrade", user!),
     ];
   }
 
   List<Widget> _buildTeacherFields() {
     return [
-      _buildReadOnlyField("Email", _teacherData["tjEmail"]),
-      _buildEditableField("密碼", "tjPasswd", _teacherData),
-      _buildEditableField("姓名", "tjName", _teacherData),
-      _buildEditableField("性別", "tjSex", _teacherData),
-      _buildEditableField("聯絡方式", "tjPhone", _teacherData),
-      _buildEditableField("職位", "trJobType", _teacherData),
-      _buildEditableField("系所", "trDepartment", _teacherData),
-      _buildEditableField("組織", "trOrganization", _teacherData),
+      _buildReadOnlyField("Email", user!.id),
+      _buildEditableField("密碼", "tjpasswd", user!),
+      _buildEditableField("姓名", "tjname", user!),
+      _buildEditableSelectedBox('生理性別', sex, 'trsexual',user!),
+      _buildEditableField("聯絡方式", "tjphone", user!),
+      _buildEditableField("職位", "trjobtype", user!),
+      _buildEditableField("系所", "trdepartment", user!),
+      _buildEditableField("組織", "trorganization", user!),
     ];
   }
 
   List<Widget> _buildJudgeFields() {
     return [
-      _buildReadOnlyField("Email", _judgeData["tjEmail"]),
-      _buildEditableField("密碼", "tjPasswd", _judgeData),
-      _buildEditableField("姓名", "tjName", _judgeData),
-      _buildEditableField("性別", "tjSex", _judgeData),
-      _buildEditableField("聯絡方式", "tjPhone", _judgeData),
-      _buildEditableField("職稱", "jTitle", _judgeData),
+      _buildReadOnlyField("Email", user!.id),
+      _buildEditableField("密碼", "judgepasswd", user!),
+      _buildEditableField("姓名", "judgename", user!),
+      _buildEditableSelectedBox('生理性別', sex, 'judgesexual',user!),
+      _buildEditableField("聯絡方式", "judgephone", user!),
+      _buildEditableField("職稱", "judgetitle", user!),
     ];
   }
 
@@ -189,11 +241,12 @@ class _PersonalDataState extends State<PersonalData> {
     );
   }
 
-  Widget _buildEditableField(String label, String key, Map<String, dynamic> data) {
+  Widget _buildEditableField(String label, String key, User user) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 20),
+      padding: const EdgeInsets.only(top: 20,bottom: 20),
       child: TextFormField(
-        initialValue: data[key],
+        focusNode: focusNodes[key],
+        initialValue: user.getField(key),
         decoration: InputDecoration(
           labelText: label,
           border: OutlineInputBorder(),
@@ -207,9 +260,60 @@ class _PersonalDataState extends State<PersonalData> {
           return null;
         },
         onSaved: (value) {
-          data[key] = value;
+          user.setField(key, value!);
         },
       ),
+    );
+  }
+
+  Widget _buildEditableDropdownButton(String fieldname,List<String> choice, String key, User user){
+    return Row(
+      children:[
+        Text(fieldname,style: TextStyle(fontSize: 16),),
+        SizedBox(width: 10,),
+        DropdownButton<String>(
+          value: user.getField(key),
+          icon: Icon(Icons.keyboard_arrow_down),
+          dropdownColor: Colors.white,
+          onChanged: (String? value){
+            print(value);
+            setState(() {
+              user.setField(key, value!);
+            });
+          },
+          items: choice.map((String item){
+            return DropdownMenuItem(
+              value: item,
+              child: Text(item),
+            );
+          }).toList(),
+        ),
+      ]
+    );
+  }
+
+  Widget _buildEditableSelectedBox(String fieldname,List<String> choice, String key, User user){
+    return  Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [Text(fieldname,style: TextStyle(fontSize: 16)),...
+      choice.map((String item) {
+        return Row(
+          children: [
+            Radio<String>(
+              value: item,
+              groupValue: user.getField(key),
+              onChanged: (value) {
+                setState(() {
+                  print(value);
+                  user.setField(key, value!);
+                });
+              },
+            ),
+            Text(item)
+          ],
+        );
+      }).toList()
+      ]
     );
   }
 }
