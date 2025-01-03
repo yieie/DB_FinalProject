@@ -54,12 +54,11 @@ class AdminTeamService {
     final response = await _apiService.post('/Teams/$teamid/edit', {'state':state});
   }
 
-  // 還沒寫
   //拿所有評分資料，會限制年份、組別(全組別、創意發想組、創業實作組)
   //如果rank不為空，回傳資料以rank排序
   //評分資料與資料庫內結構不同，要去Score.dart看實際需要回傳什麼
   Future<List<Score>> getScoresWithConstraints(Map<String,dynamic> constraint) async{
-    final response = await _apiService.post('/Score',constraint);
+    final response = await _apiService.post('/Score/Constraints',constraint);
     return (response as List).map((json)=>Score.fromJson(json)).toList();
   }
 }
