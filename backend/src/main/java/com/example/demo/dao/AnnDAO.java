@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -71,7 +72,7 @@ public class AnnDAO {
 
             pstmt1.setString(1, ann.getPoster());
             pstmt1.setString(2, ann.getAnnInfo());
-            pstmt1.setTimestamp(3, Timestamp.valueOf(ann.getAnnTime()));
+            pstmt1.setTimestamp(3, Timestamp.valueOf(LocalDateTime.now()));
             pstmt1.setString(4, ann.getAdminID());
             
             pstmt1.executeUpdate();
@@ -85,18 +86,12 @@ public class AnnDAO {
                 String filePath = saveFile(ann.getFileName(), ann.getFileData());
                 pstmt3.setString(1, filePath);
                 pstmt3.setString(2, ann.getFileName());
+                pstmt3.setInt(3, ann_ID);
+
+                pstmt2.executeUpdate();
+                pstmt3.executeUpdate();
             }
-            pstmt.setString(1, ann.getAnnTitle());
-            pstmt.setString(2, ann.getAnnInfo());
-
-            // 儲存海報並返回相對路徑
             
-
-            pstmt.setString(4, ann.getFileName());
-            pstmt.setString(5, ann.getFileType());
-            pstmt.setString(6, ann.getAdminID());
-            pstmt.setTimestamp(7, Timestamp.valueOf(ann.getAnnTime()));
-            pstmt.executeUpdate();
             return true;
         } catch (SQLException | IOException e) {
             e.printStackTrace();

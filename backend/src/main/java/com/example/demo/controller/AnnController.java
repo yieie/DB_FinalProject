@@ -85,8 +85,8 @@ public class AnnController {
             System.out.println(ann);
 
 
-            //boolean isAdded = annDAO.addAnnouncement(ann);
-            boolean isAdded = true;
+            boolean isAdded = annDAO.addAnnouncement(ann);
+            //boolean isAdded = true;
             if (isAdded) {
                 return ResponseEntity.status(HttpStatus.CREATED).body("Announcement added successfully");
             } else {
