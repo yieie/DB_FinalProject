@@ -20,12 +20,30 @@ class AnnManage extends StatefulWidget {
 }
 
 class _AnnManageState extends State<AnnManage> {
+  final AnnouncementService _announcementService = AnnouncementService();
   // 模擬的公告資料
-  final List<Announcement> announcement=[
-    Announcement(id: 1, date: '2024-12-15', title: '公告標題 1'),
-    Announcement(id: 2, date: '2024-12-10', title: '公告標題 2'),
-    Announcement(id: 3, date: '2024-12-05', title: '公告標題 3')
-  ];
+  List<Announcement> announcement=[];
+
+  Future<void> fetchBasicAllAnnouncement() async{
+    try{
+      announcement = await _announcementService.getBasicAnnouncement();
+      setState(() {});
+    }catch(e){
+      print(e);
+      announcement=[
+        Announcement(id: 1, date: '2024-12-15', title: '公告標題 1'),
+        Announcement(id: 2, date: '2024-12-10', title: '公告標題 2'),
+        Announcement(id: 3, date: '2024-12-05', title: '公告標題 3')
+      ];
+      setState(() {});
+    }
+  }
+
+  @override
+  void initState(){
+    super.initState();
+    fetchBasicAllAnnouncement();
+  }
 
 
   @override
@@ -39,63 +57,68 @@ class _AnnManageState extends State<AnnManage> {
           AnimatedContainer(
             duration: const Duration(milliseconds: 300),
             margin: EdgeInsets.only(left: authProvider.isSidebarOpen ? 250 : 0),
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children:[ 
-                      const Padding(padding: EdgeInsets.only(left: 15)),
-                      const Text(
-                        "公告管理頁",
-                        style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                      ),
-                      const Spacer(),
-                      TextButton(
-                        onPressed:(){
-                          html.window.open(
-                            '/#/ann/add&edit', // 新視窗的網址
-                            'AddAnnouncement',      // 視窗名稱（用於管理視窗實例）
-                            'width=1000,height=720,left=200,top=100', // 視窗屬性
-                          );
-                        } ,
-                        child: const Row(
-                          children: [
-                            Icon(Icons.add_box_outlined,color: Colors.black,),
-                            Text("新增公告",style: TextStyle(fontSize: 16),)
-                          ],
-                        )), 
-                    ]
-                  ),
-                  const SizedBox(height: 20),
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: announcement.length,
-                      itemBuilder: (context, index) {
-                        final ann = announcement[index];
-                        return Card(
-                          color: Colors.grey.shade200,
-                          margin: const EdgeInsets.symmetric(vertical: 8),
-                          child: ListTile(
-                            title: Text(ann.title),
-                            subtitle: Text("發布日期: ${ann.date}"),
-                            trailing: IconButton(
-                              icon: const Icon(Icons.edit),
-                              onPressed: () {
-                                html.window.open(
-                                  '/#/ann/add&edit?annid=${ann.id}', // 新視窗的網址
-                                  'AddAnnouncement',      // 視窗名稱（用於管理視窗實例）
-                                  'width=1000,height=720,left=200,top=100', // 視窗屬性
-                                );
-                              } ,
-                            ),
-                          ),
-                        );
-                      },
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children:[ 
+                        const Padding(padding: EdgeInsets.only(left: 15)),
+                        const Text(
+                          "公告管理頁",
+                          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                        ),
+                        const Spacer(),
+                        TextButton(
+                          onPressed:(){
+                            html.window.open(
+                              '/#/ann/add&edit', // 新視窗的網址
+                              'AddAnnouncement',      // 視窗名稱（用於管理視窗實例）
+                              'width=1000,height=720,left=200,top=100', // 視窗屬性
+                            );
+                          } ,
+                          child: const Row(
+                            children: [
+                              Icon(Icons.add_box_outlined,color: Colors.black,),
+                              Text("新增公告",style: TextStyle(fontSize: 16),)
+                            ],
+                          )), 
+                      ]
                     ),
-                  ),
-                ],
+                    const SizedBox(height: 20),
+                    announcement.isEmpty?const Center(child: CircularProgressIndicator()):
+                    SizedBox(
+                      width: double.maxFinite,
+                      height: 720,
+                      child: ListView.builder(
+                        itemCount: announcement.length,
+                        itemBuilder: (context, index) {
+                          final ann = announcement[index];
+                          return Card(
+                            color: Colors.grey.shade200,
+                            margin: const EdgeInsets.symmetric(vertical: 8),
+                            child: ListTile(
+                              title: Text(ann.title),
+                              subtitle: Text("發布日期: ${ann.date}"),
+                              trailing: IconButton(
+                                icon: const Icon(Icons.edit),
+                                onPressed: () {
+                                  html.window.open(
+                                    '/#/ann/add&edit?annid=${ann.id}', // 新視窗的網址
+                                    'AddAnnouncement',      // 視窗名稱（用於管理視窗實例）
+                                    'width=1000,height=720,left=200,top=100', // 視窗屬性
+                                  );
+                                } ,
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

@@ -1,4 +1,7 @@
 package com.example.demo.model;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 // 'judgeid':email,
 //       'judgepasswd': passwd,
 //       'judgename':name,
@@ -6,12 +9,19 @@ package com.example.demo.model;
 //       'judgephone':phone,
 //       'judgetitle':title
 public class Judge {
+    @JsonProperty("judgeid")
     private String judgeid;
+    @JsonProperty("judgepasswd")
     private String judgepasswd;
+    @JsonProperty("judgename")
     private String judgename;
+    @JsonProperty("judgesexual")
     private String judgesexual;
+    @JsonProperty("judgephone")
     private String judgephone;
+    @JsonProperty("judgetitle")
     private String judgetitle;
+    @JsonProperty("judgeemail")
     private String judgeemail;
 
     public void setJudgeid(String judgeid) {

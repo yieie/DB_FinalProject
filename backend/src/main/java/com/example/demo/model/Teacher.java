@@ -1,4 +1,7 @@
 package com.example.demo.model;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 // service 層
 // id: json['trid'] as String, 
 // name: json['trname'] as String, 
@@ -9,13 +12,21 @@ package com.example.demo.model;
 // trDepartment: json['trdepartment'] as String?,
 // trOriganization: json['trorganization'] as String?
 public class Teacher {
+    @JsonProperty("trid")
     private String trid;
+    @JsonProperty("trname")
     private String trname;
+    @JsonProperty("tremail")
     private String tremail;
+    @JsonProperty("trsexual")
     private String trsexual;
+    @JsonProperty("trphone")
     private String trphone;
+    @JsonProperty("trjobtype")
     private String trjobtype;
+    @JsonProperty("trdepartment")
     private String trdepartment;
+    @JsonProperty("trorganization")
     private String trorganization;
 
     public String getTrId() {
