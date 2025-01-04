@@ -67,6 +67,10 @@ public class AnnController {
             // 處理文件
             if (files != null) {
                 for (MultipartFile file : files) {
+                    String originalFilename = file.getOriginalFilename(); // 檔案名稱
+                    String contentType = file.getContentType(); // 檔案類型
+                    ann.setFileName(originalFilename);
+                    ann.setFileType(contentType);
                     // DAO那邊要回傳檔案路徑給我
                     String filePath = annDAO.saveFile(file.getOriginalFilename(), file.getBytes());
                     ann.addFile(file.getOriginalFilename(), file.getContentType(), filePath);
@@ -77,6 +81,10 @@ public class AnnController {
             // 處理圖片
             if (images != null) {
                 for (MultipartFile image : images) {
+                    String originalFilename = image.getOriginalFilename(); // 圖片名稱
+                    String contentType = image.getContentType(); // 圖片類型 (MIME 類型)
+                    ann.setFileName(originalFilename);
+                    ann.setFileType(contentType);
                     // DAO那邊要回傳圖片路徑給我
                     String imagePath = annDAO.saveFile(image.getOriginalFilename(), image.getBytes());
                     ann.addImage(image.getOriginalFilename(), image.getContentType(), imagePath);
@@ -118,6 +126,10 @@ public class AnnController {
 
             if (files != null) {
                 for (MultipartFile file : files) {
+                    String originalFilename = file.getOriginalFilename(); // 檔案名稱
+                    String contentType = file.getContentType(); // 檔案類型
+                    ann.setFileName(originalFilename);
+                    ann.setFileType(contentType);
                     String filePath = annDAO.saveFile(file.getOriginalFilename(), file.getBytes());
                     ann.addFile(file.getOriginalFilename(), file.getContentType(), filePath);
                 }
@@ -125,6 +137,10 @@ public class AnnController {
 
             if (images != null) {
                 for (MultipartFile image : images) {
+                    String originalFilename = image.getOriginalFilename(); // 圖片名稱
+                    String contentType = image.getContentType(); // 圖片類型 (MIME 類型)
+                    ann.setFileName(originalFilename);
+                    ann.setFileType(contentType);
                     String imagePath = annDAO.saveFile(image.getOriginalFilename(), image.getBytes());
                     ann.addImage(image.getOriginalFilename(), image.getContentType(), imagePath);
                 }
