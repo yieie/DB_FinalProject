@@ -10,7 +10,9 @@ import java.util.Map;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequestMapping("/api/Score")
@@ -23,7 +25,46 @@ public class ScoreController {
     @PostMapping("/Constraints")
     public ResponseEntity<List<Score>> getScoresWithConstraints(@RequestBody Map<String, Object> constraint) {
         // Score scores = scoreDAO.getScoresWithConstraints(constraint);
+        // Map key: 'year'  'teamtype'
 
+        List<Score> scores = new ArrayList<>();
+        Score score1 = new Score();
+        score1.setTeamId("1");
+        score1.setTeamName("team1");
+        score1.setTeamType("type1");
+        score1.setJudgeName("judge1");
+        score1.setRate1("1");
+        score1.setRate2("2");
+        score1.setRate3("3");
+        score1.setRate4("4");
+        score1.setTotalRate("10");
+        score1.setTeamRank("1");
+        scores.add(score1);
+        return ResponseEntity.ok(scores);
+    }
+    
+    //新增評分，data內含分數1~4以及評分的judgeid
+    /*data格式
+    *{
+    * 'judgeid':judgeid,
+    * 'score1':scores[0],
+    * 'score2':scores[1],
+    * 'score3':scores[2],
+    * 'score4':scores[3]
+    *}
+    */
+    @PostMapping("/add/{teamid}")
+    public ResponseEntity<Void> addScore(@RequestBody Map<String, Object> data, @PathVariable String teamid) {
+        // scoreDAO.addScore(data, teamid);
+        System.out.println(data);
+        return ResponseEntity.ok().build();
+    }
+
+    //拿評審評的所有分數，要回傳分數1~4，總分，隊伍的id、名字、組別，評審的名字(不是id!!)，如果有排名要回傳排名
+    //只需要回傳當年度的成績
+    @GetMapping("/getJudge/{judgeid}")
+    public ResponseEntity<List<Score>> getScoreByJudgeId(@PathVariable String judgeid) {
+        // List<Score> scores = scoreDAO.getScoreByJudgeId(judgeid);
         List<Score> scores = new ArrayList<>();
         Score score1 = new Score();
         score1.setTeamId("1");

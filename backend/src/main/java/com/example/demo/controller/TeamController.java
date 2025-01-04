@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+
 @RestController
 @RequestMapping("/api/Teams")
 public class TeamController {
@@ -68,7 +69,10 @@ public class TeamController {
     public ResponseEntity<List<Team>> getBasicAllTeamWithConstraint(@RequestBody Map<String, Object> constraint) {
         // 前端要所有隊伍的基本資料，但有限制，資料庫注意一下constraint
         // List<Team> teams = teamDAO.getBasicTeamsWithConstraint(constraint);
-
+        // map key
+        // 'teamyear'
+        // 'teamtype'
+        // 'teamstate'
         
         // 假資料
         List<Team> teams = new ArrayList<>();
@@ -127,6 +131,10 @@ public class TeamController {
     public ResponseEntity<Void> editTeamState(@PathVariable String teamid, @RequestBody Map<String, String> request) {
         // String state = request.get("state");
         // teamDAO.updateTeamState(teamid, state);
+
+        // Map key
+        // 'state'
+
         return ResponseEntity.ok().build();
     }
 
@@ -135,28 +143,6 @@ public class TeamController {
     @GetMapping("/idea")
     public ResponseEntity<List<Team>> getIdeaTeams() {
         // List<Team> teams = teamDAO.getIdeaTeams();
-
-        // return teams.stream().map(team -> {
-        //     Team t = new Team();
-        //     t.setTeamId(team.getTeamId());
-        //     t.setTeamName(team.getTeamName());
-        //     t.setTeamType(team.getTeamType());
-        //     t.setTeamRank(team.getTeamRank());
-        //     t.setAffidavit(team.getAffidavit());
-        //     t.setConsent(team.getConsent());
-        //     t.setTeacherEmail(team.getTeacherEmail());
-        //     t.setTeamState(team.getTeamState());
-        //     t.setWorkId(team.getWorkId());
-        //     t.setWorkName(team.getWorkName());
-        //     t.setWorkSummary(team.getWorkSummary());
-        //     t.setWorkSdgs(team.getWorkSdgs());
-        //     t.setWorkPoster(team.getWorkPoster());
-        //     t.setWorkYtUrl(team.getWorkYtUrl());
-        //     t.setWorkGithub(team.getWorkGithub());
-        //     t.setWorkYear(team.getWorkYear());
-        //     t.setWorkIntro(team.getWorkIntro());
-        //     return t;
-        // }).collect(Collectors.toList());
 
         // 假資料
         Team team = new Team();
@@ -181,4 +167,33 @@ public class TeamController {
         // return ResponseEntity.ok(teams);
         return ResponseEntity.ok(List.of(team));
     }
+
+    @GetMapping("/business")
+    public ResponseEntity<List<Team>> getBusinessTeams() {
+        // List<Team> teams = teamDAO.getBusinessTeams();
+
+        // 假資料
+        Team team = new Team();
+        team.setTeamId("2");
+        team.setTeamName("team2");
+        team.setTeamType("type2");
+        team.setTeamRank("rank2");
+        team.setAffidavit("affidavit2");
+        team.setConsent("consent2");
+        team.setTeacherEmail("teacher2@gmail");
+        team.setTeamState("未審核");
+        team.setWorkId("work2");
+        team.setWorkName("work2");
+        team.setWorkSummary("summary2");
+        team.setWorkSdgs("sdgs2");
+        team.setWorkPoster("poster2");
+        team.setWorkYtUrl("yturl2");
+        team.setWorkGithub("github2");
+        team.setWorkYear("year2");
+        team.setWorkIntro("intro2");
+        
+        // return ResponseEntity.ok(teams);
+        return ResponseEntity.ok(List.of(team));
+    }
+    
 }
