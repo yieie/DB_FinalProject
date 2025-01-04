@@ -2,6 +2,7 @@ import 'package:db_finalproject/admin/AdminMainPage.dart';
 import 'package:db_finalproject/admin/components/admin.dart';
 import 'package:db_finalproject/judge/JudgeMainPage.dart';
 import 'package:db_finalproject/student/StuMainPage.dart';
+import 'package:db_finalproject/student/components/JoinContest.dart';
 import 'package:db_finalproject/teacher/TrMainPage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -65,6 +66,11 @@ void main() {
           final String teamid = uri.queryParameters['teamid']!;
           return MaterialPageRoute(
             builder: (context) =>Scoring(teamId: teamid,teamtype: "創業實作組")
+          );
+        }else if (uri.path == '/contest'){
+          final String stuid = uri.queryParameters['stuid']!;
+          return MaterialPageRoute(
+            builder: (context) => JoinContest(stuid: stuid)
           );
         }
       }

@@ -1,11 +1,12 @@
-import 'package:db_finalproject/core/services/ApiService.dart';
 import 'package:db_finalproject/data/Team.dart';
 import 'package:db_finalproject/data/Student.dart';
+import 'package:db_finalproject/student/logic/SutTeamService.dart';
 import 'package:db_finalproject/widgets/Sidebar.dart';
 import 'package:flutter/material.dart';
 import 'package:db_finalproject/widgets/Navbar.dart';
 import 'package:db_finalproject/core/services/AuthProvider.dart';
 import 'package:provider/provider.dart';
+import 'dart:html' as html;
 
 class StuMainPage extends StatefulWidget{
   const StuMainPage({super.key});
@@ -43,7 +44,6 @@ class Dashboard extends StatefulWidget{
 }
 
 class _DashboardState extends State<Dashboard>{
-  final ApiService _apiService = ApiService();
  
   @override
   Widget build(BuildContext context){
@@ -62,7 +62,7 @@ class _DashboardState extends State<Dashboard>{
                 children: [
                   const Padding(padding: EdgeInsets.only(top: 20)),
 
-                  TeamsCond(apiService: _apiService,rowheight: 30,screenWidth: screenWidth),
+                  TeamsCond(rowheight: 30,screenWidth: screenWidth),
 
                 ],
               ),
@@ -79,10 +79,9 @@ class _DashboardState extends State<Dashboard>{
 }
 
 class TeamsCond extends StatefulWidget{
-  final ApiService apiService;
   final double rowheight;
   final double screenWidth;
-  const TeamsCond({super.key, required this.apiService, required this.rowheight ,required this.screenWidth});
+  const TeamsCond({super.key, required this.rowheight ,required this.screenWidth});
   @override
   State<TeamsCond> createState() => _TeamsCondState();
 }
@@ -104,6 +103,8 @@ class _TeamsCondState extends State<TeamsCond>{
     consent: "1111",
     worksummary: "鴉鴉鴉鴉鴉鴉",
     );
+  String teamid='';
+  final StuTeamService _stuTeamService = StuTeamService();
 
   /*Future<void> fetchBasicAllTeam() async{
     try {
@@ -126,15 +127,55 @@ class _TeamsCondState extends State<TeamsCond>{
     }
   } */
 
+  Future<void> fetchStuTeamId(String stuid) async{
+    try{
+      teamid=await _stuTeamService.getStudentTeamId(stuid);
+      setState(() {});
+    }catch(e){
+      print(e);
+    }
+  }
+
   @override
   void initState() {
     super.initState();
+    Future.microtask(() {
+      final authProvider = Provider.of<AuthProvider>(context, listen: false);
+      if (authProvider.usertype == 'stu' && authProvider.useraccount != 'none') {
+        fetchStuTeamId(authProvider.useraccount);
+      }  
+    });
     // fetchBasicAllTeam();
   }
 
   @override
   Widget build(BuildContext context){
-    return 
+    final authProvider = Provider.of<AuthProvider>(context);
+    return (teamid == '無' || teamid == '')? 
+    Column(
+      children: [
+        const Text("您還沒報名參加比賽喔！",style: TextStyle(fontSize: 24),),
+        const SizedBox(height: 20,),
+        TextButton(
+          onPressed: (){
+            html.window.open(
+              '/#/contest?stuid=${authProvider.useraccount}', // 新視窗的網址
+              'JoinContest',      // 視窗名稱（用於管理視窗實例）
+              'width=1000,height=720,left=200,top=100', // 視窗屬性
+            );
+          }, 
+          child: const Text(
+            "點選此處立即報名參加",
+            style: TextStyle(
+              fontSize: 20,
+              color: Colors.blue,
+              decoration: TextDecoration.underline,
+              decorationColor: Colors.blue,
+            ),)
+        )
+      ],
+    )
+    :
           Container(
             width: widget.screenWidth>850?850:widget.screenWidth*0.9,
             height: 500,
@@ -408,7 +449,6 @@ class _TeamsCondState extends State<TeamsCond>{
                         )
                       ),
                       const Spacer()
-
                     ],
                   )
                 ],

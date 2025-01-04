@@ -2,9 +2,11 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
 class UploadImgs extends StatefulWidget {
+  final int max;
+  final String title;
   final Function(List<PlatformFile>) onImagesChanged;
 
-  const UploadImgs({super.key, required this.onImagesChanged});
+  const UploadImgs({super.key, this.max = 100, this.title="選擇照片",required this.onImagesChanged});
   @override
   State<UploadImgs> createState() => _UploadImgsState();
 }
@@ -55,10 +57,16 @@ class _UploadImgsState extends State<UploadImgs> {
             padding: const EdgeInsets.only(top:5,bottom: 4,left: 15,right: 15),
             child: Row(
               children: [
-                const Text("選擇圖片",style: TextStyle(fontSize: 16),),
+                Text(widget.title ,style: TextStyle(fontSize: 16),),
                 const Spacer(),
                 ElevatedButton(
-                  onPressed: pickImage,
+                  onPressed: (){
+                    if(_selectedImages.length < widget.max){
+                      pickImage();
+                    }else{
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("照片已達最高上限")));
+                    }
+                  },
                   child:const  Text('選擇圖片'),
                 ),
               ],
