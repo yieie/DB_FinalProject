@@ -1,5 +1,8 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 // sexual: json['stusexual'] as String, 
 //       phone: json['stuphone'] as String, 
 //       major: json['stumajor'] as String, 
@@ -8,15 +11,25 @@ package com.example.demo.model;
 //       teamid: json['teamid'] as String?,
 //       stuIdCard: json['stuIdCard'] as String?
 public class Student {
+    @JsonProperty("stuid")
     private String stuid;
+    @JsonProperty("stuname")
     private String stuname;
+    @JsonProperty("stuemail")
     private String stuemail;
+    @JsonProperty("stusexual")
     private String stusexual;
+    @JsonProperty("stuphone")
     private String stuphone;
+    @JsonProperty("stumajor")
     private String stumajor;
+    @JsonProperty("stugrade")
     private String stugrade;
+    @JsonProperty("stuisLeader")
     private Boolean stuisLeader;
+    @JsonProperty("teamid")
     private String teamid;
+    @JsonProperty("stuIdCard")
     private String stuIdCard;
 
     public String getStuID() {

@@ -2,10 +2,13 @@ package com.example.demo.controller;
 
 import com.example.demo.dao.StudentDAO;
 import com.example.demo.model.Student;
+import com.example.demo.model.Team;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+
 
 
 @RestController
@@ -63,5 +66,36 @@ public class StudentController {
 
         List<Student> students = List.of(student1);
         return ResponseEntity.ok(students);
+    }
+
+    @GetMapping("/detailsData/{id}")
+    public ResponseEntity<Student> getStudentDetails(@PathVariable String id) {
+        // Student student = studentDAO.getStudentDetails(stu, id);
+        Student student = new Student();
+        student.setStuID("B08901001");
+        student.setStuName("王小明");
+        student.setStuEmail("email.com");
+        student.setStuSex("男");
+        student.setStuPhone("0912345678");
+        student.setStuDepartment("資工系");
+        student.setStuGrade("大三");
+        student.setStuRole(true);
+        student.setTeamId("1");
+        student.setStuIdCard("A123456789");
+        return ResponseEntity.ok(student);
+    }
+    
+    //更新使用者資料
+    @PostMapping("/{id}/update")
+    public ResponseEntity<Void> updateStudent(@PathVariable String id, @RequestBody Student student) {
+        // teamDAO.updateTeam(id, student);
+        // 有這些會改
+        // 'id':id,
+        // 'passwd': passwd,
+        // 'name': name,
+        // 'email': email,
+        // 'sexual': sexual,
+        // 'phone': phone
+        return ResponseEntity.ok().build();
     }
 }

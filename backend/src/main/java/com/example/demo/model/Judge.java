@@ -12,6 +12,7 @@ public class Judge {
     private String judgesexual;
     private String judgephone;
     private String judgetitle;
+    private String judgeemail;
 
     public void setJudgeid(String judgeid) {
         this.judgeid = judgeid;
@@ -61,6 +62,14 @@ public class Judge {
         return judgetitle;
     }
 
+    public String getJudgeemail() {
+        return judgeemail;
+    }
+
+    public void setJudgeemail(String judgeemail) {
+        this.judgeemail = judgeemail;
+    }
+
     @Override
     public String toString() {
         return "Judge{" +
@@ -70,6 +79,7 @@ public class Judge {
                 ", judgesexual='" + judgesexual + '\'' +
                 ", judgephone='" + judgephone + '\'' +
                 ", judgetitle='" + judgetitle + '\'' +
+                ", judgeemail='" + judgeemail + '\'' +
                 '}';
     }
 }

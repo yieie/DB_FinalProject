@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 
 
+
 @RestController
 @RequestMapping("/api/Teams")
 public class TeamController {
@@ -82,8 +83,8 @@ public class TeamController {
         team1.setAffidavit("affidavit1");
         team1.setConsent("consent1");
         team1.setTeamState("已審核");
-        team1.setWorkId("work1");
-        team1.setWorkIntro("intro1");
+        // team1.setWorkId("work1");
+        // team1.setWorkIntro("intro1");
         teams.add(team1);
         Team team2 = new Team();
         team2.setTeamId("2");
@@ -92,8 +93,8 @@ public class TeamController {
         team2.setAffidavit("affidavit2");
         team2.setConsent("consent2");
         team2.setTeamState("未審核");
-        team2.setWorkId("work2");
-        team2.setWorkIntro("intro2");
+        // team2.setWorkId("work2");
+        // team2.setWorkIntro("intro2");
         teams.add(team2);
         return ResponseEntity.ok(teams);
     }
