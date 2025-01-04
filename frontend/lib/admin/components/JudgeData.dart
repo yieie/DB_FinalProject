@@ -64,11 +64,28 @@ class JudgeData extends StatefulWidget{
 }
 
 class _JudgeDataState extends State<JudgeData> {
-  List<Judge> judges=[
-    Judge(id: "123@gamil.com", name: "王大明", email: "123@gamil.com", sexual: "男", phone: "0930222111",title: "12345678"),
-    Judge(id: "456@gamil.com", name: "吃大便", email: "456@gamil.com", sexual: "女", phone: "0955772881"),
-  ];
+  final JudgeService _judgeService = JudgeService();
+  List<Judge> judges=[];
 
+  Future<void> fetchAllJudge() async{
+    try{
+      judges = await _judgeService.getAllJudge();
+      setState(() {});
+    }catch(e){
+      print(e);
+      judges=[
+        Judge(id: "123@gamil.com", name: "王大明", email: "123@gamil.com", sexual: "男", phone: "0930222111",title: "12345678"),
+        Judge(id: "456@gamil.com", name: "吃大便", email: "456@gamil.com", sexual: "女", phone: "0955772881"),
+      ];
+      setState(() {});
+    }
+  }
+
+  @override
+  void initState(){
+    super.initState();
+    fetchAllJudge();
+  }
   @override
   Widget build(BuildContext context){
     return Align(
