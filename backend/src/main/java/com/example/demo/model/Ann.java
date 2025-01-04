@@ -11,14 +11,15 @@ public class Ann {
     private int annID;
     private String annTitle;
     private String annInfo;
-    private String poster = "";
+    private List<String> poster = new ArrayList<>();
     private byte[] posterData; // 保留，如果需要直接存 Poster 的 byte[]
-    private String fileName = "";
+    private List<String> fileName = new ArrayList<>();
+    private List<String> fileUrl = new ArrayList<>();
     private String fileType;
     private byte[] fileData;
     private String adminID;
-    private String filePath;
-    private String posterPath;
+    private String filePath; // 後端用
+    private String posterPath; // 後端用
 
     // @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
@@ -51,11 +52,11 @@ public class Ann {
         this.annInfo = annInfo;
     }
 
-    public String getPoster() {
+    public List<String> getPoster() {
         return poster;
     }
 
-    public void setPoster(String poster) {
+    public void setPoster(List<String> poster) {
         this.poster = poster;
     }
 
@@ -67,12 +68,20 @@ public class Ann {
         this.posterData = posterData;
     }
 
-    public String getFileName() {
+    public List<String> getFileName() {
         return fileName;
     }
 
-    public void setFileName(String fileName) {
+    public void setFileName(List<String> fileName) {
         this.fileName = fileName;
+    }
+
+    public List<String> getFileUrl() {
+        return fileUrl;
+    }
+
+    public void setFileUrl(List<String> fileUrl) {
+        this.fileUrl = fileUrl;
     }
 
     public String getFileType() {
@@ -152,8 +161,9 @@ public class Ann {
                 ", poster='" + poster + '\'' +
                 ", fileName='" + fileName + '\'' +
                 ", fileType='" + fileType + '\'' +
+                ", fileData='" + fileData + '\'' +
                 ", adminID='" + adminID + '\'' +
-                ", annTime=" + getAnnTime() +
+                ", annTime=" + annTime +
                 '}';
     }
 

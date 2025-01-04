@@ -20,8 +20,11 @@ public class JudgeDAO {
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt1 = conn.prepareStatement(sql1);
              PreparedStatement pstmt2 = conn.prepareStatement(sql2)) {
+
+            String email = judge.getJudgeid(); // 假設 getJudgeid() 返回的是 Email
+            String password = email.substring(0, email.indexOf('@')); // 提取 @ 前的部分
             pstmt1.setString(1, judge.getJudgeid());
-            pstmt1.setString(2, judge.getJudgepasswd());
+            pstmt1.setString(2, password);
             pstmt1.setString(3, judge.getJudgename());
             pstmt1.setString(4, judge.getJudgesexual());
             pstmt1.setString(5, judge.getJudgephone());
