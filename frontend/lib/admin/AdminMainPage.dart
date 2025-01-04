@@ -99,7 +99,7 @@ class TeamsCond extends StatefulWidget{
 }
 
 class _TeamsCondState extends State<TeamsCond>{
-  TeamsStatus status=TeamsStatus(amounts: 0, approved: 0, notreview: 0, incomplete: 0, qualifying: 0, finalround: 0);
+  TeamsStatus status=TeamsStatus(amounts: 0, approved: 0, notreview: 0, incomplete: 0, solved: 0);
   List<Team> teams=[
     Team(teamid: "2024team001", teamname: "我們這一隊", workid: "2024work001", teamtype: "創意實作",state: "待審核",consent: "1111"),
     Team(teamid: "2024team321", teamname: "你說都的隊", workid: "2024work001", teamtype: "創意實作",state: "已補件",affidavit: "1111",consent: "1111"),
@@ -116,7 +116,7 @@ class _TeamsCondState extends State<TeamsCond>{
     } catch (e) {
       print('Error: $e');
       setState((){
-        status=TeamsStatus(amounts: 0, approved: 0, notreview: 0, incomplete: 0, qualifying: 0, finalround: 0);
+        status=TeamsStatus(amounts: 0, approved: 0, notreview: 0, incomplete: 0, solved: 0);
       });
     }
   }
@@ -195,7 +195,7 @@ class _TeamsCondState extends State<TeamsCond>{
                           borderRadius: BorderRadius.circular(20)
                         ),
                         child: Text(
-                          "已審核：${status.amounts}",
+                          "已審核：${status.solved}",
                           textAlign: TextAlign.center,
                         )
                       ),
@@ -209,7 +209,7 @@ class _TeamsCondState extends State<TeamsCond>{
                           borderRadius: BorderRadius.circular(20)
                         ),
                         child: Text(
-                          "待審核：${status.amounts}",
+                          "待審核：${status.solved}",
                           textAlign: TextAlign.center,
                         )
                       ),
@@ -223,7 +223,7 @@ class _TeamsCondState extends State<TeamsCond>{
                           borderRadius: BorderRadius.circular(20)
                         ),
                         child: Text(
-                          "需補件：${status.amounts}",
+                          "需補件：${status.solved}",
                           textAlign: TextAlign.center,
                         )
                       ),
@@ -237,7 +237,7 @@ class _TeamsCondState extends State<TeamsCond>{
                           borderRadius: BorderRadius.circular(20)
                         ),
                         child: Text(
-                          "已補件：${status.amounts}",
+                          "已補件：${status.solved}",
                           textAlign: TextAlign.center,
                         )
                       ),

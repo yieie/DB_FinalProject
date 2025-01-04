@@ -25,8 +25,7 @@ public class TeamController {
         team.setApproved(50);
         team.setNotreview(10);
         team.setIncomplete(5);
-        team.setQualifying(30);
-        team.setFinalround(20);
+        team.setSolved(45);
 
         return ResponseEntity.ok(team);
     }
