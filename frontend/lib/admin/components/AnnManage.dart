@@ -227,9 +227,9 @@ class _AddNEditAnnouncementState extends State<AddNEditAnnouncement> {
         );
       }
     }
-    // Future.delayed(Duration(seconds: 2), () {
-    //   html.window.close();
-    // });
+    Future.delayed(Duration(seconds: 2), () {
+      html.window.close();
+    });
   }
 
 

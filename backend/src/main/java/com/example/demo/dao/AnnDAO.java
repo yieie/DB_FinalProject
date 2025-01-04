@@ -7,10 +7,14 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class AnnDAO {
+
     private static final String UPLOAD_DIR = "uploads/";
 
     public List<Ann> getBasicAnnouncements() {
@@ -58,23 +62,36 @@ public class AnnDAO {
     }
 
     public boolean addAnnouncement(Ann ann) {
-        String sql = "INSERT INTO ANN (AnnTitle, AnnInfo, Poster, File_Name, File_Type, AdminID, AnnTime) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sql1 = "INSERT INTO ann (AnnTitle, AnnInfo, AnnTime, AdminID) VALUES (?, ?, ?, ?)";
+        String sql2 = "INSERT INTO ann_annposter (AnnPoster, AnnID) VALUES (?, ?)";
+        String sql3 = "INSERT INTO ann_annfile (AnnFileURL, AnnFileName, AnnID) VALUES (?, ?, ?)";
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+             PreparedStatement pstmt1 = conn.prepareStatement(sql1, Statement.RETURN_GENERATED_KEYS);
+             PreparedStatement pstmt2 = conn.prepareStatement(sql2);
+             PreparedStatement pstmt3 = conn.prepareStatement(sql3)) {
 
-            pstmt.setString(1, ann.getAnnTitle());
-            pstmt.setString(2, ann.getAnnInfo());
+            pstmt1.setString(1, ann.getPoster());
+            pstmt1.setString(2, ann.getAnnInfo());
+            pstmt1.setTimestamp(3, Timestamp.valueOf(LocalDateTime.now()));
+            pstmt1.setString(4, ann.getAdminID());
+            
+            pstmt1.executeUpdate();
+            ResultSet rs = pstmt1.getGeneratedKeys();
+            if (rs.next()) {
+                int ann_ID = rs.getInt(1);
+                String posterPath = saveFile(ann.getPoster(), ann.getPosterData());
+                pstmt2.setString(1, posterPath);
+                pstmt2.setInt(2, ann_ID);
 
-            // 儲存海報並返回相對路徑
-            String posterPath = saveFile(ann.getPoster(), ann.getPosterData());
-            pstmt.setString(3, posterPath);
+                String filePath = ann.getFileName();
+                pstmt3.setString(1, filePath);
+                pstmt3.setString(2, ann.getFileName());
+                pstmt3.setInt(3, ann_ID);
 
-            pstmt.setString(4, ann.getFileName());
-            pstmt.setString(5, ann.getFileType());
-            pstmt.setString(6, ann.getAdminID());
-            pstmt.setTimestamp(7, Timestamp.valueOf(ann.getAnnTime()));
-            pstmt.executeUpdate();
+                pstmt2.executeUpdate();
+                pstmt3.executeUpdate();
+            }
+            
             return true;
         } catch (SQLException | IOException e) {
             e.printStackTrace();

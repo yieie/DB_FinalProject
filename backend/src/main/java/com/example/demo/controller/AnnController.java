@@ -17,7 +17,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 // Ann格式: Ann{annID=-1, annTitle='', annInfo='werwer', poster='', fileName='', fileType='null', fileData='', adminID='admin1', annTime=null}
-// 資料庫要自己加現在的時間
+// 資料庫要自己加現在的時間 (加上上傳時間)
 
 @RestController
 @RequestMapping("/api/Ann")
@@ -92,10 +92,8 @@ public class AnnController {
                 }
             }
             System.out.println(ann);
-
-
-            // boolean isAdded = annDAO.addAnnouncement(ann);
-            boolean isAdded = true;
+            boolean isAdded = annDAO.addAnnouncement(ann);
+            
             if (isAdded) {
                 return ResponseEntity.status(HttpStatus.CREATED).body("Announcement added successfully");
             } else {

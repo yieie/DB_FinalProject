@@ -5,7 +5,7 @@ class AuthProvider with ChangeNotifier {
   bool get isLoggedIn => _isLoggedIn;
   String _usertype = "tr";
   String get usertype => _usertype;
-  String _useraccount = 'iii@gmail.com';
+  String _useraccount = 'a01';
   String get useraccount => _useraccount;
 
   bool _isSidebarOpen = false;

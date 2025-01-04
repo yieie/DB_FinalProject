@@ -27,22 +27,13 @@ public class WorkshopController {
 
     @GetMapping("/all")
     public ResponseEntity<List<Workshop>> getAllWorkshops() {
-        // List<Workshop> workshops = workshopDAO.getAllWorkshops();
+        List<Workshop> workshops = workshopDAO.getAllWorkshops();
 
-        // 假資料
-        List<Workshop> workshops = new ArrayList<>();
-        Workshop workshop1 = new Workshop();
-        workshop1.setWsid(1);
-        workshop1.setWsdate("2021-12-01");
-        workshop1.setWstime("09:00");
-        workshop1.setWstopic("Python");
-        workshop1.setLectName("王小明");
-        workshop1.setLecttitle("教授");
-        workshop1.setLectphone("0912345678");
-        workshop1.setLectemail("teacher.gamil");
-        workshop1.setLectaddr("國立高雄大學");
-        workshops.add(workshop1);
-        return ResponseEntity.ok(workshops);
+        if (workshops != null) {
+            return ResponseEntity.ok(workshops);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null); 
+        }
     }
     
     @GetMapping("/{id}")
@@ -72,8 +63,7 @@ public class WorkshopController {
         // 取得前端傳來的資料
         System.out.println("id: " + id);
 
-        // boolean isUpdated = workshopDAO.updateWorkshop(workshop);
-        boolean isUpdated = true; // 假設更新成功，測試用
+        boolean isUpdated = workshopDAO.updateWorkshop(workshop);
 
         if (isUpdated) {
             return ResponseEntity.status(HttpStatus.OK).body(true); // 成功回傳 true
