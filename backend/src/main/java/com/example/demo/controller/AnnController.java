@@ -27,6 +27,14 @@ public class AnnController {
     @GetMapping("/list")
     public ResponseEntity<List<Ann>> getBasicAnnouncements() {
         List<Ann> announcements = annDAO.getBasicAnnouncements();
+        // Ann ann = new Ann();
+        // ann.setAnnID(1);
+        // ann.setAnnTitle("testannnnn");
+        // ann.setAnnInfo("test");
+        // ann.setAdminID("admin1");
+        // ann.setAnnTime(LocalDateTime.now());
+        // List<Ann> announcements = List.of(ann);
+
         if (announcements.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         }
@@ -69,7 +77,7 @@ public class AnnController {
                 for (MultipartFile file : files) {
                     String originalFilename = file.getOriginalFilename(); // 檔案名稱
                     String contentType = file.getContentType(); // 檔案類型
-                    ann.setFileName(originalFilename);
+                    ann.setFileName(List.of(originalFilename));
                     ann.setFileType(contentType);
                     String filePath = annDAO.saveFile(file.getOriginalFilename(), file.getBytes());
                     ann.addFile(file.getOriginalFilename(), file.getContentType(), filePath);
@@ -83,7 +91,7 @@ public class AnnController {
                 for (MultipartFile image : images) {
                     String originalFilename = image.getOriginalFilename(); // 圖片名稱
                     String contentType = image.getContentType(); // 圖片類型 (MIME 類型)
-                    ann.setFileName(originalFilename);
+                    ann.setFileName(List.of(originalFilename));
                     ann.setFileType(contentType);
                     String imagePath = annDAO.saveFile(image.getOriginalFilename(), image.getBytes());
                     ann.addImage(image.getOriginalFilename(), image.getContentType(), imagePath);
@@ -129,7 +137,7 @@ public class AnnController {
                 for (MultipartFile file : files) {
                     String originalFilename = file.getOriginalFilename(); // 檔案名稱
                     String contentType = file.getContentType(); // 檔案類型
-                    ann.setFileName(originalFilename);
+                    ann.setFileName(List.of(originalFilename));
                     ann.setFileType(contentType);
                     String filePath = annDAO.saveFile(file.getOriginalFilename(), file.getBytes());
                     ann.addFile(file.getOriginalFilename(), file.getContentType(), filePath);
@@ -141,7 +149,7 @@ public class AnnController {
                 for (MultipartFile image : images) {
                     String originalFilename = image.getOriginalFilename(); // 圖片名稱
                     String contentType = image.getContentType(); // 圖片類型 (MIME 類型)
-                    ann.setFileName(originalFilename);
+                    ann.setFileName(List.of(originalFilename));
                     ann.setFileType(contentType);
                     String imagePath = annDAO.saveFile(image.getOriginalFilename(), image.getBytes());
                     ann.addImage(image.getOriginalFilename(), image.getContentType(), imagePath);
