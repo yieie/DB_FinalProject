@@ -70,7 +70,7 @@ public class AnnDAO {
              PreparedStatement pstmt2 = conn.prepareStatement(sql2);
              PreparedStatement pstmt3 = conn.prepareStatement(sql3)) {
 
-            pstmt1.setString(1, ann.getPoster());
+            pstmt1.setString(1, ann.getAnnTitle());
             pstmt1.setString(2, ann.getAnnInfo());
             pstmt1.setTimestamp(3, Timestamp.valueOf(LocalDateTime.now()));
             pstmt1.setString(4, ann.getAdminID());
@@ -79,12 +79,10 @@ public class AnnDAO {
             ResultSet rs = pstmt1.getGeneratedKeys();
             if (rs.next()) {
                 int ann_ID = rs.getInt(1);
-                String posterPath = saveFile(ann.getPoster(), ann.getPosterData());
-                pstmt2.setString(1, posterPath);
+                pstmt2.setString(1, ann.getPosterPath());
                 pstmt2.setInt(2, ann_ID);
 
-                String filePath = ann.getFileName();
-                pstmt3.setString(1, filePath);
+                pstmt3.setString(1, ann.getFilePath());
                 pstmt3.setString(2, ann.getFileName());
                 pstmt3.setInt(3, ann_ID);
 
@@ -93,36 +91,48 @@ public class AnnDAO {
             }
             
             return true;
-        } catch (SQLException | IOException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
             return false;
         }
     }
 
     public boolean updateAnnouncement(Ann ann) {
-        String sql = "UPDATE ANN SET AnnTitle = ?, AnnInfo = ?, Poster = ?, File_Name = ?, File_Type = ?, AdminID = ?, AnnTime = ? WHERE AnnID = ?";
+        String sql1 = "UPDATE ann SET AnnTitle = ?, AnnInfo = ?, AnnTime = ?, AdminID = ? WHERE AnnID = ?";
+        String sql2 = "UPDATE ann_annposter SET AnnPoster = ? WHERE AnnID = ?";
+        String sql3 = "UPDATE ann_annfile SET AnnFileURL = ?, AnnFileName = ? WHERE AnnID = ?";
+    
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setString(1, ann.getAnnTitle());
-            pstmt.setString(2, ann.getAnnInfo());
-
-            // 儲存更新的海報並返回相對路徑
-            String posterPath = saveFile(ann.getPoster(), ann.getPosterData());
-            pstmt.setString(3, posterPath);
-
-            pstmt.setString(4, ann.getFileName());
-            pstmt.setString(5, ann.getFileType());
-            pstmt.setString(6, ann.getAdminID());
-            pstmt.setTimestamp(7, Timestamp.valueOf(ann.getAnnTime()));
-            pstmt.setInt(8, ann.getAnnID());
-            pstmt.executeUpdate();
+             PreparedStatement pstmt1 = conn.prepareStatement(sql1);
+             PreparedStatement pstmt2 = conn.prepareStatement(sql2);
+             PreparedStatement pstmt3 = conn.prepareStatement(sql3)) {
+    
+            // 更新 `ann` 表
+            pstmt1.setString(1, ann.getAnnTitle());
+            pstmt1.setString(2, ann.getAnnInfo());
+            pstmt1.setTimestamp(3, Timestamp.valueOf(ann.getAnnTime())); // 使用 AnnTime 的值
+            pstmt1.setString(4, ann.getAdminID());
+            pstmt1.setInt(5, ann.getAnnID());
+            pstmt1.executeUpdate();
+    
+            // 更新 `ann_annposter` 表
+            pstmt2.setString(1, ann.getPosterPath());  // 更新海報路徑
+            pstmt2.setInt(2, ann.getAnnID());
+            pstmt2.executeUpdate();
+    
+            // 更新 `ann_annfile` 表
+            pstmt3.setString(1, ann.getFilePath());    // 更新檔案路徑
+            pstmt3.setString(2, ann.getFileName());    // 更新檔案名稱
+            pstmt3.setInt(3, ann.getAnnID());
+            pstmt3.executeUpdate();
+    
             return true;
-        } catch (SQLException | IOException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
             return false;
         }
     }
+    
 
     public String saveFile(String fileName, byte[] data) throws IOException {
         if (data == null || fileName == null) {

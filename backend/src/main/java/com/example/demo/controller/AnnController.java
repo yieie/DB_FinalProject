@@ -73,7 +73,8 @@ public class AnnController {
                     ann.setFileType(contentType);
                     String filePath = annDAO.saveFile(file.getOriginalFilename(), file.getBytes());
                     ann.addFile(file.getOriginalFilename(), file.getContentType(), filePath);
-                    ann.setFilePath(filePath + "/" + originalFilename + "." + contentType);
+                    //ann.setFilePath(filePath + "/" + originalFilename + "." + contentType);
+                    ann.setFilePath(filePath);
                     System.out.println(ann.getFilePath());
                 }
             }
@@ -87,7 +88,9 @@ public class AnnController {
                     ann.setFileType(contentType);
                     String imagePath = annDAO.saveFile(image.getOriginalFilename(), image.getBytes());
                     ann.addImage(image.getOriginalFilename(), image.getContentType(), imagePath);
-                    ann.setPosterPath(imagePath + "/" + originalFilename + "." + contentType);
+                    //ann.setPosterPath(imagePath + "/" + originalFilename + "." + contentType);
+                    ann.setPosterPath(imagePath);
+
                     System.out.println(ann.getPosterPath() + "\n");
                 }
             }
@@ -147,8 +150,7 @@ public class AnnController {
                 }
             }
             
-            // boolean isAdded = annDAO.addAnnouncement(ann);
-            boolean isUpdated = true;
+            boolean isUpdated = annDAO.updateAnnouncement(ann);
             if (isUpdated) {
                 return ResponseEntity.ok("Announcement updated successfully");
             } else {

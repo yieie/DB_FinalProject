@@ -17,6 +17,7 @@ import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.Map;
 import java.text.SimpleDateFormat;
 import java.text.ParseException;
 
@@ -75,6 +76,64 @@ public class TeamDAO {
         return teams;
     }
 
+    // 如果沒限制組別
+    // 傳過去會是 “全組別”
+    // 如果沒限制狀態
+    // 傳過去會是 “無”
+    // 一定有年
+    public List<Team> getBasicTeamsWithConstraint(Map<String, Object> constraint) {
+        List<Team> teams = new ArrayList<>();
+        String baseSql = "SELECT * FROM team as t, work as w WHERE t.TeamID=w.TeamID and w.WorkYear = ?";
+        StringBuilder sqlBuilder = new StringBuilder(baseSql);
+    
+        try (Connection conn = DatabaseConnection.getConnection()) {
+            List<Object> parameters = new ArrayList<>();
+            parameters.add(constraint.get("teamyear")); // 添加必須參數（`teamyear`）
+    
+            // 動態添加條件
+            if (!"全組別".equals(constraint.get("teamtype"))) {
+                sqlBuilder.append(" and t.TeamType = ?");
+                parameters.add(constraint.get("teamtype")); // 添加參數
+            }
+            if (!"無".equals(constraint.get("teamstate"))) {
+                sqlBuilder.append(" and t.TeamState = ?");
+                parameters.add(constraint.get("teamstate")); // 添加參數
+            }
+    
+            // 構建最終 SQL
+            String sql = sqlBuilder.toString();
+    
+            try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+                // 動態設置參數
+                for (int i = 0; i < parameters.size(); i++) {
+                    pstmt.setString(i + 1, (String) parameters.get(i));
+                }
+    
+                // 執行查詢
+                try (ResultSet rs = pstmt.executeQuery()) {
+                    while (rs.next()) {
+                        Team team = new Team();
+                        team.setTeamId(rs.getString("TeamID"));
+                        team.setTeamName(rs.getString("TeamName"));
+                        team.setTeamType(rs.getString("TeamType"));
+                        team.setAffidavit(rs.getString("Affidavit"));
+                        team.setConsent(rs.getString("Consent"));
+                        team.setTeamState(rs.getString("TeamState"));
+                        team.setWorkId(rs.getString("WorkID"));
+                        team.setWorkIntro(rs.getString("WorkIntro"));
+                        teams.add(team);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            // 捕捉 SQL 錯誤並列印詳細錯誤信息
+            System.err.println("SQL Error: " + e.getMessage());
+            e.printStackTrace();
+        }
+    
+        return teams;
+    }
+    
     public Team getTeamDetail(String teamid){
         Team team = null;
         String sql = "SELECT * FROM team as t, work as w WHERE t.TeamID=w.TeamID and t.TeamID = ?";
@@ -92,21 +151,32 @@ public class TeamDAO {
                 team.setConsent(rs.getString("Consent"));
                 team.setTeacherEmail(rs.getString("TeacherEmail")); 
                 team.setTeamState(rs.getString("TeamState"));
-                team.setWorkIntro(rs.getString("WorkIntro"));
-                team.setTeamState(rs.getString("TeamState"));
                 team.setWorkId(rs.getString("WorkID"));
-                team.setWorkName("WorkName");
-                team.setWorkSummary("WorkSummary");
-                team.setWorkSdgs("WorkSDGs");
-                team.setWorkPoster("WorkPoster");
-                team.setWorkYtUrl("WorkYTURL");
-                team.setWorkGithub("WorkGithub");
-                team.setWorkYear("WorkYear");
-                team.setWorkIntro("WorkIntro");
+                team.setWorkName(rs.getString("WorkName"));
+                team.setWorkSummary(rs.getString("WorkSummary"));
+                team.setWorkSdgs(rs.getString("WorkSDGs"));
+                team.setWorkPoster(rs.getString("WorkPoster"));
+                team.setWorkYtUrl(rs.getString("WorkYTURL"));
+                team.setWorkGithub(rs.getString("WorkGithub"));
+                team.setWorkYear(rs.getString("WorkYear"));
+                team.setWorkIntro(rs.getString("WorkIntro"));
+
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return team;
+    }
+
+    public void updateTeamState(String teamid, String state){
+        String sql = "UPDATE team SET TeamState = ? WHERE TeamID = ?";
+        try(Connection conn = DatabaseConnection.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, state);
+            pstmt.setString(2, teamid);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

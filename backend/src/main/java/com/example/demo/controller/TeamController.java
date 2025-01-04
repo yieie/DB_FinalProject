@@ -8,8 +8,7 @@ import java.util.stream.Collectors;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+
 import com.example.demo.dao.TeamDAO;
 
 
@@ -40,28 +39,6 @@ public class TeamController {
         // 寫完DAO再取消註解
         List<Team> teams = teamDAO.getBasicAllTeam();
 
-        // 假資料
-        // List<Team> teams = new ArrayList<>();
-        // Team team1 = new Team();
-        // team1.setTeamId("1");
-        // team1.setTeamName("team1");
-        // team1.setTeamType("type1");
-        // team1.setAffidavit("affidavit1");
-        // team1.setConsent("consent1");
-        // team1.setTeamState("已審核");
-        // team1.setWorkId("work1");
-        // team1.setWorkIntro("intro1");
-        // teams.add(team1);
-        // Team team2 = new Team();
-        // team2.setTeamId("2");
-        // team2.setTeamName("team2");
-        // team2.setTeamType("type2");
-        // team2.setAffidavit("affidavit2");
-        // team2.setConsent("consent2");
-        // team2.setTeamState("未審核");
-        // team2.setWorkId("work2");
-        // team2.setWorkIntro("intro2");
-        // teams.add(team2);
         return ResponseEntity.ok(teams);
     }
 
@@ -71,9 +48,11 @@ public class TeamController {
     @PostMapping("/Cond/Constraint")
     public ResponseEntity<List<Team>> getBasicAllTeamWithConstraint(@RequestBody Map<String, Object> constraint) {
         // 前端要所有隊伍的基本資料，但有限制，資料庫注意一下constraint
-        // List<Team> teams = teamDAO.getBasicTeamsWithConstraint(constraint);
-       
-        // 假資料
+        //List<Team> teams = teamDAO.getBasicTeamsWithConstraint(constraint);
+        // map key
+        // 'teamyear'
+        // 'teamtype'
+        // 'teamstate'
         List<Team> teams = new ArrayList<>();
         Team team1 = new Team();
         team1.setTeamId("1");
@@ -85,42 +64,32 @@ public class TeamController {
         team1.setWorkId("work1");
         team1.setWorkIntro("intro1");
         teams.add(team1);
-        Team team2 = new Team();
-        team2.setTeamId("2");
-        team2.setTeamName("team2");
-        team2.setTeamType("type2");
-        team2.setAffidavit("affidavit2");
-        team2.setConsent("consent2");
-        team2.setTeamState("未審核");
-        team2.setWorkId("work2");
-        team2.setWorkIntro("intro2");
-        teams.add(team2);
         return ResponseEntity.ok(teams);
     }
     
     @GetMapping("/{teamid}")
     public ResponseEntity<Team> getDetailTeam(@PathVariable String teamid) {
-        Team team = teamDAO.getTeamDetail(teamid);
+        //Team team = teamDAO.getTeamDetail(teamid);
 
-        // 假資料
-        // Team team = new Team();
-        // team.setTeamId("1");
-        // team.setTeamName("team1");
-        // team.setTeamType("type1");
-        // team.setTeamRank("rank1");
-        // team.setAffidavit("affidavit1");
-        // team.setConsent("consent1");
-        // team.setTeacherEmail("teacher1@gmail");
-        // team.setTeamState("已審核");
-        // team.setWorkId("work1");
-        // team.setWorkName("workname1");
-        // team.setWorkSummary("summary1");
-        // team.setWorkSdgs("sdgs1");
-        // team.setWorkPoster("poster1");
-        // team.setWorkYtUrl("yturl1");
-        // team.setWorkGithub("github1");
-        // team.setWorkYear("year1");
-        // team.setWorkIntro("intro1");
+        //假資料
+        Team team = new Team();
+        team.setTeamId("1");
+        team.setTeamName("team1");
+        team.setTeamType("type1");
+        team.setTeamRank("rank1");
+        team.setAffidavit("affidavit1");
+        team.setConsent("consent1");
+        team.setTeacherEmail("teacher1@gmail");
+        team.setTeamState("已審核");
+        team.setWorkId("work1");
+        team.setWorkName("workname1");
+        team.setWorkSummary("summary1");
+        team.setWorkSdgs("sdgs1");
+        team.setWorkPoster("poster1");
+        team.setWorkYtUrl("yturl1");
+        team.setWorkGithub("github1");
+        team.setWorkYear("year1");
+        team.setWorkIntro("intro1");
 
         return ResponseEntity.ok(team);
     }
@@ -128,8 +97,12 @@ public class TeamController {
     //修改隊伍狀態
     @PostMapping("/{teamid}/edit")
     public ResponseEntity<Void> editTeamState(@PathVariable String teamid, @RequestBody Map<String, String> request) {
-        // String state = request.get("state");
-        // teamDAO.updateTeamState(teamid, state);
+        String state = request.get("state");
+        teamDAO.updateTeamState(teamid, state);
+
+        // Map key
+        // 'state'
+
         return ResponseEntity.ok().build();
     }
 
