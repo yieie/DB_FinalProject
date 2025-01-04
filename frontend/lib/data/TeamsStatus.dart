@@ -17,7 +17,7 @@ class TeamsStatus {
 
   factory TeamsStatus.fromJson(Map<String,dynamic> json){
     return TeamsStatus(
-      amounts: json['amount'] as int, 
+      amounts: json['amounts'] as int, 
       approved: json['approved'] as int, 
       notreview: json['notreview'] as int, 
       incomplete: json['incomplete'] as int, 

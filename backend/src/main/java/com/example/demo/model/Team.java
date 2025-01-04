@@ -1,28 +1,53 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Team {
+    @JsonProperty("teamid")
     private String teamid;
+    @JsonProperty("teamname")
     private String teamname;
+    @JsonProperty("teamrank")
     private String teamrank;
+    @JsonProperty("teamtype")
     private String teamtype;
-    private String consent;
-    private String affidavit;
+    @JsonProperty("teamconsent")
+    private String teamconsent;
+    @JsonProperty("teamaffidavit")
+    private String teamaffidavit;
+    @JsonProperty("teamstate")
     private String teamstate;
-    private String teacheremail;
+    @JsonProperty("teamteacheremail")
+    private String teamteacheremail;
+    @JsonProperty("amounts")
     private int amounts;
+    @JsonProperty("approved")
     private int approved;
+    @JsonProperty("notreview")
     private int notreview;
+    @JsonProperty("incomplete")
     private int incomplete;
+    @JsonProperty("qualifying")
     private int qualifying;
+    @JsonProperty("finalround")
     private int finalround;
+    @JsonProperty("workid")
     private String workid;
+    @JsonProperty("workname")
     private String workname;
+    @JsonProperty("worksummary")
     private String worksummary;
+    @JsonProperty("worksdgs")
     private String worksdgs;
+    @JsonProperty("workposter")
     private String workposter;
+    @JsonProperty("workyturl")
     private String workyturl;
+    @JsonProperty("workgithub")
     private String workgithub;
+    @JsonProperty("workyear")
     private String workyear;
+    @JsonProperty("workintro")
     private String workintro;
 
     public String getTeamId() {
@@ -53,24 +78,24 @@ public class Team {
         return teamtype;
     }
 
-    public void setTeamType(String teamType) {
+    public void setTeamType(String teamtype) {
         this.teamtype = teamtype;
     }
 
     public String getConsent() {
-        return consent;
+        return teamconsent;
     }
 
-    public void setConsent(String consent) {
-        this.consent = consent;
+    public void setConsent(String teamconsent) {
+        this.teamconsent = teamconsent;
     }
 
     public String getAffidavit() {
-        return affidavit;
+        return teamaffidavit;
     }
 
-    public void setAffidavit(String affidavit) {
-        this.affidavit = affidavit;
+    public void setAffidavit(String teamaffidavit) {
+        this.teamaffidavit = teamaffidavit;
     }
 
     public String getTeamState() {
@@ -82,11 +107,11 @@ public class Team {
     }
 
     public String getTeacherEmail() {
-        return teacheremail;
+        return teamteacheremail;
     }
 
-    public void setTeacherEmail(String teacheremail) {
-        this.teacheremail = teacheremail;
+    public void setTeacherEmail(String teamteacheremail) {
+        this.teamteacheremail = teamteacheremail;
     }
 
     public int getAmounts() {
@@ -212,8 +237,8 @@ public class Team {
     @Override
     public String toString() {
         return "Team [teamid=" + teamid + ", teamname=" + teamname + ", teamrank=" + teamrank + ", teamtype=" + teamtype
-                + ", consent=" + consent + ", affidavit=" + affidavit + ", teamstate=" + teamstate + ", teacheremail="
-                + teacheremail + ", amounts=" + amounts + ", approved=" + approved + ", notreview=" + notreview
+                + ", teamconsent=" + teamconsent + ", teamaffidavit=" + teamaffidavit + ", teamstate=" + teamstate + ", teamteacheremail="
+                + teamteacheremail + ", amounts=" + amounts + ", approved=" + approved + ", notreview=" + notreview
                 + ", incomplete=" + incomplete + ", qualifying=" + qualifying + ", finalround=" + finalround
                 + ", workid=" + workid + ", workname=" + workname + ", worksummary=" + worksummary + ", worksdgs="
                 + worksdgs + ", workposter=" + workposter + ", workyturl=" + workyturl + ", workgithub=" + workgithub
