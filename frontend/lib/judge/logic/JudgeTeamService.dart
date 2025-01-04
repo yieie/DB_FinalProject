@@ -8,7 +8,7 @@ class JudgeTeamService {
   //只需要拿隊伍狀態為初賽隊伍 or 決賽隊伍
   //路徑可以自己改一下，不太知道要怎麼命名
   Future<List<Team>> getBasicAllTeamInContest() async{
-    final response = await _apiService.get('/Team/incontest');
+    final response = await _apiService.get('/Teams/incontest');
     return (response as List).map((json) => Team.fromJson(json)).toList();
   }
 }

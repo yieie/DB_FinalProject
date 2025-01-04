@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 import com.example.demo.dao.TeacherDAO;
+import com.example.demo.model.Student;
 import com.example.demo.model.Teacher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -57,5 +58,34 @@ public class TeacherController {
         teacher.setTrDepartment("資訊工程學系");
         teacher.setTrOrganization("國立高雄大學");
         return ResponseEntity.ok(teacher);
+    }
+
+    @GetMapping("/detailsData/{id}")
+    public ResponseEntity<Teacher> getTeacherDetails(@PathVariable String id) {
+        // Teacher teacher = teacherDAO.getTeacherDetails(id);
+        Teacher teacher = new Teacher();
+        teacher.setTrId("teacher.gamil");
+        teacher.setTrName("王小明");
+        teacher.setTrEmail("teacher.gamil");
+        teacher.setTrSexual("男");
+        teacher.setTrPhone("0912345678");
+        teacher.setTrJobType("教授");
+        teacher.setTrDepartment("資訊工程學系");
+        teacher.setTrOrganization("國立高雄大學");
+        return ResponseEntity.ok(teacher);
+    }
+
+    //更新使用者資料
+    @PostMapping("/{id}/update")
+    public ResponseEntity<Void> updateTeacher(@PathVariable String id, @RequestBody Teacher teacher) {
+        // teamDAO.updateTeam(id, teacher);
+        // 有這些會改
+        // 'id':id,
+        // 'passwd': passwd,
+        // 'name': name,
+        // 'email': email,
+        // 'sexual': sexual,
+        // 'phone': phone
+        return ResponseEntity.ok().build();
     }
 }

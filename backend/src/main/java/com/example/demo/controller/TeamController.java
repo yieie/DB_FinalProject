@@ -21,15 +21,6 @@ public class TeamController {
     public ResponseEntity<Team> getTeamStatus() {
         // 資料庫查隊伍狀態，寫完DAO再取消註解
         Team team = teamDAO.getTeamStatus();
-
-        // Team team = new Team();
-        // team.setAmounts(60);
-        // team.setApproved(50);
-        // team.setNotreview(10);
-        // team.setIncomplete(5);
-        // team.setQualifying(30);
-        // team.setFinalround(20);
-
         return ResponseEntity.ok(team);
     }
 
@@ -53,17 +44,6 @@ public class TeamController {
         // 'teamstate'
         List<Team> teams = teamDAO.getBasicTeamsWithConstraint(constraint);
         
-        // List<Team> teams = new ArrayList<>();
-        // Team team1 = new Team();
-        // team1.setTeamId("1");
-        // team1.setTeamName("team1");
-        // team1.setTeamType("type1");
-        // team1.setAffidavit("affidavit1");
-        // team1.setConsent("consent1");
-        // team1.setTeamState("已審核");
-        // team1.setWorkId("work1");
-        // team1.setWorkIntro("intro1");
-        // teams.add(team1);
         return ResponseEntity.ok(teams);
     }
     

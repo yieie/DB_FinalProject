@@ -25,8 +25,9 @@ import java.text.ParseException;
 public class TeamDAO {
     public Team getTeamStatus(){
         Team team= new Team();
-        String sql1 = "SELECT COUNT(*) as count FROM team as t, work as w WHERE t.TeamID = w.TeamID";
-        String sql2 = "SELECT t.TeamState, COUNT(*) as count FROM team as t, work as w WHERE t.TeamID = w.TeamID GROUP BY t.TeamState";
+        String sql1 = "SELECT COUNT(*) as count FROM team";
+        String sql2 = "SELECT TeamState, COUNT(*) as count from team GROUP BY TeamState";
+
         try(Connection conn = DatabaseConnection.getConnection();
             PreparedStatement pstmt1 = conn.prepareStatement(sql1);
             PreparedStatement pstmt2 = conn.prepareStatement(sql2)) {
@@ -67,10 +68,12 @@ public class TeamDAO {
                         break;
                 }
             }
+            // System.out.println("未審核"+Notreview);
+            // System.out.println("已審核"+Approved);
             team.setNotreview(Notreview);
             team.setIncomplete(Incomplete);
             team.setApproved(Approved);
-            //team.setSolved(Solved);
+            team.setSolved(Solved);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -81,8 +84,10 @@ public class TeamDAO {
         List<Team> teams = new ArrayList<>();
         //要照階段排序 報名待審核 待審核初賽資格 已補件 需補件 已審核 初賽隊伍 決賽隊伍
         
-        String sql = "SELECT * FROM team as t, work as w WHERE t.TeamID=w.TeamID" +
-        "ORDER BY FIELD(t.TeamState, '報名待審核', '待審核初賽資格', '已補件', '需補件', '已審核', '初賽隊伍', '決賽隊伍')";
+        String sql = "SELECT * FROM team AS t " +
+             "LEFT JOIN work AS w ON t.TeamID = w.TeamID " +
+             "ORDER BY FIELD(t.TeamState, '報名待審核', '待審核初賽資格', '已補件', '需補件', '已審核', '初賽隊伍', '決賽隊伍')";
+
         try(Connection conn = DatabaseConnection.getConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
@@ -94,6 +99,7 @@ public class TeamDAO {
                 team.setTeamType(rs.getString("TeamType"));
                 team.setAffidavit(rs.getString("Affidavit"));
                 team.setConsent(rs.getString("Consent"));
+                team.setWorkId(rs.getString("WorkID"));
                 team.setWorkIntro(rs.getString("WorkIntro"));
                 team.setTeamState(rs.getString("TeamState"));
                 teams.add(team);
@@ -174,7 +180,7 @@ public class TeamDAO {
     
     public Team getTeamDetail(String teamid){
         Team team = null;
-        String sql = "SELECT * FROM team as t, work as w WHERE t.TeamID=w.TeamID and t.TeamID = ?";
+        String sql = "SELECT * FROM team AS t LEFT JOIN work AS w ON t.TeamID = w.TeamID WHERE t.TeamID = ?";
         try(Connection conn = DatabaseConnection.getConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, teamid);
@@ -220,7 +226,7 @@ public class TeamDAO {
 
     public List<Team> getIdeaTeams(){
         List<Team> teams = new ArrayList<>();
-        String sql = "SELECT * FROM team as t, work as w WHERE t.TeamID=w.TeamID and t.TeamType = '創意發想組'";
+        String sql = "SELECT * FROM team AS t LEFT JOIN work AS w ON t.TeamID = w.TeamID WHERE t.TeamType = '創意發想組'";
         try(Connection conn = DatabaseConnection.getConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql)) {
             ResultSet rs = pstmt.executeQuery();
@@ -254,7 +260,7 @@ public class TeamDAO {
 
     public List<Team> getBusinessTeams(){
         List<Team> teams = new ArrayList<>();
-        String sql = "SELECT * FROM team as t, work as w WHERE t.TeamID=w.TeamID and t.TeamType = '創業實作組'";
+        String sql = "SELECT * FROM team AS t LEFT JOIN work AS w ON t.TeamID = w.TeamID WHERE t.TeamType = '創業實作組'";
         try(Connection conn = DatabaseConnection.getConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql)) {
             ResultSet rs = pstmt.executeQuery();

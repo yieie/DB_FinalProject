@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 import com.example.demo.model.Judge;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+
 
 
 @RestController
@@ -30,4 +33,19 @@ public class JudgeController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
+
+    @GetMapping("/detailsData/{id}")
+    public ResponseEntity<Judge> getJudgeDetails(@PathVariable String id) {
+        // Judge judge = judgeDAO.getJudgeDetails(id);
+        Judge judge = new Judge();
+        judge.setJudgeid(id);
+        judge.setJudgename("王小明");
+        judge.setJudgeemail("mail.com");
+        judge.setJudgesexual("男");
+        judge.setJudgephone("0912345678");
+        judge.setJudgetitle("教授");
+
+        return ResponseEntity.ok(judge);
+    }
+    
 }

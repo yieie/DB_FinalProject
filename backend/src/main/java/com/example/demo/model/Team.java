@@ -27,10 +27,8 @@ public class Team {
     private int notreview;
     @JsonProperty("incomplete")
     private int incomplete;
-    @JsonProperty("qualifying")
-    private int qualifying;
-    @JsonProperty("finalround")
-    private int finalround;
+    @JsonProperty("solved")
+    private int solved;
     @JsonProperty("workid")
     private String workid;
     @JsonProperty("workname")
@@ -146,20 +144,12 @@ public class Team {
         this.incomplete = incomplete;
     }
 
-    public int getQualifying() {
-        return qualifying;
+    public int getSolved() {
+        return solved;
     }
 
-    public void setQualifying(int qualifying) {
-        this.qualifying = qualifying;
-    }
-
-    public int getFinalround() {
-        return finalround;
-    }
-
-    public void setFinalround(int finalround) {
-        this.finalround = finalround;
+    public void setSolved(int solved) {
+        this.solved = solved;
     }
 
     public String getWorkId() {
@@ -236,12 +226,29 @@ public class Team {
 
     @Override
     public String toString() {
-        return "Team [teamid=" + teamid + ", teamname=" + teamname + ", teamrank=" + teamrank + ", teamtype=" + teamtype
-                + ", teamconsent=" + teamconsent + ", teamaffidavit=" + teamaffidavit + ", teamstate=" + teamstate + ", teamteacheremail="
-                + teamteacheremail + ", amounts=" + amounts + ", approved=" + approved + ", notreview=" + notreview
-                + ", incomplete=" + incomplete + ", qualifying=" + qualifying + ", finalround=" + finalround
-                + ", workid=" + workid + ", workname=" + workname + ", worksummary=" + worksummary + ", worksdgs="
-                + worksdgs + ", workposter=" + workposter + ", workyturl=" + workyturl + ", workgithub=" + workgithub
-                + ", workyear=" + workyear + ", workintro=" + workintro + "]";
+        return "Team{" +
+                "teamid='" + teamid + '\'' +
+                ", teamname='" + teamname + '\'' +
+                ", teamrank='" + teamrank + '\'' +
+                ", teamtype='" + teamtype + '\'' +
+                ", teamconsent='" + teamconsent + '\'' +
+                ", teamaffidavit='" + teamaffidavit + '\'' +
+                ", teamstate='" + teamstate + '\'' +
+                ", teamteacheremail='" + teamteacheremail + '\'' +
+                ", amounts='" + amounts + '\'' +
+                ", approved='" + approved + '\'' +
+                ", notreview='" + notreview + '\'' +
+                ", incomplete='" + incomplete + '\'' +
+                ", solved='" + solved + '\'' +
+                ", workid='" + workid + '\'' +
+                ", workname='" + workname + '\'' +
+                ", worksummary='" + worksummary + '\'' +
+                ", worksdgs='" + worksdgs + '\'' +
+                ", workposter='" + workposter + '\'' +
+                ", workyturl='" + workyturl + '\'' +
+                ", workgithub='" + workgithub + '\'' +
+                ", workyear='" + workyear + '\'' +
+                ", workintro='" + workintro + '\'' +
+                '}';
     }
 }

@@ -10,7 +10,8 @@ class PersonalDataService {
   //獲取使用者的詳細資料
   Future<User> getUserData(String usertype, String useraccount) async{
     usertype = usertype[0].toUpperCase() + usertype.substring(1);
-    final response = await _apiService.post('/$usertype', {'${usertype}ID': useraccount});
+    // final response = await _apiService.post('/$usertype/detailsData', {'${usertype}ID': useraccount});
+    final response = await _apiService.get('/$usertype/detailsData/$useraccount');
     if(usertype == 'Stu'){
       return Student.fromJson(response);
     }else if(usertype == 'Tr'){

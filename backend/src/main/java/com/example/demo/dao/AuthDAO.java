@@ -9,7 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class AuthDAO {
-    public boolean authenticate(String username, String password) {
+    public boolean authenticate(String usertype, String username, String password) {
         String sql = "SELECT AdminPasswd FROM admin WHERE AdminID = ?";
         try(Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
