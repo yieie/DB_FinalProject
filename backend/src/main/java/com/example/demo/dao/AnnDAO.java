@@ -83,7 +83,7 @@ public class AnnDAO {
                 pstmt2.setString(1, posterPath);
                 pstmt2.setInt(2, ann_ID);
 
-                String filePath = saveFile(ann.getFileName(), ann.getFileData());
+                String filePath = ann.getFileName();
                 pstmt3.setString(1, filePath);
                 pstmt3.setString(2, ann.getFileName());
                 pstmt3.setInt(3, ann_ID);

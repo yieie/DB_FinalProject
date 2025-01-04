@@ -45,7 +45,7 @@ class _SidebarState extends State<Sidebar> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => const WorkshopDataFrame(),
+            builder: (context) => WorkshopDataFrame(),
           ),
         );
       }else if(str == "評審資料管理"){

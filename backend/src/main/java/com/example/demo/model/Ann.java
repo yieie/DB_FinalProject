@@ -17,6 +17,8 @@ public class Ann {
     private String fileType;
     private byte[] fileData;
     private String adminID;
+    private String filePath;
+    private String posterPath;
 
     // @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
@@ -123,6 +125,22 @@ public class Ann {
 
     public List<FileData> getImages() {
         return images;
+    }
+
+    public String getFilePath() {
+        return filePath;
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
+    }
+
+    public String getPosterPath() {
+        return posterPath;
+    }
+
+    public void setPosterPath(String posterPath) {
+        this.posterPath = posterPath;
     }
 
     @Override

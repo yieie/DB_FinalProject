@@ -1,6 +1,6 @@
 package com.example.demo.dao;
 
-import com.example.demo.model.Workshop;
+import com.example.demo.model.Team;
 import com.example.demo.config.DatabaseConnection;
 
 import java.sql.Connection;
@@ -51,126 +51,61 @@ public class TeamDAO {
         return String.format("%02d:%02d:00", hour, minute);
     }
 
-    public List<Workshop> getAllWorkshops(){
-        List<Workshop> workshops = new ArrayList<>();
-        String sql = "SELECT w.WSID, WSDate, WSTime, WSTopic, LectName, LectTitle, LectPhone, LectEmail, LectAddress "+
-        "FROM work_shop as w, lecturer as l where w.WSID = l.WSID order by WSID";
+    public List<Team> getBasicAllTeam(){
+        List<Team> teams = new ArrayList<>();
+        String sql = "SELECT * FROM team as t, work as w WHERE t.TeamID=w.TeamID";
         try(Connection conn = DatabaseConnection.getConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
-                Workshop workshop = new Workshop();
-                workshop.setWsid(rs.getInt("WSID"));
-                workshop.setWsdate(rs.getDate("WSDate").toString());
-                workshop.setWstime(rs.getTime("WSTime").toString());
-                workshop.setWstopic(rs.getString("WSTopic"));
-                workshop.setLectName(rs.getString("LectName"));
-                workshop.setLecttitle(rs.getString("LectTitle"));
-                workshop.setLectphone(rs.getString("LectPhone"));
-                workshop.setLectemail(rs.getString("LectEmail"));
-                workshop.setLectaddr(rs.getString("LectAddress"));
-                workshops.add(workshop);
+                Team team = new Team();
+                team.setTeamId(rs.getString("TeamID"));
+                team.setTeamName(rs.getString("TeamName"));
+                team.setAffidavit(rs.getString("Affidavit"));
+                team.setConsent(rs.getString("Consent"));
+                team.setWorkIntro(rs.getString("WorkIntro"));
+                team.setTeamState(rs.getString("TeamState"));
+                teams.add(team);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return workshops;
+        return teams;
     }
 
-    public Workshop getWorkshopById(int id){
-        Workshop workshop = null;
-        String sql = "SELECT w.WSID, WSDate, WSTime, WSTopic, LectName, LectTitle, LectPhone, LectEmail, LectAddress "+
-        "FROM work_shop as w, lecturer as l WHERE w.WSID = ? and w.WSID = l.WSID";
+    public Team getTeamDetail(String teamid){
+        Team team = null;
+        String sql = "SELECT * FROM team as t, work as w WHERE t.TeamID=w.TeamID and t.TeamID = ?";
         try(Connection conn = DatabaseConnection.getConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, id); 
-
+            pstmt.setString(1, teamid);
             ResultSet rs = pstmt.executeQuery();
-            if(rs.next()) {
-                workshop = new Workshop();
-                workshop.setWsid(rs.getInt("WSID"));
-                workshop.setWsdate(rs.getDate("WSDate").toString());
-                workshop.setWstime(rs.getTime("WSTime").toString());
-                workshop.setWstopic(rs.getString("WSTopic"));
-                workshop.setLectName(rs.getString("LectName"));
-                workshop.setLecttitle(rs.getString("LectTitle"));
-                workshop.setLectphone(rs.getString("LectPhone"));
-                workshop.setLectemail(rs.getString("LectEmail"));
-                workshop.setLectaddr(rs.getString("LectAddress"));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return workshop;
-    }
-
-    public boolean addWorkshop(Workshop workshop) {
-        String workshopSql = "INSERT INTO work_shop (WSDate, WSTime, WSTopic) VALUES (?, ?, ?)";
-        String lecturerSql = "INSERT INTO lecturer (LectName, LectTitle, LectPhone, LectEmail, LectAddress, WSID) VALUES (?, ?, ?, ?, ?, ?)";
-
-        try (Connection conn = DatabaseConnection.getConnection();
-            PreparedStatement workshopStmt = conn.prepareStatement(workshopSql, Statement.RETURN_GENERATED_KEYS);
-            PreparedStatement lecturerStmt = conn.prepareStatement(lecturerSql)) {
-
-            String sqlDate = workshop.getWsdate();
-            workshopStmt.setDate(1, Date.valueOf(sqlDate));
-
-            String time24Hour = workshop.getWstime()+":00"; // 去除首尾空格
-            workshopStmt.setTime(2, Time.valueOf(time24Hour));
-
-            workshopStmt.setString(3, workshop.getWstopic());
-            workshopStmt.executeUpdate();
-
-            ResultSet rs = workshopStmt.getGeneratedKeys();
             if (rs.next()) {
-                int wsid = rs.getInt(1); // 自動生成的 WSID
-                // 插入 lecturers
-                lecturerStmt.setString(1, workshop.getLectname());
-                lecturerStmt.setString(2, workshop.getLecttitle());
-                lecturerStmt.setString(3, workshop.getLectphone());
-                lecturerStmt.setString(4, workshop.getLectemail());
-                lecturerStmt.setString(5, workshop.getLectaddr());
-                lecturerStmt.setInt(6, wsid);
-                lecturerStmt.executeUpdate();
+                team = new Team();
+                team.setTeamId(rs.getString("TeamID"));
+                team.setTeamName(rs.getString("TeamName"));
+                team.setTeamType(rs.getString("TeamType"));
+                team.setTeamRank(rs.getString("TeamRank"));
+                team.setAffidavit(rs.getString("Affidavit"));
+                team.setConsent(rs.getString("Consent"));
+                team.setTeacherEmail(rs.getString("TeacherEmail")); 
+                team.setTeamState(rs.getString("TeamState"));
+                team.setWorkIntro(rs.getString("WorkIntro"));
+                team.setTeamState(rs.getString("TeamState"));
+                team.setWorkId(rs.getString("WorkID"));
+                team.setWorkName("WorkName");
+                team.setWorkSummary("WorkSummary");
+                team.setWorkSdgs("WorkSDGs");
+                team.setWorkPoster("WorkPoster");
+                team.setWorkYtUrl("WorkYTURL");
+                team.setWorkGithub("WorkGithub");
+                team.setWorkYear("WorkYear");
+                team.setWorkIntro("WorkIntro");
             }
-            return true; // 成功執行
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
         }
-    }
-
-    public boolean updateWorkshop(Workshop workshop){
-        String workshopSql = "UPDATE work_shop SET WSDate = ?, WSTime = ?, WSTopic = ? WHERE WSID = ?";
-        String lecturerSql = "UPDATE lecturer SET LectName = ?, LectTitle = ?, LectPhone = ?, LectEmail = ?, LectAddress = ? WHERE WSID = ?";
-
-        try (Connection conn = DatabaseConnection.getConnection();
-            PreparedStatement workshopStmt = conn.prepareStatement(workshopSql);
-            PreparedStatement lecturerStmt = conn.prepareStatement(lecturerSql)) {
-
-            String sqlDate = workshop.getWsdate();
-            workshopStmt.setDate(1, Date.valueOf(sqlDate));
-
-            String time24Hour = workshop.getWstime()+":00"; // 去除首尾空格
-            workshopStmt.setTime(2, Time.valueOf(time24Hour));
-
-            workshopStmt.setString(3, workshop.getWstopic());
-            workshopStmt.setInt(4, workshop.getWsid());
-            workshopStmt.executeUpdate();
-
-            lecturerStmt.setString(1, workshop.getLectname());
-            lecturerStmt.setString(2, workshop.getLecttitle());
-            lecturerStmt.setString(3, workshop.getLectphone());
-            lecturerStmt.setString(4, workshop.getLectemail());
-            lecturerStmt.setString(5, workshop.getLectaddr());
-            lecturerStmt.setInt(6, workshop.getWsid());
-            lecturerStmt.executeUpdate();
-            
-            return true; // 成功執行
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
+        return team;
     }
 }

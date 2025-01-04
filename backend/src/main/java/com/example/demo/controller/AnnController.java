@@ -71,10 +71,10 @@ public class AnnController {
                     String contentType = file.getContentType(); // 檔案類型
                     ann.setFileName(originalFilename);
                     ann.setFileType(contentType);
-                    // DAO那邊要回傳檔案路徑給我
                     String filePath = annDAO.saveFile(file.getOriginalFilename(), file.getBytes());
                     ann.addFile(file.getOriginalFilename(), file.getContentType(), filePath);
-    
+                    ann.setFilePath(filePath + "/" + originalFilename + "." + contentType);
+                    System.out.println(ann.getFilePath());
                 }
             }
 
@@ -85,9 +85,10 @@ public class AnnController {
                     String contentType = image.getContentType(); // 圖片類型 (MIME 類型)
                     ann.setFileName(originalFilename);
                     ann.setFileType(contentType);
-                    // DAO那邊要回傳圖片路徑給我
                     String imagePath = annDAO.saveFile(image.getOriginalFilename(), image.getBytes());
                     ann.addImage(image.getOriginalFilename(), image.getContentType(), imagePath);
+                    ann.setPosterPath(imagePath + "/" + originalFilename + "." + contentType);
+                    System.out.println(ann.getPosterPath() + "\n");
                 }
             }
             System.out.println(ann);
@@ -130,7 +131,7 @@ public class AnnController {
                     ann.setFileType(contentType);
                     String filePath = annDAO.saveFile(file.getOriginalFilename(), file.getBytes());
                     ann.addFile(file.getOriginalFilename(), file.getContentType(), filePath);
-                    
+                    ann.setFilePath(filePath + "/" + originalFilename + "." + contentType);
                 }
             }
 
@@ -142,6 +143,7 @@ public class AnnController {
                     ann.setFileType(contentType);
                     String imagePath = annDAO.saveFile(image.getOriginalFilename(), image.getBytes());
                     ann.addImage(image.getOriginalFilename(), image.getContentType(), imagePath);
+                    ann.setPosterPath(imagePath + "/" + originalFilename + "." + contentType);
                 }
             }
             
