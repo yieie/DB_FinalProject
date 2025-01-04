@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -14,98 +15,84 @@ public class TeamController {
     // private final TeamDAO teamDAO = new TeamDAO();
     
     @GetMapping("/Status")
-    public ResponseEntity<Map<String, Object>> getTeamStatus() {
-
+    public ResponseEntity<Team> getTeamStatus() {
         // 資料庫查隊伍狀態，寫完DAO再取消註解
-        
-        // int amounts = teamDAO.getTotalTeams();//隊伍總數
-        // int approved = teamDAO.getApprovedTeams();//審核通過數量
-        // int notreview = teamDAO.getNotReviewedTeams();//未審核數量
-        // int incomplete = teamDAO.getIncompleteTeams();//需補件數量
-        // int qualifying = teamDAO.getQualifyingTeams();//進初賽隊伍數量
-        // int finalround = teamDAO.getFinalRoundTeams();//進決賽隊伍數量
+        // Team team = teamDAO.getTeamStatus();
 
-        Map<String, Object> response = new HashMap<>();
-        // 假資料
-        response.put("amount", 60);
-        response.put("approved", 50);
-        response.put("notreview", 10);
-        response.put("incomplete", 5);
-        response.put("qualifying", 30);
-        response.put("finalround", 20);
+        Team team = new Team();
+        team.setAmounts(60);
+        team.setApproved(50);
+        team.setNotreview(10);
+        team.setIncomplete(5);
+        team.setQualifying(30);
+        team.setFinalround(20);
 
-        // response.put("amounts", amounts);
-        // response.put("approved", approved);
-        // response.put("notreview", notreview);
-        // response.put("incomplete", incomplete);
-        // response.put("qualifying", qualifying);
-        // response.put("finalround", finalround);
-
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(team);
     }
 
     @GetMapping("Cond")
-    public ResponseEntity<List<Map<String, Object>>> getBasicAllTeam() {
+    public ResponseEntity<List<Team>> getBasicAllTeam() {
         // 前端要所有隊伍的基本資料
         // 寫完DAO再取消註解
         // List<Team> teams = teamDAO.getAllBasicTeams();
 
-        
-        // return teams.stream().map(team -> Map.of(
-        //     "teamid", team.getTeamId(),
-        //     "teamname", team.getTeamName(),
-        //     "teamtype", team.getTeamType(),
-        //     "teamstate", team.getTeamState(),
-        //     "workid", team.getWorkId(),
-        //     "workintro", team.getWorkIntro(),
-        //     "consent", team.getConsent(),
-        //     "affidavit", team.getAffidavit()
-        // )).collect(Collectors.toList());
-
         // 假資料
-        Map<String, Object> response = new HashMap<>();
-        response.put("teamid", "1");
-        response.put("teamname", "team1");
-        response.put("teamtype", "type1");
-        response.put("teamstate", "已審核");
-        response.put("workid", "work1");
-        response.put("workintro", "intro1");
-        response.put("consent", "consent1");
-        response.put("affidavit", "affidavit1");
-        return ResponseEntity.ok(List.of(response));
+        List<Team> teams = new ArrayList<>();
+        Team team1 = new Team();
+        team1.setTeamId("1");
+        team1.setTeamName("team1");
+        team1.setTeamType("type1");
+        team1.setAffidavit("affidavit1");
+        team1.setConsent("consent1");
+        team1.setTeamState("已審核");
+        team1.setWorkId("work1");
+        team1.setWorkIntro("intro1");
+        teams.add(team1);
+        Team team2 = new Team();
+        team2.setTeamId("2");
+        team2.setTeamName("team2");
+        team2.setTeamType("type2");
+        team2.setAffidavit("affidavit2");
+        team2.setConsent("consent2");
+        team2.setTeamState("未審核");
+        team2.setWorkId("work2");
+        team2.setWorkIntro("intro2");
+        teams.add(team2);
+        return ResponseEntity.ok(teams);
     }
 
     //拿所有隊伍的基本資料，但有限制，限制年份、組別(全組別，創意發想組，創業實作組)、隊伍狀態。
     //若無限制隊伍狀態，請同getBasicAllteam()排序
     //若無限制組別，請將同組別資料都一群先輸出，如創意發想組先，接創業實作組，或相反也可。
     @PostMapping("/Cond/Constraint")
-    public ResponseEntity<List<Map<String, Object>>> getBasicAllTeamWithConstraint(@RequestBody Map<String, Object> constraint) {
+    public ResponseEntity<List<Team>> getBasicAllTeamWithConstraint(@RequestBody Map<String, Object> constraint) {
         // 前端要所有隊伍的基本資料，但有限制，資料庫注意一下constraint
         // List<Team> teams = teamDAO.getBasicTeamsWithConstraint(constraint);
 
-        // List<Map<String, Object>> response = teams.stream().map(team -> Map.of(
-        //     "teamid", team.getTeamId(),
-        //     "teamname", team.getTeamName(),
-        //     "teamtype", team.getTeamType(),
-        //     "teamstate", team.getTeamState(),
-        //     "workid", team.getWorkId(),
-        //     "workintro", team.getWorkIntro(),
-        //     "consent", team.getConsent(),
-        //     "affidavit", team.getAffidavit()
-        // )).collect(Collectors.toList());
-
+        
         // 假資料
-        Map<String, Object> response = new HashMap<>();
-        response.put("teamid", "1");
-        response.put("teamname", "team1");
-        response.put("teamtype", "type1");
-        response.put("teamstate", "已審核");
-        response.put("workid", "work1");
-        response.put("workintro", "intro1");
-        response.put("consent", "consent1");
-        response.put("affidavit", "affidavit1");
-
-        return ResponseEntity.ok(List.of(response));
+        List<Team> teams = new ArrayList<>();
+        Team team1 = new Team();
+        team1.setTeamId("1");
+        team1.setTeamName("team1");
+        team1.setTeamType("type1");
+        team1.setAffidavit("affidavit1");
+        team1.setConsent("consent1");
+        team1.setTeamState("已審核");
+        team1.setWorkId("work1");
+        team1.setWorkIntro("intro1");
+        teams.add(team1);
+        Team team2 = new Team();
+        team2.setTeamId("2");
+        team2.setTeamName("team2");
+        team2.setTeamType("type2");
+        team2.setAffidavit("affidavit2");
+        team2.setConsent("consent2");
+        team2.setTeamState("未審核");
+        team2.setWorkId("work2");
+        team2.setWorkIntro("intro2");
+        teams.add(team2);
+        return ResponseEntity.ok(teams);
     }
     
     @GetMapping("/{teamid}")
@@ -141,5 +128,57 @@ public class TeamController {
         // String state = request.get("state");
         // teamDAO.updateTeamState(teamid, state);
         return ResponseEntity.ok().build();
+    }
+
+    //拿創意發想組的所有隊伍
+    //只需要隊伍ID、隊伍名稱、作品名稱、隊伍類型
+    @GetMapping("/idea")
+    public ResponseEntity<List<Team>> getIdeaTeams() {
+        // List<Team> teams = teamDAO.getIdeaTeams();
+
+        // return teams.stream().map(team -> {
+        //     Team t = new Team();
+        //     t.setTeamId(team.getTeamId());
+        //     t.setTeamName(team.getTeamName());
+        //     t.setTeamType(team.getTeamType());
+        //     t.setTeamRank(team.getTeamRank());
+        //     t.setAffidavit(team.getAffidavit());
+        //     t.setConsent(team.getConsent());
+        //     t.setTeacherEmail(team.getTeacherEmail());
+        //     t.setTeamState(team.getTeamState());
+        //     t.setWorkId(team.getWorkId());
+        //     t.setWorkName(team.getWorkName());
+        //     t.setWorkSummary(team.getWorkSummary());
+        //     t.setWorkSdgs(team.getWorkSdgs());
+        //     t.setWorkPoster(team.getWorkPoster());
+        //     t.setWorkYtUrl(team.getWorkYtUrl());
+        //     t.setWorkGithub(team.getWorkGithub());
+        //     t.setWorkYear(team.getWorkYear());
+        //     t.setWorkIntro(team.getWorkIntro());
+        //     return t;
+        // }).collect(Collectors.toList());
+
+        // 假資料
+        Team team = new Team();
+        team.setTeamId("1");
+        team.setTeamName("team1");
+        team.setTeamType("type1");
+        team.setTeamRank("rank1");
+        team.setAffidavit("affidavit1");
+        team.setConsent("consent1");
+        team.setTeacherEmail("teacher1@gmail");
+        team.setTeamState("已審核");
+        team.setWorkId("work1");
+        team.setWorkName("work1");
+        team.setWorkSummary("summary1");
+        team.setWorkSdgs("sdgs1");
+        team.setWorkPoster("poster1");
+        team.setWorkYtUrl("yturl1");
+        team.setWorkGithub("github1");
+        team.setWorkYear("year1");
+        team.setWorkIntro("intro1");
+        
+        // return ResponseEntity.ok(teams);
+        return ResponseEntity.ok(List.of(team));
     }
 }

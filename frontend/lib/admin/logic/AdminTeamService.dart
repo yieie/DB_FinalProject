@@ -3,7 +3,6 @@ import 'package:db_finalproject/data/Score.dart';
 import 'package:db_finalproject/data/Team.dart';
 import 'package:db_finalproject/data/Student.dart';
 import 'package:db_finalproject/data/Teacher.dart';
-import 'dart:convert';
 
 class AdminTeamService {
   final ApiService _apiService = ApiService();
@@ -12,6 +11,7 @@ class AdminTeamService {
   //回傳資料請以隊伍狀態排序，依序為報名待審核、已補件、待審核初賽資格、需補件、已審核、初賽隊伍、決賽隊伍
   Future<List<Team>> getBasicAllTeam() async{
     final response = await _apiService.get('/Teams/Cond');
+    print(response);
     return (response as List).map((json) => Team.fromJson(json)).toList();
   }
 

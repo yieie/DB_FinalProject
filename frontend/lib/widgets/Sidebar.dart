@@ -1,16 +1,15 @@
-import 'package:db_finalproject/admin/components/ViewScores.dart';
 import 'package:db_finalproject/core/services/AuthProvider.dart';
-import 'package:db_finalproject/admin/components/JudgeData.dart';
-import 'package:db_finalproject/admin/components/WorkshopData.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:db_finalproject/admin/components/admin.dart';
 import 'package:db_finalproject/judge/components/judge.dart';
 import 'package:db_finalproject/student/components/stu.dart';
-import 'package:db_finalproject/teacher/components/tr.dart';
+import 'package:db_finalproject/teacher/components/TeachTeams.dart';
 import 'package:db_finalproject/common/components/PersonalData.dart';
 
 class Sidebar extends StatefulWidget{
+  const Sidebar({super.key});
+
   @override
   State<Sidebar> createState() => _SidebarState();
 }
@@ -20,7 +19,7 @@ class _SidebarState extends State<Sidebar> {
     "admin": ['公告管理','工作坊管理','評審資料管理',"隊伍管理","查看評分資料"],
     "stu": ["個人資料管理","隊伍報名管理","文件上傳","工作坊報名"],
     "tr": ["個人資料管理","指導隊伍管理"],
-    "judge": ["評分紀錄"],
+    "judge": ["個人資料管理","評分列表","評分隊伍資料"],
   }; 
 
   Future<dynamic> pageroute(String str,String usertype) async{
@@ -30,7 +29,7 @@ class _SidebarState extends State<Sidebar> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => AnnManage(),
+            builder: (context) => const AnnManage(),
           ),
         );
       }else if(str =='比賽資料管理'){
@@ -38,7 +37,7 @@ class _SidebarState extends State<Sidebar> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => ContestData(),
+            builder: (context) => const ContestData(),
           ),
         );
       }else if(str=="工作坊管理"){
@@ -46,7 +45,7 @@ class _SidebarState extends State<Sidebar> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => WorkshopDataFrame(),
+            builder: (context) => const WorkshopDataFrame(),
           ),
         );
       }else if(str == "評審資料管理"){
@@ -54,7 +53,7 @@ class _SidebarState extends State<Sidebar> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => JudgeDataFrame(),
+            builder: (context) => const JudgeDataFrame(),
           ),
         );
       }else if(str == '隊伍管理'){
@@ -62,7 +61,7 @@ class _SidebarState extends State<Sidebar> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => ContestData(),
+            builder: (context) => const ContestData(),
           ),
         );
       }else{
@@ -70,7 +69,7 @@ class _SidebarState extends State<Sidebar> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => ViewScores(),
+            builder: (context) => const ViewScores(),
           ),
         );
       }
@@ -80,7 +79,7 @@ class _SidebarState extends State<Sidebar> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => PersonalData(),
+            builder: (context) => const PersonalData(),
           ),
         );
       }else if(str =='隊伍報名管理'){
@@ -88,7 +87,7 @@ class _SidebarState extends State<Sidebar> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => TeamData(),
+            builder: (context) => const TeamData(),
           ),
         );
       }else if(str =='文件上傳'){
@@ -96,7 +95,7 @@ class _SidebarState extends State<Sidebar> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => ContestDataUpload(),
+            builder: (context) => const ContestDataUpload(),
           ),
         );
       }else{
@@ -104,25 +103,33 @@ class _SidebarState extends State<Sidebar> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => WorkshopJoin(),
+            builder: (context) => const WorkshopJoin(),
           ),
         );
       }
   }else if(usertype =='judge'){
-    if(str =='評分隊伍列表'){
+    if(str =='個人資料管理'){
+        return 
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const PersonalData(),
+          ),
+        );
+      }else if(str == '評分列表'){
+        return 
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const RateRecords(),
+          ),
+        );
+      }else{
         return 
         Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) => RateTeams(),
-          ),
-        );
-      }else{
-        return 
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => RateRecords(),
           ),
         );
       }
@@ -132,7 +139,7 @@ class _SidebarState extends State<Sidebar> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => PersonalData(),
+            builder: (context) => const PersonalData(),
           ),
         );
       }else{
@@ -140,7 +147,7 @@ class _SidebarState extends State<Sidebar> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => TeachTeams(),
+            builder: (context) => const TeachTeams(),
           ),
         );
       }
@@ -151,7 +158,7 @@ class _SidebarState extends State<Sidebar> {
   Widget build(BuildContext context) {
     final authProvider = Provider.of<AuthProvider>(context);
     return AnimatedContainer(
-      duration: Duration(milliseconds: 300),
+      duration: const Duration(milliseconds: 300),
       width: authProvider.isSidebarOpen ? 250 : 0,
       color: Colors.grey.shade300,
 
@@ -160,7 +167,7 @@ class _SidebarState extends State<Sidebar> {
         children: (userSidebar[authProvider.usertype]??[]).map((item)
         {
           return ListTile(
-              leading:SizedBox(
+              leading:const SizedBox(
                 height: 15,
                 width: 15,
                 child: Icon(Icons.circle,size: 15),

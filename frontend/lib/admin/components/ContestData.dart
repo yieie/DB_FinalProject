@@ -13,8 +13,10 @@ import 'package:url_launcher/url_launcher.dart';
 /*類似Adminmainpage中的隊伍資料，有更多功能，可以去查看隊伍的學生、老師、實際作品的檔案*/
 
 class ContestData extends StatefulWidget{
+  const ContestData({super.key});
+
   @override
-  _ContestDataState createState() => _ContestDataState();
+  State<ContestData> createState() => _ContestDataState();
 }
 
 class _ContestDataState extends State<ContestData> {
@@ -31,18 +33,18 @@ class _ContestDataState extends State<ContestData> {
     final authProvider = Provider.of<AuthProvider>(context);
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: Navbar(),
+      appBar: const Navbar(),
       body:Stack(
         
         children:
         [
           AnimatedContainer(
-            duration: Duration(milliseconds: 300),
+            duration: const Duration(milliseconds: 300),
             margin: EdgeInsets.only(left: authProvider.isSidebarOpen ? 250 : 0),
             child: Column(
               children: [
                 selectBar(onUpdateTeams: updateTeams),
-                SizedBox(height: 20,),
+                const SizedBox(height: 20,),
                 showTeams(teams: teams)
               ],
             )
@@ -59,29 +61,28 @@ class selectBar extends StatefulWidget{
   final years=["2024","2023","2022","2021","2020","2019","2018","2017","2016","2015","2014","2013","2012"];
   final teamtype=["全組別","創意發想組","創業實作組"];
   final teamstaus=["無","報名待審核","已審核","待審核初賽資格","需補件","已補件","初賽隊伍","決賽隊伍"];
-  String _selectedyears="2024";
-  String _selectedteamtype="全組別";
-  String _selectedteamstatus="無";
   final Function(List<Team>) onUpdateTeams;
 
-  selectBar({required this.onUpdateTeams});
+  selectBar({super.key, required this.onUpdateTeams});
 
   @override
   _selectedBarState createState() => _selectedBarState();
 }
 
 class _selectedBarState extends State<selectBar>{
+  String _selectedyears="2024";
+  String _selectedteamtype="全組別";
+  String _selectedteamstatus="無";
   
   final AdminTeamService _adminTeamService =AdminTeamService();
   List<Team> teams=[];
 
   Future<void> _search() async{
-    print("search");
     try{
       teams = await _adminTeamService.getBasicAllTeamWithConstraint({
-        'teamyear':widget._selectedyears,
-        'teamtype':widget._selectedteamtype,
-        'teamstate':widget._selectedteamstatus
+        'teamyear':_selectedyears,
+        'teamtype':_selectedteamtype,
+        'teamstate':_selectedteamstatus
       });
       widget.onUpdateTeams(teams);
     }catch(e){
@@ -103,17 +104,16 @@ class _selectedBarState extends State<selectBar>{
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Spacer(),
-        Text("年份",style: TextStyle(fontSize: 16),),
-        SizedBox(width: 10,),
+        const Spacer(),
+        const Text("年份",style: TextStyle(fontSize: 16),),
+        const SizedBox(width: 10,),
         DropdownButton(
-          value: widget._selectedyears,
-          icon: Icon(Icons.keyboard_arrow_down),
+          value: _selectedyears,
+          icon: const Icon(Icons.keyboard_arrow_down),
           dropdownColor: Colors.white,
           onChanged: (String? value) {
-            print(value);
             setState((){
-              widget._selectedyears = value!;
+              _selectedyears = value!;
             });
           },
           items: widget.years.map((String item) {
@@ -123,17 +123,16 @@ class _selectedBarState extends State<selectBar>{
             );
           }).toList(),
         ),
-        Spacer(),
-        Text("隊伍組別",style: TextStyle(fontSize: 16)),
-        SizedBox(width: 10,),
+        const Spacer(),
+        const Text("隊伍組別",style: TextStyle(fontSize: 16)),
+        const SizedBox(width: 10,),
         DropdownButton(
-          value: widget._selectedteamtype,
-          icon: Icon(Icons.keyboard_arrow_down),
+          value: _selectedteamtype,
+          icon: const Icon(Icons.keyboard_arrow_down),
           dropdownColor: Colors.white,
           onChanged: (String? value) {
-            print(value);
             setState((){
-              widget._selectedteamtype = value!;
+              _selectedteamtype = value!;
             });
           },
           items: widget.teamtype.map((String item) {
@@ -143,17 +142,16 @@ class _selectedBarState extends State<selectBar>{
             );
           }).toList(),
         ),
-        Spacer(),
-        Text("隊伍狀態",style: TextStyle(fontSize: 16)),
-        SizedBox(width: 10,),
+        const Spacer(),
+        const Text("隊伍狀態",style: TextStyle(fontSize: 16)),
+        const SizedBox(width: 10,),
         DropdownButton(
-          value: widget._selectedteamstatus,
-          icon: Icon(Icons.keyboard_arrow_down),
+          value: _selectedteamstatus,
+          icon: const Icon(Icons.keyboard_arrow_down),
           dropdownColor: Colors.white,
           onChanged: (String? value) {
-            print(value);
             setState((){
-              widget._selectedteamstatus = value!;
+              _selectedteamstatus = value!;
             });
           },
           items: widget.teamstaus.map((String item) {
@@ -163,30 +161,29 @@ class _selectedBarState extends State<selectBar>{
             );
           }).toList(),
         ),
-        Spacer(),
+        const Spacer(),
         ElevatedButton(
           onPressed: _search,
-          child: Text("查詢"),
+          child: const Text("查詢"),
         ),
-        Spacer()
+        const Spacer()
       ],
     );
   }
 }
 
 class showTeams extends StatefulWidget{
-  List<Team> teams;
-  showTeams({required this.teams});
+  final List<Team> teams;
+  const showTeams({super.key,required this.teams});
 
   @override
-  _showTeamState createState() => _showTeamState();
+  State<showTeams> createState() => _showTeamState();
 }
 
 class _showTeamState extends State<showTeams>{
 
   @override
   Widget build(BuildContext context){
-    print("${widget.teams}");
     return Expanded(
       child: ListView.builder(
         itemCount: widget.teams.length,
@@ -200,7 +197,7 @@ class _showTeamState extends State<showTeams>{
                     team.state=="已審核"?Colors.green.shade100:
                     team.state=="初賽隊伍"?Colors.blue.shade100:Colors.blue.shade300
                     ,
-            margin: EdgeInsets.symmetric(vertical: 8,horizontal: 16),
+            margin: const EdgeInsets.symmetric(vertical: 8,horizontal: 16),
             child: ListTile(
               title: Text('${team.teamid}: ${team.teamname}'),
               subtitle: Text("隊伍狀態:${team.state}"),
@@ -223,16 +220,16 @@ class _showTeamState extends State<showTeams>{
 }
 
 class showDetailTeam extends StatefulWidget{
-  showDetailTeam({required this.teamid});
-  String teamid;
+  const showDetailTeam({super.key, required this.teamid});
+  final String teamid;
   
   @override
-  _showDetailTeamState createState()=> _showDetailTeamState();
+  State<showDetailTeam> createState()=> _showDetailTeamState();
 }
 
 class _showDetailTeamState extends State<showDetailTeam>{
 
-  AdminTeamService _adminTeamService = AdminTeamService();
+  final AdminTeamService _adminTeamService = AdminTeamService();
   Team? team;//=Team(teamid: '2024team001', teamname: '我們這一對', teamtype: '報名待審核',consent: '1231454');
   List<Student>? stu;//=[
       //   Student(id: 'A1105546', name: '王大明', email: 'a1105546@mail.nuk.edu.tw', sexual: '男', phone: '0933556456', major: '資訊工程系', grade: '大四'),
@@ -266,7 +263,7 @@ class _showDetailTeamState extends State<showDetailTeam>{
   
   Future<void> fetchFile(String fileurl) async{
     if(await _adminTeamService.getFile(fileurl) != null){
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("無法下載檔案")));
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("無法下載檔案")));
     }
   }
 
@@ -292,6 +289,7 @@ class _showDetailTeamState extends State<showDetailTeam>{
     }
   }
 
+  @override
   void initState(){
     super.initState();
     fectchteamdetail();
@@ -301,32 +299,32 @@ class _showDetailTeamState extends State<showDetailTeam>{
   Widget build(BuildContext context){
     return Scaffold(
       backgroundColor: Colors.white,
-      body: team==null?Center(child: CircularProgressIndicator()):
+      body: team==null?const Center(child: CircularProgressIndicator()):
       SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.all(50),
+          padding:const  EdgeInsets.all(50),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text("隊伍資訊",style: TextStyle(fontSize: 20)),
-              SizedBox(height: 20,),
+              const Text("隊伍資訊",style: TextStyle(fontSize: 20)),
+              const SizedBox(height: 20,),
               Row(
                 children: [
-                  Spacer(),
-                  Text("隊伍ID: ${team!.teamid}",style: TextStyle(fontSize: 18),),
-                  Spacer(),
-                  Text("隊伍名稱: ${team!.teamname}",style: TextStyle(fontSize: 18)),
-                  Spacer(),
-                  Text("參賽組別: ${team!.teamtype}",style: TextStyle(fontSize: 18),),
-                  Spacer(),
-                  Text("隊伍狀態: ${team!.state}",style: TextStyle(fontSize: 18)),
-                  Spacer(),
+                  const Spacer(),
+                  Text("隊伍ID: ${team!.teamid}",style: const TextStyle(fontSize: 18),),
+                  const Spacer(),
+                  Text("隊伍名稱: ${team!.teamname}",style: const TextStyle(fontSize: 18)),
+                  const Spacer(),
+                  Text("參賽組別: ${team!.teamtype}",style: const TextStyle(fontSize: 18),),
+                  const Spacer(),
+                  Text("隊伍狀態: ${team!.state}",style: const TextStyle(fontSize: 18)),
+                  const Spacer(),
                 ],
               ),
-              SizedBox(height: 20,),
+              const SizedBox(height: 20,),
               Row(
                 children:[
-                  Text('作品說明書：',style: TextStyle(fontSize: 18)),
+                  const Text('作品說明書：',style: TextStyle(fontSize: 18)),
                   TextButton(
                     onPressed: team!.workintro==null?null:()=>fetchFile(team!.workintro!),
                     child: Text(team!.workintro??'尚未上傳',style: TextStyle(
@@ -338,10 +336,10 @@ class _showDetailTeamState extends State<showDetailTeam>{
                   )
                 ]
               ),
-              SizedBox(height: 10,),
+              const SizedBox(height: 10,),
               Row(
                 children:[
-                  Text('切結書：',style: TextStyle(fontSize: 18)),
+                  const Text('切結書：',style: TextStyle(fontSize: 18)),
                   TextButton(
                     onPressed: team!.affidavit==null?null:()=>fetchFile(team!.affidavit!),
                     child: Text(team!.affidavit??'尚未上傳',style: TextStyle(
@@ -353,10 +351,10 @@ class _showDetailTeamState extends State<showDetailTeam>{
                   )
                 ]
               ),
-              SizedBox(height: 10,),
+              const SizedBox(height: 10,),
               Row(
                 children:[
-                  Text('個人資料同意書：',style: TextStyle(fontSize: 18)),
+                  const Text('個人資料同意書：',style: TextStyle(fontSize: 18)),
                   TextButton(
                     onPressed: team!.consent==null?null:()=>fetchFile(team!.consent!),
                     child: Text(team!.consent??'尚未上傳',style: TextStyle(
@@ -368,20 +366,20 @@ class _showDetailTeamState extends State<showDetailTeam>{
                   )
                 ]
               ),
-              SizedBox(height: 20,),
+              const SizedBox(height: 20,),
               Row(
                 children: [
-                  Spacer(),
-                  Text("作品ID: ${team!.workid??'無'}",style: TextStyle(fontSize: 18),),
-                  Spacer(),
-                  Text("作品名稱: ${team!.workname??'無'}",style: TextStyle(fontSize: 18)),
-                  Spacer(),
+                  const Spacer(),
+                  Text("作品ID: ${team!.workid??'無'}",style: const TextStyle(fontSize: 18),),
+                  const Spacer(),
+                  Text("作品名稱: ${team!.workname??'無'}",style: const TextStyle(fontSize: 18)),
+                  const Spacer(),
                 ],
               ),
-              SizedBox(height: 10,),
+              const SizedBox(height: 10,),
               Row(
                 children:[
-                  Text('作品Youtube連結：',style: TextStyle(fontSize: 18)),
+                  const Text('作品Youtube連結：',style: TextStyle(fontSize: 18)),
                   TextButton(
                     onPressed: team!.workyturl==null?null:()=>_launchUrl(team!.workyturl!),
                     child: Text(team!.workyturl??'無',style: TextStyle(
@@ -393,10 +391,10 @@ class _showDetailTeamState extends State<showDetailTeam>{
                   )
                 ]
               ),
-              SizedBox(height: 10,),
+              const SizedBox(height: 10,),
               Row(
                 children:[
-                  Text('作品github連結：',style: TextStyle(fontSize: 18)),
+                  const Text('作品github連結：',style: TextStyle(fontSize: 18)),
                   TextButton(
                     onPressed: team!.workgithub==null?null:()=>_launchUrl(team!.workgithub!),
                     child: Text(team!.workgithub??'無',style: TextStyle(
@@ -408,38 +406,38 @@ class _showDetailTeamState extends State<showDetailTeam>{
                   )
                 ]
               ),
-              SizedBox(height: 10,),
+              const SizedBox(height: 10,),
               Row(
                 children:[
-                  Text('作品相關SDGs：',style: TextStyle(fontSize: 18)),
-                  team!.worksdgs==null?Text('無',style: TextStyle(fontSize: 18)):
+                  const Text('作品相關SDGs：',style: TextStyle(fontSize: 18)),
+                  team!.worksdgs==null?const Text('無',style: TextStyle(fontSize: 18)):
                   Row(
                   children: 
                     team!.worksdgs!.split(',').map((sdg)=>
                       Padding(
-                        padding: EdgeInsets.all(5),
+                        padding: const EdgeInsets.all(5),
                         child: Image.asset('assets/images/SDGs_$sdg.png',width: 50,height: 50,fit: BoxFit.cover),
                       )).toList()
                   )
                 ]
               ),
-              SizedBox(height: 10,),
-              Container(alignment:Alignment.topLeft, child: Text('作品說明：',style: TextStyle(fontSize: 18))),
-              SizedBox(height: 10,),
+              const SizedBox(height: 10,),
+              Container(alignment:Alignment.topLeft, child: const Text('作品說明：',style: TextStyle(fontSize: 18))),
+              const SizedBox(height: 10,),
               Container(alignment: Alignment.topLeft, child: Text(team!.worksummary!)),
-              SizedBox(height: 20,),
-              Text("作品海報",style: TextStyle(fontSize: 18)),
-              team!.workposter==null?Text("無",style: TextStyle(fontSize: 18)):Image.network('http://localhost:8080/${team!.workposter}'),
-              SizedBox(height: 20,),
-              Text("指導老師",style: TextStyle(fontSize: 20)),
-              SizedBox(height: 10,),
-              team!.teacheremail == null ? Text('無',style: TextStyle(fontSize: 20)) :
+              const SizedBox(height: 20,),
+              const Text("作品海報",style: TextStyle(fontSize: 18)),
+              team!.workposter==null?const Text("無",style: TextStyle(fontSize: 18)):Image.network('http://localhost:8080/${team!.workposter}'),
+              const SizedBox(height: 20,),
+              const Text("指導老師",style: TextStyle(fontSize: 20)),
+              const SizedBox(height: 10,),
+              team!.teacheremail == null ? const Text('無',style: TextStyle(fontSize: 20)) :
               Container(
                 decoration: BoxDecoration(
                   color: Colors.blueGrey.shade100,
                   borderRadius: BorderRadius.circular(10),
                 ),
-                padding: EdgeInsets.only(top: 15,bottom: 15,left: 15),
+                padding: const EdgeInsets.only(top: 15,bottom: 15,left: 15),
                 child: Row(
                   children: [
                     Expanded(flex: 3, child: Text(teacher!.name)),
@@ -452,9 +450,9 @@ class _showDetailTeamState extends State<showDetailTeam>{
                   ],
                 ),
               ),
-              SizedBox(height: 20,),
-              Text("隊員資料",style: TextStyle(fontSize: 20)),
-              Container(
+              const SizedBox(height: 20,),
+              const Text("隊員資料",style: TextStyle(fontSize: 20)),
+              SizedBox(
                 height: 500,
                 child: ListView.builder(
                   itemCount: stu!.length,
@@ -466,8 +464,8 @@ class _showDetailTeamState extends State<showDetailTeam>{
                              student.isLeader ==true? Colors.blueGrey.shade100:Colors.blueGrey.shade100,
                         borderRadius: BorderRadius.circular(10)
                       ),
-                      margin: EdgeInsets.only(top: 15,bottom: 15),
-                      padding: EdgeInsets.only(top: 15,bottom: 15,left: 15) ,
+                      margin: const EdgeInsets.only(top: 15,bottom: 15),
+                      padding: const  EdgeInsets.only(top: 15,bottom: 15,left: 15) ,
                       child: Column(
                         children:[ 
                         Row(
@@ -489,24 +487,24 @@ class _showDetailTeamState extends State<showDetailTeam>{
                   },
                 ),
               ),
-              SizedBox(height: 20,),
+              const SizedBox(height: 20,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   ElevatedButton(
                     onPressed:() {
                       editTeamState(team!.teamid, team!.state!, '通過');
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("隊伍狀態已更新")));
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("隊伍狀態已更新")));
                     }, 
-                    child: Text("審核通過")
+                    child: const Text("審核通過")
                   ),
-                  SizedBox(width: 20,),
+                  const SizedBox(width: 20,),
                   ElevatedButton(
                     onPressed:() {
                       editTeamState(team!.teamid, team!.state!, '不通過');
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("隊伍狀態已更新")));
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("隊伍狀態已更新")));
                     }, 
-                    child: Text("審核不通過，需補件")
+                    child: const Text("審核不通過，需補件")
                   ),
                 ],
               )

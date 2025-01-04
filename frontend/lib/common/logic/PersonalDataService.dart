@@ -5,7 +5,7 @@ import 'package:db_finalproject/data/User.dart';
 import 'package:db_finalproject/data/Judge.dart';
 
 class PersonalDataService {
-  ApiService _apiService = ApiService();
+  final ApiService _apiService = ApiService();
 
   //獲取使用者的詳細資料
   Future<User> getUserData(String usertype, String useraccount) async{
@@ -26,6 +26,6 @@ class PersonalDataService {
   Future<void> updateUserData(String usertype, User user) async{
     //第一個字母大寫(Stu Tr Judge)
     usertype = usertype[0].toUpperCase() + usertype.substring(1);
-    final response = await _apiService.post('/$usertype/${user.id}/update', user.toJson());
+    await _apiService.post('/$usertype/${user.id}/update', user.toJson());
   }
 }

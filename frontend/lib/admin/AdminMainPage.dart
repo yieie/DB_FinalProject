@@ -1,4 +1,3 @@
-import 'package:db_finalproject/core/services/ApiService.dart';
 import 'package:db_finalproject/admin/logic/TeamsStatusService.dart';
 import 'package:db_finalproject/data/Announcement.dart';
 import 'package:db_finalproject/data/TeamsStatus.dart';
@@ -10,8 +9,11 @@ import 'package:db_finalproject/widgets/Navbar.dart';
 import 'package:db_finalproject/core/services/AuthProvider.dart';
 import 'package:provider/provider.dart';
 import 'package:db_finalproject/admin/logic/AdminTeamService.dart';
+import 'dart:html' as html;
 
 class AdminMainPage extends StatefulWidget{
+  const AdminMainPage({super.key});
+
   @override
   State<AdminMainPage> createState() => _AdminMainPageState();
 }
@@ -22,15 +24,15 @@ class _AdminMainPageState extends State<AdminMainPage>{
     final authProvider = Provider.of<AuthProvider>(context);
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: Navbar(),
+      appBar: const Navbar(),
       body:Stack(
         
         children:
         [
           AnimatedContainer(
-            duration: Duration(milliseconds: 300),
+            duration: const Duration(milliseconds: 300),
             margin: EdgeInsets.only(left: authProvider.isSidebarOpen ? 250 : 0),
-            child: Dashboard()
+            child: const Dashboard()
           ),
           Sidebar()
         ]
@@ -41,7 +43,8 @@ class _AdminMainPageState extends State<AdminMainPage>{
 }
 
 class Dashboard extends StatefulWidget{
-  
+  const Dashboard({super.key});
+
   @override
   State<Dashboard> createState() =>_DashboardState();
 }
@@ -63,11 +66,11 @@ class _DashboardState extends State<Dashboard>{
               
               Column(
                 children: [
-                  Padding(padding: EdgeInsets.only(top: 20)),
+                  const Padding(padding: EdgeInsets.only(top: 20)),
 
                   TeamsCond(rowheight: 30,screenWidth: screenWidth),
 
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
 
                   AnnsCond(screenWidth: screenWidth, rowheight: 30)
 
@@ -88,9 +91,9 @@ class _DashboardState extends State<Dashboard>{
 class TeamsCond extends StatefulWidget{
   final TeamsStatusService _teamsStatusService = TeamsStatusService();
   final AdminTeamService _adminTeamService = AdminTeamService();
-  double rowheight;
-  double screenWidth;
-  TeamsCond({ required this.rowheight ,required this.screenWidth});
+  final double rowheight;
+  final double screenWidth;
+  TeamsCond({super.key, required this.rowheight ,required this.screenWidth});
   @override
   State<TeamsCond> createState() => _TeamsCondState();
 }
@@ -110,8 +113,6 @@ class _TeamsCondState extends State<TeamsCond>{
     try {
       status = await widget._teamsStatusService.getTeamsStatus();
       setState((){});
-      // 更新 UI 或處理邏輯
-      print('Fetched ${TeamsStatus} announcements');
     } catch (e) {
       print('Error: $e');
       setState((){
@@ -124,8 +125,6 @@ class _TeamsCondState extends State<TeamsCond>{
     try {
       teams = await widget._adminTeamService.getBasicAllTeam();
       setState((){});
-      // 更新 UI 或處理邏輯
-      print('Fetched ${teams} announcements');
     } catch (e) {
       print('Error: $e');
       // 測試用資
@@ -152,7 +151,7 @@ class _TeamsCondState extends State<TeamsCond>{
   Widget build(BuildContext context){
     return 
           Container(
-            width: widget.screenWidth>1000?1000:widget.screenWidth*0.9,
+            width: widget.screenWidth>850?850:widget.screenWidth*0.9,
             height: 500,
             decoration: BoxDecoration(
               color: Colors.grey[100],
@@ -160,23 +159,23 @@ class _TeamsCondState extends State<TeamsCond>{
             ),
             child: Container(
               alignment: Alignment.topLeft,
-              padding: EdgeInsets.only(top: 15,left: 20,right: 20),
+              padding: const EdgeInsets.only(top: 15,left: 20,right: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
                     children: [
-                      Text(
+                      const Text(
                         "隊伍管理",
                         style:  TextStyle(
                           fontSize:24
                         ),
                       ),
-                      SizedBox(width: 50,),
+                      const SizedBox(width: 50,),
                       Container(
                         height: 30,
                         width:100,
-                        padding: EdgeInsets.only(top: 4),
+                        padding: const EdgeInsets.only(top: 4),
                         decoration: BoxDecoration(
                           border: Border.all(color: Colors.grey.shade600),
                           borderRadius: BorderRadius.circular(20)
@@ -186,11 +185,11 @@ class _TeamsCondState extends State<TeamsCond>{
                           textAlign: TextAlign.center,
                         )
                       ),
-                      SizedBox(width: 20,),
+                      const SizedBox(width: 20,),
                       Container(
                         height: 30,
                         width:100,
-                        padding: EdgeInsets.only(top: 4),
+                        padding: const EdgeInsets.only(top: 4),
                         decoration: BoxDecoration(
                           color: Colors.green.shade200,
                           borderRadius: BorderRadius.circular(20)
@@ -200,11 +199,11 @@ class _TeamsCondState extends State<TeamsCond>{
                           textAlign: TextAlign.center,
                         )
                       ),
-                      SizedBox(width: 20,),
+                      const SizedBox(width: 20,),
                       Container(
                         height: 30,
                         width:100,
-                        padding: EdgeInsets.only(top: 4),
+                        padding: const EdgeInsets.only(top: 4),
                         decoration: BoxDecoration(
                           color: Colors.grey.shade400,
                           borderRadius: BorderRadius.circular(20)
@@ -214,11 +213,11 @@ class _TeamsCondState extends State<TeamsCond>{
                           textAlign: TextAlign.center,
                         )
                       ),
-                      SizedBox(width: 20,),
+                      const SizedBox(width: 20,),
                       Container(
                         height: 30,
                         width:100,
-                        padding: EdgeInsets.only(top: 4),
+                        padding: const  EdgeInsets.only(top: 4),
                         decoration: BoxDecoration(
                           color: Colors.red.shade200,
                           borderRadius: BorderRadius.circular(20)
@@ -228,11 +227,11 @@ class _TeamsCondState extends State<TeamsCond>{
                           textAlign: TextAlign.center,
                         )
                       ),
-                      SizedBox(width: 20,),
+                      const SizedBox(width: 20,),
                       Container(
                         height: 30,
                         width:100,
-                        padding: EdgeInsets.only(top: 4),
+                        padding: const EdgeInsets.only(top: 4),
                         decoration: BoxDecoration(
                           color: Colors.orange.shade200,
                           borderRadius: BorderRadius.circular(20)
@@ -244,10 +243,10 @@ class _TeamsCondState extends State<TeamsCond>{
                       ),
                     ],
                   ),
-                  SizedBox(height: 20,),
-                  teams.isEmpty? Center(child: CircularProgressIndicator()):
+                  const SizedBox(height: 20,),
+                  teams.isEmpty? const Center(child: CircularProgressIndicator()):
                   Table(
-                    border: TableBorder(
+                    border: const TableBorder(
                       top: BorderSide(color: Colors.grey ),
                       bottom: BorderSide(color: Colors.grey ),
                       horizontalInside: BorderSide(color: Colors.grey ),
@@ -255,7 +254,7 @@ class _TeamsCondState extends State<TeamsCond>{
                       right: BorderSide.none,
                       left: BorderSide.none
                     ),
-                    columnWidths: {
+                    columnWidths: const {
                       0: FlexColumnWidth(1.5),
                       1: FlexColumnWidth(3),
                       2: FlexColumnWidth(1),
@@ -269,8 +268,8 @@ class _TeamsCondState extends State<TeamsCond>{
                           Container(
                             height: widget.rowheight,
                             alignment: Alignment.centerLeft,
-                            padding: EdgeInsets.only(left: 15),
-                            child: Text(
+                            padding: const EdgeInsets.only(left: 15),
+                            child: const Text(
                               "隊伍ID",
                               textAlign: TextAlign.left,
                             ),
@@ -278,7 +277,7 @@ class _TeamsCondState extends State<TeamsCond>{
                           Container(
                             height: widget.rowheight,
                             alignment: Alignment.centerLeft,
-                            child: Text(
+                            child: const  Text(
                               "隊伍名稱",
                               textAlign: TextAlign.left,
                             ),
@@ -286,7 +285,7 @@ class _TeamsCondState extends State<TeamsCond>{
                           Container(
                             height: widget.rowheight,
                             alignment: Alignment.center,
-                            child: Text(
+                            child: const  Text(
                               "作品說明書",
                               textAlign: TextAlign.center,
                             ),
@@ -294,7 +293,7 @@ class _TeamsCondState extends State<TeamsCond>{
                           Container(
                             height: widget.rowheight,
                             alignment: Alignment.center,
-                            child: Text(
+                            child: const  Text(
                               "切結書",
                               textAlign: TextAlign.center,
                             ),
@@ -302,7 +301,7 @@ class _TeamsCondState extends State<TeamsCond>{
                           Container(
                             height: widget.rowheight,
                             alignment: Alignment.center,
-                            child: Text(
+                            child: const  Text(
                               "同意書",
                               textAlign: TextAlign.center,
                             ),
@@ -310,7 +309,7 @@ class _TeamsCondState extends State<TeamsCond>{
                           Container(
                             height: widget.rowheight,
                             alignment: Alignment.center,
-                            child: Text(
+                            child: const  Text(
                               "報名狀態",
                               textAlign: TextAlign.center,
                             ),
@@ -321,7 +320,7 @@ class _TeamsCondState extends State<TeamsCond>{
                         Container(
                           height: widget.rowheight,
                           alignment: Alignment.centerLeft,
-                          padding: EdgeInsets.only(left: 15),
+                          padding: const  EdgeInsets.only(left: 15),
                           child: Text(
                             item.teamid,
                             textAlign: TextAlign.left,
@@ -338,7 +337,6 @@ class _TeamsCondState extends State<TeamsCond>{
                         Container(
                           height: widget.rowheight,
                           alignment: Alignment.center,
-                          // padding: EdgeInsets.only(top: 5),
                           child: Container(
                             height: 20,
                             width: 70,
@@ -349,7 +347,7 @@ class _TeamsCondState extends State<TeamsCond>{
                             child: Text(
                               item.workintro == null? "未上傳":"已上傳",
                               textAlign: TextAlign.center,
-                              style: TextStyle(
+                              style: const  TextStyle(
                                 fontSize: 12
                               ),
                             ),
@@ -369,7 +367,7 @@ class _TeamsCondState extends State<TeamsCond>{
                             child: Text(
                               item.consent == null? "未上傳":"已上傳",
                               textAlign: TextAlign.center,
-                              style: TextStyle(
+                              style: const  TextStyle(
                                 fontSize: 12
                               ),
                             ),
@@ -389,7 +387,7 @@ class _TeamsCondState extends State<TeamsCond>{
                             child: Text(
                               item.affidavit == null? "未上傳":"已上傳",
                               textAlign: TextAlign.center,
-                              style: TextStyle(
+                              style: const  TextStyle(
                                 fontSize: 12
                               ),
                             ),
@@ -397,13 +395,11 @@ class _TeamsCondState extends State<TeamsCond>{
                         ),
                         InkWell(
                           onTap: () {
-                          print(item.teamid);
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //     builder: (context) => AnnDetailPage(AnnID: item.id),
-                          //   ),
-                          // );
+                            html.window.open(
+                              '/#/team/review?teamid=${item.teamid}', // 新視窗的網址
+                              'reviewTeam',      // 視窗名稱（用於管理視窗實例）
+                              'width=1000,height=720,left=200,top=100', // 視窗屬性
+                            );
                           } ,
                           child: Container(
                             height: widget.rowheight,
@@ -424,7 +420,7 @@ class _TeamsCondState extends State<TeamsCond>{
                               child: Text(
                                 item.state!,
                                 textAlign: TextAlign.center,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: 12
                                 ),
                               ),
@@ -432,7 +428,7 @@ class _TeamsCondState extends State<TeamsCond>{
                           ),
                         ),
                       ]
-                    )).toList(),
+                    ))
                     ]
                   )
                 ],
@@ -444,9 +440,9 @@ class _TeamsCondState extends State<TeamsCond>{
 
 class AnnsCond extends StatefulWidget{
   final AnnouncementService _announcementService = AnnouncementService();
-  double screenWidth;
-  double rowheight;
-  AnnsCond({required this.screenWidth,required this.rowheight});
+  final double screenWidth;
+  final double rowheight;
+  AnnsCond({super.key, required this.screenWidth,required this.rowheight});
 
   @override
   State<AnnsCond> createState() => _AnnsCondState();
@@ -459,8 +455,6 @@ class _AnnsCondState extends State<AnnsCond> {
     try {
       Anns = await widget._announcementService.getBasicAnnouncement();
       setState((){});
-      // 更新 UI 或處理邏輯
-      print('Fetched ${Anns} announcements');
     } catch (e) {
       print('Error: $e');
       //測試用資
@@ -490,19 +484,19 @@ class _AnnsCondState extends State<AnnsCond> {
             ),
             child: Container(
               alignment: Alignment.topLeft,
-              padding: EdgeInsets.only(top: 15,left: 20,right: 20),
+              padding: const EdgeInsets.only(top: 15,left: 20,right: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  const Text(
                     "公告管理",
                     style:  TextStyle(
                       fontSize:20 
                     ),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Table(
-                    border: TableBorder(
+                    border: const TableBorder(
                       top: BorderSide(color: Colors.grey ),
                       bottom: BorderSide(color: Colors.grey ),
                       horizontalInside: BorderSide(color: Colors.grey ),
@@ -510,7 +504,7 @@ class _AnnsCondState extends State<AnnsCond> {
                       right:BorderSide.none,
                       left:BorderSide.none
                     ),
-                    columnWidths: {
+                    columnWidths: const {
                       0: FlexColumnWidth(1),
                       1: FlexColumnWidth(4.5),
                       2: FlexColumnWidth(1),
@@ -524,8 +518,8 @@ class _AnnsCondState extends State<AnnsCond> {
                             Container(
                               height: widget.rowheight,
                               alignment: Alignment.centerLeft,
-                              padding: EdgeInsets.only(left: 15),
-                              child: Text(
+                              padding: const EdgeInsets.only(left: 15),
+                              child: const Text(
                                 "公告ID",
                                 textAlign: TextAlign.left,
                               ),
@@ -533,7 +527,7 @@ class _AnnsCondState extends State<AnnsCond> {
                             Container(
                               height: widget.rowheight,
                               alignment: Alignment.centerLeft,
-                              child: Text(
+                              child: const Text(
                                 "公告標題",
                                 textAlign: TextAlign.left,
                               ),
@@ -541,7 +535,7 @@ class _AnnsCondState extends State<AnnsCond> {
                             Container(
                               height: widget.rowheight,
                               alignment: Alignment.center,
-                              child: Text(
+                              child: const Text(
                                 "照片數量",
                                 textAlign: TextAlign.center,
                               ),
@@ -549,7 +543,7 @@ class _AnnsCondState extends State<AnnsCond> {
                             Container(
                               height: widget.rowheight,
                               alignment: Alignment.center,
-                              child: Text(
+                              child: const Text(
                                 "檔案數量",
                                 textAlign: TextAlign.center,
                               ),
@@ -557,7 +551,7 @@ class _AnnsCondState extends State<AnnsCond> {
                             Container(
                               height: widget.rowheight,
                               alignment: Alignment.center,
-                              child: Text(
+                              child: const Text(
                                 "最後更改時間",
                                 textAlign: TextAlign.center,
                               ),
@@ -565,7 +559,7 @@ class _AnnsCondState extends State<AnnsCond> {
                             Container(
                               height: widget.rowheight,
                               alignment: Alignment.center,
-                              child: Text(
+                              child: const Text(
                                 "點擊編輯",
                                 textAlign: TextAlign.center,
                               ),
@@ -574,10 +568,10 @@ class _AnnsCondState extends State<AnnsCond> {
                         ),
                       ]
                   ),
-                  SizedBox(height: 5),
-                  Anns.isEmpty? Center(child: CircularProgressIndicator()):
+                  const SizedBox(height: 5),
+                  Anns.isEmpty? const Center(child: CircularProgressIndicator()):
                   Table(
-                    border: TableBorder(
+                    border: const TableBorder(
                       top: BorderSide(color: Colors.grey ),
                       bottom: BorderSide(color: Colors.grey ),
                       horizontalInside: BorderSide(color: Colors.grey ),
@@ -585,7 +579,7 @@ class _AnnsCondState extends State<AnnsCond> {
                       right: BorderSide.none,
                       left: BorderSide.none
                     ),
-                    columnWidths: {
+                    columnWidths: const {
                       0: FlexColumnWidth(1),
                       1: FlexColumnWidth(4.5),
                       2: FlexColumnWidth(1),
@@ -598,7 +592,7 @@ class _AnnsCondState extends State<AnnsCond> {
                         Container(
                           height: widget.rowheight,
                           alignment: Alignment.centerLeft,
-                          padding: EdgeInsets.only(left: 15),
+                          padding: const EdgeInsets.only(left: 15),
                           child: Text(
                             "${item.id}",
                             textAlign: TextAlign.left,
@@ -626,7 +620,7 @@ class _AnnsCondState extends State<AnnsCond> {
                             child: Text(
                               item.imgamount!,
                               textAlign: TextAlign.center,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 12
                               ),
                             ),
@@ -646,7 +640,7 @@ class _AnnsCondState extends State<AnnsCond> {
                             child: Text(
                               item.fileamount!,
                               textAlign: TextAlign.center,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 12
                               ),
                             ),
@@ -662,15 +656,12 @@ class _AnnsCondState extends State<AnnsCond> {
                         ),  
                         InkWell(
                           onTap: () {
-                          print(item.id);
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //     builder: (context) => AnnDetailPage(AnnID: item.id),
-                          //   ),
-                          // );
-
-                        } ,
+                            html.window.open(
+                                '/#/ann/add&edit?annid=${item.id}', // 新視窗的網址
+                                'AddAnnouncement',      // 視窗名稱（用於管理視窗實例）
+                                'width=1000,height=720,left=200,top=100', // 視窗屬性
+                              );
+                          } ,
                           child: Container(
                             height: widget.rowheight,
                             alignment: Alignment.center,
@@ -681,7 +672,7 @@ class _AnnsCondState extends State<AnnsCond> {
                                 color: Colors.grey.shade300 ,
                                 borderRadius: BorderRadius.circular(20)
                               ),
-                              child: Text(
+                              child: const Text(
                                 "編輯",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(

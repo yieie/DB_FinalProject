@@ -7,8 +7,10 @@ import 'package:db_finalproject/widgets/Navbar.dart';
 import 'package:db_finalproject/widgets/Sidebar.dart';
 
 class ViewScores extends StatefulWidget{
+  const ViewScores({super.key});
+
   @override
-  _ViewScoresState createState() => _ViewScoresState();
+  State<ViewScores> createState() => _ViewScoresState();
 }
 
 class _ViewScoresState extends State<ViewScores> {
@@ -18,15 +20,15 @@ class _ViewScoresState extends State<ViewScores> {
     final authProvider = Provider.of<AuthProvider>(context);
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: Navbar(),
+      appBar: const Navbar(),
       body:Stack(
         
         children:
         [
           AnimatedContainer(
-            duration: Duration(milliseconds: 300),
+            duration: const Duration(milliseconds: 300),
             margin: EdgeInsets.only(left: authProvider.isSidebarOpen ? 250 : 0),
-            child: Scores()
+            child: const Scores()
           ),
           Sidebar()
         ]
@@ -37,8 +39,10 @@ class _ViewScoresState extends State<ViewScores> {
 }
 
 class Scores extends StatefulWidget {
+  const Scores({super.key});
+
   @override
-  _ScoresState createState() => _ScoresState();
+  State<Scores> createState() => _ScoresState();
 }
 
 class _ScoresState extends State<Scores> {
@@ -46,7 +50,7 @@ class _ScoresState extends State<Scores> {
   final List<String> _years = ["2024","2023","2022","2021","2020","2019","2018","2017","2016","2015","2014","2013","2012"]; // 可選年份列表
   final List<String> _teamtype=['全組別','創意發想組','創業實作組'];
   String? _selectedTeamtype;
-  AdminTeamService _adminTeamService = AdminTeamService();
+  final AdminTeamService _adminTeamService = AdminTeamService();
 
   List<Score> scores = [Score(teamid: '2024team001', teamname: '哈哈哈', teamtype: '創意發想組', judgename: '王大強',Rate1: '90',Rate2: '91',Rate3: '92',Rate4: '93',totalrate: '92.5',teamrank: '1'),
   Score(teamid: '2024team001', teamname: '哈哈哈', teamtype: '創意發想組', judgename: '王大強',Rate1: '90',Rate2: '91',Rate3: '92',Rate4: '93',totalrate: '92.5',teamrank: '2')];
@@ -82,20 +86,20 @@ class _ScoresState extends State<Scores> {
               ],
             ),
             
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             // 標題
             Row(
               children: [
-                Spacer(),
-                Text(
+                const Spacer(),
+                const Text(
                   "請選擇年份：",
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 
                 // 年份下拉選單
                 DropdownButton<String>(
-                  hint: Text("選擇年份"),
+                  hint: const Text("選擇年份"),
                   value: _selectedYear,
                   onChanged: (String? newValue) {
                     setState(() {
@@ -113,15 +117,15 @@ class _ScoresState extends State<Scores> {
                   }).toList(),
                 ),
 
-                Spacer(),
-                Text(
+                const Spacer(),
+                const Text(
                   "請選擇組別：",
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
 
                 DropdownButton<String>(
-                  hint: Text("選擇組別"),
+                  hint: const Text("選擇組別"),
                   value: _selectedTeamtype,
                   onChanged: (String? newValue) {
                     setState(() {
@@ -138,11 +142,11 @@ class _ScoresState extends State<Scores> {
                     );
                   }).toList(),
                 ),
-                Spacer(),
+                const Spacer(),
               ],
             ),
 
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
 
             // 成績列表
             if (_selectedYear != null && _selectedTeamtype != null)
@@ -152,12 +156,12 @@ class _ScoresState extends State<Scores> {
                   children: [
                     Text(
                       "$_selectedYear 年成績：",
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     Container(
-                      padding: EdgeInsets.all(15),
-                      child: Row(
+                      padding: const EdgeInsets.all(15),
+                      child: const Row(
                         children: [
                           Expanded(flex: 2 ,child: Text('隊伍組別')),
                           Expanded(flex: 3 ,child: Text('隊伍ID')),
@@ -180,10 +184,10 @@ class _ScoresState extends State<Scores> {
                           return Card(
                             color: team.teamrank=='1'?Colors.amber:
                                    team.teamrank=='2'?Colors.grey.shade300:
-                                   team.teamrank=='3'?Color(0xFFCD7F32):Colors.blue.shade100,
-                            margin: EdgeInsets.symmetric(vertical: 8),
+                                   team.teamrank=='3'?const Color(0xFFCD7F32):Colors.blue.shade100,
+                            margin: const EdgeInsets.symmetric(vertical: 8),
                             child: Container(
-                              padding: EdgeInsets.all(15),
+                              padding: const EdgeInsets.all(15),
                               child: Row(
                                 children: [
                                   Expanded(flex: 2 ,child: Text(team.teamtype)),
@@ -207,7 +211,7 @@ class _ScoresState extends State<Scores> {
                 ),
               )
             else
-              Center(
+              const Center(
                 child: Text(
                   "請先選擇年份及組別來查看成績。",
                   style: TextStyle(fontSize: 16, color: Colors.grey),

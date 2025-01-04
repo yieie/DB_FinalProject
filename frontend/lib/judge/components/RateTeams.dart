@@ -16,15 +16,15 @@ class _RateTeamsState extends State<RateTeams> {
     final authProvider = Provider.of<AuthProvider>(context);
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: Navbar(),
+      appBar: const Navbar(),
       body:Stack(
         
         children:
         [
           AnimatedContainer(
-            duration: Duration(milliseconds: 300),
+            duration: const Duration(milliseconds: 300),
             margin: EdgeInsets.only(left: authProvider.isSidebarOpen ? 250 : 0),
-            child: Text("RateTeams")
+            child: const Text("RateTeams")
           ),
           Sidebar()
         ]

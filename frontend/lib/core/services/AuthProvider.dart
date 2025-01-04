@@ -26,8 +26,9 @@ class AuthProvider with ChangeNotifier {
   }
 
   void chageusertype(String str) {
-    if(str=="admin" || str=="stu" || str =="tr" || str == "judge")
+    if(str=="admin" || str=="stu" || str =="tr" || str == "judge"){
       _usertype=str;
+    }
     notifyListeners();
   }
 

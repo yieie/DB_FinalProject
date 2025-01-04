@@ -1,7 +1,5 @@
 import 'package:db_finalproject/common/logic/PersonalDataService.dart';
-import 'package:db_finalproject/data/Judge.dart';
 import 'package:db_finalproject/data/Student.dart';
-import 'package:db_finalproject/data/Teacher.dart';
 import 'package:db_finalproject/data/User.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -19,20 +17,21 @@ final List<String> grade=["請選擇","一年級","二年級","三年級","四�
 final List<String> sex = ['男','女'];
 
 class PersonalData extends StatefulWidget {
+  const PersonalData({super.key});
+
   @override
-  _PersonalDataState createState() => _PersonalDataState();
+  State<PersonalData> createState() => _PersonalDataState();
 }
 
 class _PersonalDataState extends State<PersonalData> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  PersonalDataService _personalDataService = PersonalDataService();
+  final PersonalDataService _personalDataService = PersonalDataService();
 
   User? user;
-  Map<String,FocusNode> focusNodes = {};
+  // Map<String,FocusNode> focusNodes = {};
 
   Future<void> _saveChanges(String usertype) async{
     try{
-      print(user!.toJson());
       await _personalDataService.updateUserData(usertype, user!);
     }catch(e){
       print(e);
@@ -60,7 +59,7 @@ class _PersonalDataState extends State<PersonalData> {
       if (authProvider.usertype != 'none' && authProvider.useraccount != 'none') {
         fetchUserData(authProvider.usertype, authProvider.useraccount);
       }
-      if(authProvider.usertype == 'stu'){
+  /*     if(authProvider.usertype == 'stu'){
         focusNodes = {
           "stupasswd": FocusNode(),
           "stuname": FocusNode(),
@@ -83,15 +82,15 @@ class _PersonalDataState extends State<PersonalData> {
           "judgephone": FocusNode(),
           "judgetitle": FocusNode()
         };
-      }
+      } */
     });
   }
 
-  @override
+/*   @override
   void dispose() {
     focusNodes.values.forEach((node) => node.dispose()); // 記得在銷毀時清理
     super.dispose();
-  }
+  } */
 
   @override
   Widget build(BuildContext context) {
@@ -101,11 +100,11 @@ class _PersonalDataState extends State<PersonalData> {
 
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: Navbar(),
+      appBar: const Navbar(),
       body: Stack(
         children: [
           AnimatedContainer(
-            duration: Duration(milliseconds: 300),
+            duration: const Duration(milliseconds: 300),
             margin: EdgeInsets.only(left: authProvider.isSidebarOpen ? 250 : 0),
             child: Padding(
               padding: const EdgeInsets.all(20),
@@ -121,14 +120,14 @@ class _PersonalDataState extends State<PersonalData> {
                         color: Colors.blueGrey[800],
                       ),
                     ),
-                    SizedBox(height: 30),
-                    user == null ?Center(child: CircularProgressIndicator()):
+                    const SizedBox(height: 30),
+                    user == null ?const Center(child: CircularProgressIndicator()):
                     Container(
-                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 25),
+                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 25),
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(10),
-                        boxShadow: [
+                        boxShadow: const [
                           BoxShadow(
                             color: Colors.grey,
                             spreadRadius: 2,
@@ -152,19 +151,19 @@ class _PersonalDataState extends State<PersonalData> {
                                     _formKey.currentState!.save();
                                     _saveChanges(userType);
                                     ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(content: Text("資料已成功更新！")),
+                                      const SnackBar(content: Text("資料已成功更新！")),
                                     );
                                   }
                                 },
                                 style: ElevatedButton.styleFrom(
-                                  padding: EdgeInsets.symmetric(vertical: 15),
+                                  padding: const EdgeInsets.symmetric(vertical: 15),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   backgroundColor: Colors.blue,
                                   foregroundColor: Colors.white,
                                 ),
-                                child: Text(
+                                child: const Text(
                                   '儲存修改',
                                   style: TextStyle(
                                     fontSize: 16,
@@ -232,7 +231,7 @@ class _PersonalDataState extends State<PersonalData> {
         initialValue: value,
         decoration: InputDecoration(
           labelText: label,
-          border: OutlineInputBorder(),
+          border: const OutlineInputBorder(),
           filled: true,
           fillColor: Colors.grey[200],
         ),
@@ -245,11 +244,11 @@ class _PersonalDataState extends State<PersonalData> {
     return Padding(
       padding: const EdgeInsets.only(top: 20,bottom: 20),
       child: TextFormField(
-        focusNode: focusNodes[key],
+        // focusNode: focusNodes[key],
         initialValue: user.getField(key),
         decoration: InputDecoration(
           labelText: label,
-          border: OutlineInputBorder(),
+          border: const OutlineInputBorder(),
           filled: true,
           fillColor: Colors.grey[50],
         ),
@@ -269,14 +268,13 @@ class _PersonalDataState extends State<PersonalData> {
   Widget _buildEditableDropdownButton(String fieldname,List<String> choice, String key, User user){
     return Row(
       children:[
-        Text(fieldname,style: TextStyle(fontSize: 16),),
-        SizedBox(width: 10,),
+        Text(fieldname,style: const TextStyle(fontSize: 16),),
+        const SizedBox(width: 10,),
         DropdownButton<String>(
           value: user.getField(key),
-          icon: Icon(Icons.keyboard_arrow_down),
+          icon: const Icon(Icons.keyboard_arrow_down),
           dropdownColor: Colors.white,
           onChanged: (String? value){
-            print(value);
             setState(() {
               user.setField(key, value!);
             });
@@ -295,7 +293,7 @@ class _PersonalDataState extends State<PersonalData> {
   Widget _buildEditableSelectedBox(String fieldname,List<String> choice, String key, User user){
     return  Row(
       mainAxisAlignment: MainAxisAlignment.start,
-      children: [Text(fieldname,style: TextStyle(fontSize: 16)),...
+      children: [Text(fieldname,style: const TextStyle(fontSize: 16)),...
       choice.map((String item) {
         return Row(
           children: [
@@ -304,7 +302,6 @@ class _PersonalDataState extends State<PersonalData> {
               groupValue: user.getField(key),
               onChanged: (value) {
                 setState(() {
-                  print(value);
                   user.setField(key, value!);
                 });
               },
@@ -312,7 +309,7 @@ class _PersonalDataState extends State<PersonalData> {
             Text(item)
           ],
         );
-      }).toList()
+      })
       ]
     );
   }

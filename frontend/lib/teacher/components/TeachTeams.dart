@@ -7,13 +7,15 @@ import 'package:db_finalproject/core/services/ApiService.dart';
 import 'package:db_finalproject/data/Team.dart';
 
 class TeachTeams extends StatefulWidget{
+  const TeachTeams({super.key});
+
   @override
-  _TeachTeamsState createState() => _TeachTeamsState();
+  State<TeachTeams> createState() => _TeachTeamsState();
 }
 
 class _TeachTeamsState extends State<TeachTeams> {
   List<Team> teacherTeams = [];
-  ApiService _apiService = ApiService();
+  final ApiService _apiService = ApiService();
 
   Future<void> fetchTeacherTeams() async {
     try {
@@ -55,11 +57,11 @@ class _TeachTeamsState extends State<TeachTeams> {
     final authProvider = Provider.of<AuthProvider>(context);
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: Navbar(),
+      appBar: const Navbar(),
       body: Stack(
         children: [
           AnimatedContainer(
-            duration: Duration(milliseconds: 300),
+            duration: const Duration(milliseconds: 300),
             margin: EdgeInsets.only(left: authProvider.isSidebarOpen ? 250 : 0),
             child: Padding(
               padding: const EdgeInsets.all(16.0),
@@ -67,21 +69,21 @@ class _TeachTeamsState extends State<TeachTeams> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    const Text(
                       "歷年指導隊伍",
                       style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     Table(
-                      border: TableBorder(
+                      border: const TableBorder(
                         top: BorderSide(color: Colors.grey),
                         bottom: BorderSide(color: Colors.grey),
                         horizontalInside: BorderSide(color: Colors.grey),
                       ),
-                      columnWidths: {
+                      columnWidths: const {
                         0: FlexColumnWidth(2),
                         1: FlexColumnWidth(3),
                         2: FlexColumnWidth(2),
@@ -92,7 +94,7 @@ class _TeachTeamsState extends State<TeachTeams> {
                           decoration: BoxDecoration(
                             color: Colors.grey.shade300,
                           ),
-                          children: [
+                          children: const [
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Text(
