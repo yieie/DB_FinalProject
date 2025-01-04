@@ -10,17 +10,18 @@ import java.util.HashMap;
 import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import com.example.demo.dao.TeamDAO;
 
 
 @RestController
 @RequestMapping("/api/Teams")
 public class TeamController {
-    // private final TeamDAO teamDAO = new TeamDAO();
+    private final TeamDAO teamDAO = new TeamDAO();
     
     @GetMapping("/Status")
     public ResponseEntity<Team> getTeamStatus() {
         // 資料庫查隊伍狀態，寫完DAO再取消註解
-        // Team team = teamDAO.getTeamStatus();
+        Team team = teamDAO.getTeamStatus();
 
         Team team = new Team();
         team.setAmounts(60);
@@ -71,7 +72,6 @@ public class TeamController {
     public ResponseEntity<List<Team>> getBasicAllTeamWithConstraint(@RequestBody Map<String, Object> constraint) {
         // 前端要所有隊伍的基本資料，但有限制，資料庫注意一下constraint
         // List<Team> teams = teamDAO.getBasicTeamsWithConstraint(constraint);
-
         
         // 假資料
         List<Team> teams = new ArrayList<>();

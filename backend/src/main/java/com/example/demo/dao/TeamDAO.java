@@ -21,7 +21,7 @@ import java.text.SimpleDateFormat;
 import java.text.ParseException;
 
 
-public class WorkshopDAO {
+public class TeamDAO {
     public String convertTo24(String time12Hour) {
 
         // 去除首尾空格
