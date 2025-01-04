@@ -52,6 +52,7 @@ public class TeamController {
         // 'teamtype'
         // 'teamstate'
         List<Team> teams = teamDAO.getBasicTeamsWithConstraint(constraint);
+        
         // List<Team> teams = new ArrayList<>();
         // Team team1 = new Team();
         // team1.setTeamId("1");

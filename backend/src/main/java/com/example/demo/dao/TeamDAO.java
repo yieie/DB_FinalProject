@@ -111,7 +111,7 @@ public class TeamDAO {
     // 一定有年
     public List<Team> getBasicTeamsWithConstraint(Map<String, Object> constraint) {
         List<Team> teams = new ArrayList<>();
-        String baseSql = "SELECT * FROM team as t, work as w WHERE t.TeamID=w.TeamID AND t.TeamID LIKE ?";
+        String baseSql = "SELECT * FROM team as t LEFT JOIN work as w ON t.TeamID=w.TeamID WHERE t.TeamID LIKE ?";
         StringBuilder sqlBuilder = new StringBuilder(baseSql);
     
         try (Connection conn = DatabaseConnection.getConnection()) {
