@@ -476,7 +476,7 @@ class _AnnsCondState extends State<AnnsCond> {
   @override
   Widget build(BuildContext context){
     return Container(
-            width: widget.screenWidth>1000?1000:widget.screenWidth*0.9,
+            width: widget.screenWidth>850?850:widget.screenWidth*0.9,
             height: 500,
             decoration: BoxDecoration(
               color: Colors.grey[100],
