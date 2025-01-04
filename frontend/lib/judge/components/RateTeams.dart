@@ -85,7 +85,7 @@ class _showTeamState extends State<showTeams>{
       setState(() {});
     }catch(e){
       print(e);
-      teams=[Team(teamid: '2024team001', teamname: '我超強', teamtype: '創意發想組',state: '報名待審核')];
+      teams=[Team(teamid: '2024team001', teamname: '我超強', teamtype: '創意發想組',state: '報名待審核',workname: '智慧系統')];
       setState(() {
         
       });
@@ -113,7 +113,7 @@ class _showTeamState extends State<showTeams>{
             margin: const EdgeInsets.symmetric(vertical: 8,horizontal: 16),
             child: ListTile(
               title: Text('${team.teamid}: ${team.teamname}'),
-              subtitle: Text("隊伍狀態:${team.state}"),
+              subtitle: Text("作品名稱:${team.workname}"),
               trailing: IconButton(
                 icon: const Icon(Icons.visibility),
                 onPressed: () {

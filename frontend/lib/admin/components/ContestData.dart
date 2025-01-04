@@ -202,7 +202,7 @@ class _showTeamState extends State<showTeams>{
               title: Text('${team.teamid}: ${team.teamname}'),
               subtitle: Text("隊伍狀態:${team.state}"),
               trailing: IconButton(
-                icon: Icon(Icons.edit),
+                icon: const Icon(Icons.edit),
                 onPressed: () {
                   html.window.open(
                     '/#/team/review?teamid=${team.teamid}', // 新視窗的網址
@@ -249,7 +249,7 @@ class _showDetailTeamState extends State<showDetailTeam>{
     catch(e){
       print('error:$e');
       setState(() {
-        team= Team(teamid: '2024team001', teamname: '我們這一對', teamtype: '創意實作組',state: '已審核',worksummary: '你好我哈囉刮刮刮\n刮刮刮刮刮',teacheremail: "dijfi@gmail.com",worksdgs: '1,2,5',workyturl: 'https://www.google.com/');
+        team= Team(teamid: '2024team001', teamname: '我們這一對', teamtype: '創意實作組',state: '報名待審核',worksummary: '你好我哈囉刮刮刮\n刮刮刮刮刮',teacheremail: "dijfi@gmail.com",worksdgs: '1,2,5',workyturl: 'https://www.google.com/');
       stu=[
         Student(id: 'A1105546', name: '王大明', email: 'a1105546@mail.nuk.edu.tw', sexual: '男', phone: '0933556456', major: '資訊工程系', grade: '大四'),
         Student(id: 'A1113324', name: '陳曉慧', email: 'a1113324@mail.nuk.edu.tw', sexual: '女', phone: '0955777888', major: '資訊管理系', grade: '大三'),
@@ -297,6 +297,7 @@ class _showDetailTeamState extends State<showDetailTeam>{
 
   @override
   Widget build(BuildContext context){
+    final authProvider = Provider.of<AuthProvider>(context);
     return Scaffold(
       backgroundColor: Colors.white,
       body: team==null?const Center(child: CircularProgressIndicator()):
@@ -488,7 +489,7 @@ class _showDetailTeamState extends State<showDetailTeam>{
                 ),
               ),
               const SizedBox(height: 20,),
-              if(team!.state=="報名待審核" || team!.state=="待審核初賽資格" || team!.state=="已補件")
+              if(authProvider.usertype=='admin' &&( team!.state=="報名待審核" || team!.state=="待審核初賽資格" || team!.state=="已補件"))
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
