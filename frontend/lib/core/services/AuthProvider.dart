@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class AuthProvider with ChangeNotifier {
   bool _isLoggedIn = true;
   bool get isLoggedIn => _isLoggedIn;
-  String _usertype = "judge";
+  String _usertype = "tr";
   String get usertype => _usertype;
   String _useraccount = 'iii@gmail.com';
   String get useraccount => _useraccount;

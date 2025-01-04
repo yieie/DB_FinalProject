@@ -22,7 +22,7 @@ void main() {
           )
         )
       ),
-      initialRoute: '/judge',
+      initialRoute: '/tr',
       onGenerateRoute: (settings) {
         print('Navigating to: ${settings.name}');
         final uri=Uri.parse(settings.name!);
