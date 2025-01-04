@@ -136,11 +136,14 @@ class _JoinContestState extends State<JoinContest>{
           'stusexual': _stusexualController[i],
           'stuphone': _stuphoneController[i].text,
           'stumajor': _stumajorController[i],
-          'stugrade': _stugradeController[i],
-          if(int.parse(_presentStuController)==i)
-            'stuisLeader': 'true',
+          'stugrade': _stugradeController[i]
         }
       );
+      if(int.parse(_presentStuController)==i){
+        stus[i].addAll({'stuisleader':'true'});
+      }else{
+        stus[i].addAll({'stuisleader':'false'});
+      }
     }
     Map<String,dynamic> tr={};
     if(_tremailController.text.isNotEmpty){

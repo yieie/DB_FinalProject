@@ -95,6 +95,59 @@ class ApiService {
     }
   }
 
+  Future<dynamic> updateFile(
+    String endpoint, {
+    PlatformFile? file,
+    PlatformFile? Img,
+    Map<String, dynamic>? additionalData,
+  }) async {
+    final uri = Uri.parse('$baseUrl$endpoint');
+    final request = http.MultipartRequest('PUT', uri);
+    if(file != null){
+      request.files.add(
+        /*await*/ http.MultipartFile.fromBytes(
+          'files', // 對應後端的字段名
+          file.bytes!,
+          filename: file.name
+        ),
+      );
+    }
+
+    if(Img != null){
+      request.files.add(
+        /*await*/ http.MultipartFile.fromBytes(
+          'Images', // 對應後端的字段名
+          Img.bytes!,
+          filename: Img.name
+        ),
+      );
+  }
+
+    if (additionalData != null) {
+      request.fields.addAll(additionalData.map((key, value) => MapEntry(key, value.toString())));
+      print(request.fields);
+    }
+
+    print("請求 URL: ${request.url}");
+    print("附加數據 (fields): ${request.fields}");
+
+    print("文件列表 (files):");
+    for (var file in request.files) {
+      print("  - 字段名: ${file.field}");
+      print("    文件名: ${file.filename}");
+      print("    長度: ${file.length}");
+    }
+
+    final response = await request.send();
+
+    if (response.statusCode >= 200 && response.statusCode < 300) {
+      final responseBody = await response.stream.bytesToString();
+      return jsonDecode(responseBody);
+    } else {
+      throw Exception('HTTP Error: ${response.statusCode}');
+    }
+  }
+
   Future<dynamic> downloadFile(String fileName) async {
     final fileUrl = "$baseUrl/$fileName";
     
