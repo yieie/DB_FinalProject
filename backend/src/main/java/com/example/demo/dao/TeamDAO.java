@@ -23,38 +23,66 @@ import java.text.ParseException;
 
 
 public class TeamDAO {
-    public String convertTo24(String time12Hour) {
-
-        // 去除首尾空格
-        time12Hour = time12Hour.trim();
-    
-        // 檢查 AM 或 PM
-        String amPm = time12Hour.substring(time12Hour.length() - 2).toUpperCase(); // 取得 AM/PM
-        String timeWithoutAmPm = time12Hour.substring(0, time12Hour.length() - 2).trim(); // 去除 AM/PM 部分
-    
-        // 分割時間
-        String[] timeParts = timeWithoutAmPm.split(":");
-        int hour = Integer.parseInt(timeParts[0]);
-        int minute = Integer.parseInt(timeParts[1]);
-    
-        // 根據 AM/PM 進行轉換
-        if (amPm.equals("AM")) {
-            if (hour == 12) {
-                hour = 0; // 12 AM 轉為 00
+    public Team getTeamStatus(){
+        Team team= new Team();
+        String sql1 = "SELECT COUNT(*) as count FROM team as t, work as w WHERE t.TeamID = w.TeamID";
+        String sql2 = "SELECT t.TeamState, COUNT(*) as count FROM team as t, work as w WHERE t.TeamID = w.TeamID GROUP BY t.TeamState";
+        try(Connection conn = DatabaseConnection.getConnection();
+            PreparedStatement pstmt1 = conn.prepareStatement(sql1);
+            PreparedStatement pstmt2 = conn.prepareStatement(sql2)) {
+            ResultSet rs1 = pstmt1.executeQuery();
+            if (rs1.next()) {
+                team.setAmounts(rs1.getInt("count"));
             }
-        } else if (amPm.equals("PM")) {
-            if (hour != 12) {
-                hour += 12; // PM 時間加 12，除非是 12 PM
+            
+            ResultSet rs2 = pstmt2.executeQuery();
+            int Notreview=0, Incomplete=0, Approved=0, Solved=0;
+            // 處理結果
+            while (rs2.next()) {
+                String teamState = rs2.getString("TeamState");
+                int count = rs2.getInt("count");  
+                switch (teamState) {
+                    case "報名待審核":
+                        Notreview += count;
+                        break;
+                    case "待審核初賽資格":
+                        Notreview += count;
+                        break;
+                    case "已審核":
+                        Approved += count;
+                        break;
+                    case "初賽隊伍":
+                        Approved += count;
+                        break;
+                    case "決賽隊伍":
+                        Approved += count;
+                        break;
+                    case "需補件":
+                        Incomplete += count;
+                        break;
+                    case "已補件":
+                        Solved += count;
+                        break;
+                    default:
+                        break;
+                }
             }
+            team.setNotreview(Notreview);
+            team.setIncomplete(Incomplete);
+            team.setApproved(Approved);
+            //team.setSolved(Solved);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-    
-        // 格式化為 24 小時制時間字串，並加上秒數部分
-        return String.format("%02d:%02d:00", hour, minute);
+        return team;
     }
 
     public List<Team> getBasicAllTeam(){
         List<Team> teams = new ArrayList<>();
-        String sql = "SELECT * FROM team as t, work as w WHERE t.TeamID=w.TeamID";
+        //要照階段排序 報名待審核 待審核初賽資格 已補件 需補件 已審核 初賽隊伍 決賽隊伍
+        
+        String sql = "SELECT * FROM team as t, work as w WHERE t.TeamID=w.TeamID" +
+        "ORDER BY FIELD(t.TeamState, '報名待審核', '待審核初賽資格', '已補件', '需補件', '已審核', '初賽隊伍', '決賽隊伍')";
         try(Connection conn = DatabaseConnection.getConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
@@ -83,23 +111,32 @@ public class TeamDAO {
     // 一定有年
     public List<Team> getBasicTeamsWithConstraint(Map<String, Object> constraint) {
         List<Team> teams = new ArrayList<>();
-        String baseSql = "SELECT * FROM team as t, work as w WHERE t.TeamID=w.TeamID and w.WorkYear = ?";
+        String baseSql = "SELECT * FROM team as t, work as w WHERE t.TeamID=w.TeamID AND t.TeamID LIKE ?";
         StringBuilder sqlBuilder = new StringBuilder(baseSql);
     
         try (Connection conn = DatabaseConnection.getConnection()) {
             List<Object> parameters = new ArrayList<>();
-            parameters.add(constraint.get("teamyear")); // 添加必須參數（`teamyear`）
+    
+            // 設置 TeamID 的年份參數，並添加通配符
+            String teamYear = (String) constraint.get("teamyear");
+            parameters.add(teamYear + "%"); // 添加必須參數（`teamyear`）
     
             // 動態添加條件
             if (!"全組別".equals(constraint.get("teamtype"))) {
-                sqlBuilder.append(" and t.TeamType = ?");
+                sqlBuilder.append(" AND t.TeamType = ?");
                 parameters.add(constraint.get("teamtype")); // 添加參數
             }
             if (!"無".equals(constraint.get("teamstate"))) {
-                sqlBuilder.append(" and t.TeamState = ?");
+                sqlBuilder.append(" AND t.TeamState = ?");
                 parameters.add(constraint.get("teamstate")); // 添加參數
             }
-    
+            if("無".equals(constraint.get("teamstate"))){
+                sqlBuilder.append(" ORDER BY FIELD(t.TeamState, '報名待審核', '待審核初賽資格', '已補件', '需補件', '已審核', '初賽隊伍', '決賽隊伍')");
+            }
+            else if("全組別".equals(constraint.get("teamtype"))){
+                sqlBuilder.append(" ORDER BY FIELD(t.TeamType, '創意發想組', '創業實作組')");
+            }
+
             // 構建最終 SQL
             String sql = sqlBuilder.toString();
     
@@ -133,6 +170,7 @@ public class TeamDAO {
     
         return teams;
     }
+    
     
     public Team getTeamDetail(String teamid){
         Team team = null;
@@ -178,5 +216,73 @@ public class TeamDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public List<Team> getIdeaTeams(){
+        List<Team> teams = new ArrayList<>();
+        String sql = "SELECT * FROM team as t, work as w WHERE t.TeamID=w.TeamID and t.TeamType = '創意發想組'";
+        try(Connection conn = DatabaseConnection.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                Team team = new Team();
+                team.setTeamId(rs.getString("TeamID"));
+                team.setTeamName(rs.getString("TeamName"));
+                team.setTeamType(rs.getString("TeamType"));
+                team.setTeamRank(rs.getString("TeamRank"));
+                team.setAffidavit(rs.getString("Affidavit"));
+                team.setConsent(rs.getString("Consent"));
+                team.setTeacherEmail(rs.getString("TeacherEmail")); 
+                team.setTeamState(rs.getString("TeamState"));
+                team.setWorkId(rs.getString("WorkID"));
+                team.setWorkName(rs.getString("WorkName"));
+                team.setWorkSummary(rs.getString("WorkSummary"));
+                team.setWorkSdgs(rs.getString("WorkSDGs"));
+                team.setWorkPoster(rs.getString("WorkPoster"));
+                team.setWorkYtUrl(rs.getString("WorkYTURL"));
+                team.setWorkGithub(rs.getString("WorkGithub"));
+                team.setWorkYear(rs.getString("WorkYear"));
+                team.setWorkIntro(rs.getString("WorkIntro"));
+                teams.add(team);
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return teams;
+    }
+
+    public List<Team> getBusinessTeams(){
+        List<Team> teams = new ArrayList<>();
+        String sql = "SELECT * FROM team as t, work as w WHERE t.TeamID=w.TeamID and t.TeamType = '創業實作組'";
+        try(Connection conn = DatabaseConnection.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                Team team = new Team();
+                team.setTeamId(rs.getString("TeamID"));
+                team.setTeamName(rs.getString("TeamName"));
+                team.setTeamType(rs.getString("TeamType"));
+                team.setTeamRank(rs.getString("TeamRank"));
+                team.setAffidavit(rs.getString("Affidavit"));
+                team.setConsent(rs.getString("Consent"));
+                team.setTeacherEmail(rs.getString("TeacherEmail")); 
+                team.setTeamState(rs.getString("TeamState"));
+                team.setWorkId(rs.getString("WorkID"));
+                team.setWorkName(rs.getString("WorkName"));
+                team.setWorkSummary(rs.getString("WorkSummary"));
+                team.setWorkSdgs(rs.getString("WorkSDGs"));
+                team.setWorkPoster(rs.getString("WorkPoster"));
+                team.setWorkYtUrl(rs.getString("WorkYTURL"));
+                team.setWorkGithub(rs.getString("WorkGithub"));
+                team.setWorkYear(rs.getString("WorkYear"));
+                team.setWorkIntro(rs.getString("WorkIntro"));
+                teams.add(team);
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return teams;
     }
 }
