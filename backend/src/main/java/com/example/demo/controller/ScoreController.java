@@ -27,6 +27,7 @@ public class ScoreController {
     @PostMapping("/Constraints")
     public ResponseEntity<List<Score>> getScoresWithConstraints(@RequestBody Map<String, Object> constraint) {
         // Score scores = scoreDAO.getScoresWithConstraints(constraint);
+        // Map key: 'year'  'teamtype'
 
         List<Score> scores = new ArrayList<>();
         Score score1 = new Score();

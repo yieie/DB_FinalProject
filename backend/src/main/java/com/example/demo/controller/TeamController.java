@@ -8,8 +8,6 @@ import java.util.stream.Collectors;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 @RestController
@@ -71,7 +69,10 @@ public class TeamController {
     public ResponseEntity<List<Team>> getBasicAllTeamWithConstraint(@RequestBody Map<String, Object> constraint) {
         // 前端要所有隊伍的基本資料，但有限制，資料庫注意一下constraint
         // List<Team> teams = teamDAO.getBasicTeamsWithConstraint(constraint);
-
+        // map key
+        // 'teamyear'
+        // 'teamtype'
+        // 'teamstate'
         
         // 假資料
         List<Team> teams = new ArrayList<>();
@@ -130,6 +131,10 @@ public class TeamController {
     public ResponseEntity<Void> editTeamState(@PathVariable String teamid, @RequestBody Map<String, String> request) {
         // String state = request.get("state");
         // teamDAO.updateTeamState(teamid, state);
+
+        // Map key
+        // 'state'
+
         return ResponseEntity.ok().build();
     }
 
