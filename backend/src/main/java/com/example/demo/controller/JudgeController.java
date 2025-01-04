@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 import com.example.demo.model.Judge;
+import com.example.demo.model.Teacher;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -48,4 +50,17 @@ public class JudgeController {
         return ResponseEntity.ok(judge);
     }
     
+    //更新使用者資料
+    @PostMapping("/{id}/update")
+    public ResponseEntity<Void> updateJudge(@PathVariable String id, @RequestBody Judge judge) {
+        // teamDAO.updateTeam(id, judge);
+        // 有這些會改
+        // 'id':id,
+        // 'passwd': passwd,
+        // 'name': name,
+        // 'email': email,
+        // 'sexual': sexual,
+        // 'phone': phone
+        return ResponseEntity.ok().build();
+    }
 }
