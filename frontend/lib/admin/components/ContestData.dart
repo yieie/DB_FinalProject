@@ -78,6 +78,7 @@ class _selectedBarState extends State<selectBar>{
   List<Team> teams=[];
 
   Future<void> _search() async{
+    widget.onUpdateTeams([]);
     try{
       teams = await _adminTeamService.getBasicAllTeamWithConstraint({
         'teamyear':_selectedyears,
@@ -85,6 +86,7 @@ class _selectedBarState extends State<selectBar>{
         'teamstate':_selectedteamstatus
       });
       widget.onUpdateTeams(teams);
+      
     }catch(e){
       print("error:$e");
       teams=[ Team(teamid: "2024team001", teamname: "我們這一隊", workid: "2024work001", teamtype: "創意實作",state: "報名待審核",consent: "1111"),
@@ -184,7 +186,8 @@ class _showTeamState extends State<showTeams>{
 
   @override
   Widget build(BuildContext context){
-    return Expanded(
+    return widget.teams.isEmpty ? const Center(child: CircularProgressIndicator()):
+    Expanded(
       child: ListView.builder(
         itemCount: widget.teams.length,
         itemBuilder: (context, index) {
