@@ -8,14 +8,14 @@ class RateService {
   //拿創意發想組的所有隊伍
   //只需要隊伍ID、隊伍名稱、作品名稱、隊伍類型
   Future<List<Team>> getAllTeamIdea() async{
-    final response = await _apiService.get('/Team/idea');
+    final response = await _apiService.get('/Teams/idea');
     return (response as List).map((json)=>Team.fromJson(json)).toList();
   }
 
   //拿創業實作組的所有隊伍
   //只需要隊伍ID、隊伍名稱、作品名稱、隊伍類型
   Future<List<Team>> getAllTeamBusiness() async{
-    final response = await _apiService.get('/Team/business');
+    final response = await _apiService.get('/Teams/business');
     return (response as List).map((json)=>Team.fromJson(json)).toList();
   }
 
