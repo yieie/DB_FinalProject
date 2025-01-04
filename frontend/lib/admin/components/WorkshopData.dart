@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 import 'dart:html' as html;
 
 class WorkshopDataFrame extends StatelessWidget {
-  WorkshopDataFrame({super.key});
+  const WorkshopDataFrame({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,26 +18,28 @@ class WorkshopDataFrame extends StatelessWidget {
     bool iswidthful = screenWidth > 1000;
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: Navbar(), // Navbar 應確保返回 PreferredSizeWidget
+      appBar: const Navbar(), // Navbar 應確保返回 PreferredSizeWidget
       body: Stack(
         children: [
           AnimatedContainer(
-            duration: Duration(milliseconds: 300),
+            duration: const Duration(milliseconds: 300),
             margin: EdgeInsets.only(left: authProvider.isSidebarOpen ? 250 : 0),
             child: SafeArea(
               child: Row(
                 children: [
                   if (iswidthful)
                     Flexible(flex: 1, child: Container(color: Colors.transparent)),
-                  Expanded(
+
+                  const Expanded(
                     flex: 5, // 調整比例使內容區域大小正確
                     child: Column(
                       children: [
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
                         WorkshopData(), // 呼叫子小部件顯示數據
                       ],
                     ),
                   ),
+
                   if (iswidthful)
                     Flexible(flex: 1, child: Container(color: Colors.transparent)),
                 ],
@@ -52,14 +54,16 @@ class WorkshopDataFrame extends StatelessWidget {
 }
 
 class WorkshopData extends StatefulWidget {
+  const WorkshopData({super.key});
+
   @override
-  _WorkshopDataState createState() => _WorkshopDataState();
+  State<WorkshopData> createState() => _WorkshopDataState();
 }
 
 class _WorkshopDataState extends State<WorkshopData> {
   List<Workshop>? workshops;
 
-  WorkshopService _workshopService = WorkshopService();
+  final WorkshopService _workshopService = WorkshopService();
 
   Future<void> fetchAllWorkshop() async{
     try{
@@ -78,8 +82,6 @@ class _WorkshopDataState extends State<WorkshopData> {
   void initState(){
     super.initState();
     fetchAllWorkshop();
-
-    
   }
 
   @override
@@ -90,12 +92,12 @@ class _WorkshopDataState extends State<WorkshopData> {
           
           Row(
             children:[ 
-              Padding(padding: EdgeInsets.only(left: 15)),
-              Text(
+              const Padding(padding: EdgeInsets.only(left: 15)),
+              const Text(
                 "工作坊管理頁",
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
-              Spacer(),
+              const Spacer(),
               TextButton(
                 onPressed:(){
                   html.window.open(
@@ -104,7 +106,7 @@ class _WorkshopDataState extends State<WorkshopData> {
                     'width=1000,height=720,left=200,top=100', // 視窗屬性
                   );
                 } ,
-                child: Row(
+                child: const Row(
                   children: [
                     Icon(Icons.add_box_outlined,color: Colors.black,),
                     Text("新增工作坊",style: TextStyle(fontSize: 16),)
@@ -112,27 +114,27 @@ class _WorkshopDataState extends State<WorkshopData> {
                 )), 
             ]
           ),
-          SizedBox(height: 20),
-          workshops == null ? Center(child: CircularProgressIndicator()) : Expanded(
+          const SizedBox(height: 20),
+          workshops == null ? const Center(child: CircularProgressIndicator()) : Expanded(
             child: ListView.builder(
               itemCount: workshops!.length,
               itemBuilder: (context, index) {
                 final workshop = workshops![index];
                 return Card(
                   color: Colors.grey.shade200,
-                  margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                  margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                   child: ListTile(
                     title: Text(workshop.wstopic),
                     subtitle: Row(
                       children: [
                         Text('時間： ${workshop.wsdate} ${workshop.wstime}'),
-                        Spacer(),
+                        const Spacer(),
                         Text('講師： ${workshop.lectName}'),
-                        Spacer()
+                        const Spacer()
                       ],
                     ),
                     trailing: IconButton(
-                      icon: Icon(Icons.edit),
+                      icon: const Icon(Icons.edit),
                       onPressed: () {
                         html.window.open(
                           '/#/ws/add&edit?wsid=${workshop.wsid}', // 新視窗的網址
@@ -155,11 +157,11 @@ class _WorkshopDataState extends State<WorkshopData> {
 
 
 class AddNEditWorkshopForm extends StatefulWidget {
-  final wsid;
-  AddNEditWorkshopForm({super.key,required this.wsid});
+  final String wsid;
+  const AddNEditWorkshopForm({super.key,required this.wsid});
 
   @override
-  _AddNEditWorkshopFormState createState() => _AddNEditWorkshopFormState();
+  State<AddNEditWorkshopForm> createState() => _AddNEditWorkshopFormState();
 }
 
 class _AddNEditWorkshopFormState extends State<AddNEditWorkshopForm> {
@@ -173,7 +175,7 @@ class _AddNEditWorkshopFormState extends State<AddNEditWorkshopForm> {
   final _lecttitleController = TextEditingController();
   final _lectaddrController = TextEditingController();
 
-  WorkshopService _workshopService = WorkshopService();
+  final WorkshopService _workshopService = WorkshopService();
   Workshop workshop= Workshop(wsid: -1, wsdate: '', wstime: '', wstopic: '');
   // 儲存修改的資料
   Future<void> _saveChanges() async{
@@ -190,22 +192,13 @@ class _AddNEditWorkshopFormState extends State<AddNEditWorkshopForm> {
         lectaddr: _lectaddrController.text
       );
     });
-    print(workshop.wsid);
-    print(workshop.wsdate);
-    print(workshop.wstime);
-    print(workshop.wstopic);
-    print(workshop.lectName);
-    print(workshop.lectaddr);
-    print(workshop.lectemail);
-    print(workshop.lectphone);
-    print(workshop.lecttitle);
     if(widget.wsid=='-1'){
       try{
         _workshopService.addWorkshop(workshop);
         showDialog(
           context: context,
           builder: (BuildContext context) {
-            return AlertDialog(
+            return const AlertDialog(
               backgroundColor: Colors.white,
               title: Text("工作坊資料已新增，兩秒後關閉此視窗"),
             );
@@ -216,7 +209,7 @@ class _AddNEditWorkshopFormState extends State<AddNEditWorkshopForm> {
         showDialog(
           context: context,
           builder: (BuildContext context) {
-            return AlertDialog(
+            return const AlertDialog(
               backgroundColor: Colors.white,
               title: Text("工作坊資料新增失敗"),
             );
@@ -231,7 +224,7 @@ class _AddNEditWorkshopFormState extends State<AddNEditWorkshopForm> {
         showDialog(
           context: context,
           builder: (BuildContext context) {
-            return AlertDialog(
+            return const AlertDialog(
               backgroundColor: Colors.white,
               title: Text("工作坊資料已修改，兩秒後關閉此視窗"),
             );
@@ -242,7 +235,7 @@ class _AddNEditWorkshopFormState extends State<AddNEditWorkshopForm> {
         showDialog(
           context: context,
           builder: (BuildContext context) {
-            return AlertDialog(
+            return const AlertDialog(
               backgroundColor: Colors.white,
               title: Text("工作坊資料修改失敗"),
             );
@@ -250,9 +243,9 @@ class _AddNEditWorkshopFormState extends State<AddNEditWorkshopForm> {
         );
       }
     }
-    // Future.delayed(Duration(seconds: 2), () {
-    //   html.window.close();
-    // });
+    Future.delayed(const Duration(seconds: 2), () {
+      html.window.close();
+    });
   }
 
   Future<void> _selectDate(BuildContext context) async {
@@ -263,11 +256,9 @@ class _AddNEditWorkshopFormState extends State<AddNEditWorkshopForm> {
       lastDate: DateTime(2100),  // 可選的最晚日期
     );
     if (picked != null && picked != selectedDate) {
-      print(picked);
       setState(() {
         selectedDate = picked;
       });
-      print(selectedDate);
     }
   }
 
@@ -294,7 +285,6 @@ class _AddNEditWorkshopFormState extends State<AddNEditWorkshopForm> {
   Future<void> fectchWorkshop() async{
     try{
       workshop = await _workshopService.getWorkshop(widget.wsid);
-      print('Fetched ${workshop!} announcements');
     }
     catch(e){
       print('Error: fectch Announments');
@@ -304,7 +294,6 @@ class _AddNEditWorkshopFormState extends State<AddNEditWorkshopForm> {
   @override
   void initState() {
     super.initState();
-    print(widget.wsid);
     if(widget.wsid != '-1'){
       fectchWorkshop();
     }
@@ -315,78 +304,78 @@ class _AddNEditWorkshopFormState extends State<AddNEditWorkshopForm> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Container(
-        padding: EdgeInsets.all(50),
+        padding: const EdgeInsets.all(50),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(widget.wsid=='-1'?"新增工作坊":"修改工作坊",style: TextStyle(fontSize: 24),),
+            Text(widget.wsid=='-1'?"新增工作坊":"修改工作坊",style: const TextStyle(fontSize: 24),),
             TextField(
               controller: _topicController..text=workshop.wstopic,
-              decoration: InputDecoration(labelText: "主題"),
+              decoration: const InputDecoration(labelText: "主題"),
             ),
-            SizedBox(height: 20,),
+            const SizedBox(height: 20,),
             Row(
               children: [
-                Text(
+                const Text(
                   "日期：",
                   style: TextStyle(fontSize: 16),
                 ),
                 ElevatedButton(
                   onPressed: () => _selectDate(context),
-                  child: Text("選擇日期"),
+                  child: const Text("選擇日期"),
                 ),
-                SizedBox(width: 20,),
+                const SizedBox(width: 20,),
                 Text(
                   selectedDate != null
                       ? "${selectedDate!.year}-${selectedDate!.month}-${selectedDate!.day}"
                       : workshop.wsdate,
-                  style: TextStyle(fontSize: 16),
+                  style: const TextStyle(fontSize: 16),
                 ),
               ]
             ),
-            SizedBox(height: 10),
+            const  SizedBox(height: 10),
             Container(height: 1,color: Colors.grey.shade500,),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Row(
               children: [
-                Text(
+                const Text(
                   "時間：",
                   style: TextStyle(fontSize: 16),
                 ),
                 ElevatedButton(
                   onPressed: () => _selectTime(context),
-                  child: Text("選擇時間"),
+                  child: const Text("選擇時間"),
                 ),
-                SizedBox(width: 20,),
+                const SizedBox(width: 20,),
                 Text(
                   selectedTime != null
                       ? formattime
                       : workshop.wstime,
-                  style: TextStyle(fontSize: 16),
+                  style: const TextStyle(fontSize: 16),
                 ),
               ]
             ),
             TextField(
               controller: _lectnameController..text=workshop.lectName??'',
-              decoration: InputDecoration(labelText: "講師姓名"),
+              decoration: const InputDecoration(labelText: "講師姓名"),
             ),
             TextField(
               controller: _lectemailController..text=workshop.lectemail??'',
-              decoration: InputDecoration(labelText: "講師Email"),
+              decoration: const InputDecoration(labelText: "講師Email"),
             ),
             TextField(
               controller: _lectphoneController..text=workshop.lectphone??'',
-              decoration: InputDecoration(labelText: "講師電話"),
+              decoration: const InputDecoration(labelText: "講師電話"),
             ),
             TextField(
               controller: _lecttitleController..text=workshop.lecttitle??'',
-              decoration: InputDecoration(labelText: "講師頭銜"),
+              decoration: const InputDecoration(labelText: "講師頭銜"),
             ),
             TextField(
               controller: _lectaddrController..text=workshop.lectaddr??'',
-              decoration: InputDecoration(labelText: "講師地址"),
+              decoration: const InputDecoration(labelText: "講師地址"),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: _saveChanges,
               child: Text(widget.wsid=='-1'?"新增工作坊":"修改工作坊"),

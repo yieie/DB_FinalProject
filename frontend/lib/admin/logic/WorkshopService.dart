@@ -6,7 +6,6 @@ class WorkshopService{
 
   Future<List<Workshop>> getAllWorkshop() async{
     final response = await _apiService.get('/Workshop/all');
-    print(response);
     return (response as List).map((json) => Workshop.fromJson(json)).toList();
   } 
 

@@ -40,15 +40,7 @@ class _NavbarState extends State<Navbar> {
       actions: [
         TextButton(
           onPressed:() {
-            if(currentRoute=='/'){
-               Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => const HomePage()),
-              );
-            }
-            else{
-              Navigator.pushNamed(context, '/');
-            }
+            Navigator.pushNamed(context, '/${authProvider.usertype}');
           },
           style: TextButton.styleFrom(foregroundColor: Colors.black),
           child: const Text('首頁'),

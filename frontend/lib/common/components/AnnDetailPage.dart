@@ -1,20 +1,16 @@
-import 'dart:io';
 import 'package:db_finalproject/widgets/Navbar.dart';
-import 'package:db_finalproject/core/services/ApiService.dart';
 import 'package:db_finalproject/data/Announcement.dart';
 import 'package:db_finalproject/common/logic/AnnouncementService.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'dart:math';
 
 
 class AnnDetailPage extends StatefulWidget{
   final int AnnID;
   
-  AnnDetailPage({required this.AnnID});
+  const AnnDetailPage({super.key,required this.AnnID});
 
   @override
-  _AnnDetailPageState createState()=> _AnnDetailPageState();
+  State<AnnDetailPage> createState()=> _AnnDetailPageState();
 }
 
 class _AnnDetailPageState extends State<AnnDetailPage>{
@@ -35,13 +31,11 @@ class _AnnDetailPageState extends State<AnnDetailPage>{
   Future<void> fetchAnnDetails(int id) async {
     Announcement test1=Announcement(id: 1,date:'2024-12-11', title: '我是測試資料1', info:'嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨嗨');
     try {
-      await Future.delayed(Duration(seconds: 2));
+      await Future.delayed(const Duration(seconds: 2));
       AnnDetail = await _announcementService.getDetailAnnouncemnet(id);
       setState((){
         _isLoading = false;
       });
-      // 更新 UI 或處理邏輯
-      print('Fetched ${AnnDetail!} announcements');
     } catch (e) {
       print('Error: $e');
       setState((){
@@ -57,10 +51,10 @@ class _AnnDetailPageState extends State<AnnDetailPage>{
     bool iswidthful = scrSize.width > 1000 ? true : false;
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: Navbar(),
+      appBar: const Navbar(),
       body: SafeArea(
         child: _isLoading
-            ? Center(child: CircularProgressIndicator()) // 顯示加載指示器
+            ? const Center(child: CircularProgressIndicator()) // 顯示加載指示器
             :Row(
           children: [
 
@@ -80,10 +74,10 @@ class _AnnDetailPageState extends State<AnnDetailPage>{
                         child: 
                           Text(
                             AnnDetail.title,
-                            style: TextStyle(fontSize: 20,fontWeight: FontWeight.w500),
+                            style: const TextStyle(fontSize: 20,fontWeight: FontWeight.w500),
                           )
                       ),
-                      Spacer(),
+                      const Spacer(),
                       Container(
                         height: 50,
                         alignment: Alignment.bottomRight,
@@ -98,7 +92,7 @@ class _AnnDetailPageState extends State<AnnDetailPage>{
                     color: Colors.black26,
                   ),
                   Container(
-                    padding: EdgeInsets.only(top:10),
+                    padding: const EdgeInsets.only(top:10),
                     alignment: Alignment.topLeft,
                     child: Text(AnnDetail.info!),
                   ),

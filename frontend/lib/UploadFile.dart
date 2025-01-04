@@ -3,9 +3,9 @@ import 'package:file_picker/file_picker.dart';
 
 class UploadFiles extends StatefulWidget {
   final Function(List<PlatformFile>) onFilesChanged;
-  UploadFiles({required this.onFilesChanged});
+  const UploadFiles({super.key, required this.onFilesChanged});
   @override
-  _UploadFilesState createState() => _UploadFilesState();
+  State<UploadFiles> createState() => _UploadFilesState();
 }
 
 class _UploadFilesState extends State<UploadFiles> {
@@ -52,20 +52,20 @@ class _UploadFilesState extends State<UploadFiles> {
                   bottom: BorderSide(color:Colors.grey.shade600)
                 )
               ),
-              padding: EdgeInsets.only(top:5,bottom: 4,left: 15,right: 15),
+              padding: const EdgeInsets.only(top:5,bottom: 4,left: 15,right: 15),
               child: Row(
                 children: [
-                  Text("選擇圖片",style: TextStyle(fontSize: 16),),
-                  Spacer(),
+                  const Text("選擇圖片",style: TextStyle(fontSize: 16),),
+                  const Spacer(),
                   ElevatedButton(
                     onPressed: selectSingleFile,
-                    child: Text('選擇檔案'),
+                    child: const Text('選擇檔案'),
                   ),
-                  SizedBox(width: 20),
+                  const SizedBox(width: 20),
                   ElevatedButton(
                     onPressed: clearFiles,
-                    child: Text('清除所有檔案'),
                     style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                    child: const Text('清除所有檔案'),
                   ),
                 ],
               ),
@@ -78,11 +78,11 @@ class _UploadFilesState extends State<UploadFiles> {
                       itemBuilder: (context, index) {
                         final file = _selectedFiles[index];
                         return ListTile(
-                          leading: Icon(Icons.insert_drive_file),
+                          leading: const Icon(Icons.insert_drive_file),
                           title: Text(file.name),
                           subtitle: Text('大小: ${(file.size / 1024).toStringAsFixed(2)} KB'),
                           trailing: IconButton(
-                            icon: Icon(Icons.delete, color: Colors.red),
+                            icon: const Icon(Icons.delete, color: Colors.red),
                             onPressed: () {
                               setState(() {
                                 _selectedFiles.removeAt(index); // 刪除指定檔案
@@ -92,7 +92,7 @@ class _UploadFilesState extends State<UploadFiles> {
                         );
                       },
                     )
-                  : Center(child: Text('尚未選擇任何檔案')),
+                  :const  Center(child: Text('尚未選擇任何檔案')),
             ),
             
           ],

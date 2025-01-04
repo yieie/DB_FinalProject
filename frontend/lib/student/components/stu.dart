@@ -1,4 +1,3 @@
-export '../StuMainPage.dart';
 export 'TeamData.dart';
 export 'WorkshopJoin.dart';
 export 'ContestDataUpload.dart';

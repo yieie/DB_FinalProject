@@ -7,12 +7,13 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
 class TeamData extends StatefulWidget {
+  const TeamData({super.key});
   @override
-  _TeamDataState createState() => _TeamDataState();
+  State<TeamData> createState() => _TeamDataState();
 }
 
 class _TeamDataState extends State<TeamData> {
-  final _formKey = GlobalKey<FormState>();
+  final _TeamKey = GlobalKey<FormState>();
   final TextEditingController _teamNameController = TextEditingController();
   final List<Map<String, dynamic>> _studentData = List.generate(
     6,
@@ -47,12 +48,12 @@ class _TeamDataState extends State<TeamData> {
   }
 
   Future<void> _registerTeam() async {
-    if (!_formKey.currentState!.validate()) {
+    if (!_TeamKey.currentState!.validate()) {
       return;
     }
 
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text("隊伍報名已提交成功！")),
+      const SnackBar(content: Text("隊伍報名已提交成功！")),
     );
   }
 
@@ -61,33 +62,33 @@ class _TeamDataState extends State<TeamData> {
     final authProvider = Provider.of<AuthProvider>(context);
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: Navbar(),
+      appBar: const Navbar(),
       body: Stack(
         children: [
           AnimatedContainer(
-            duration: Duration(milliseconds: 300),
+            duration: const Duration(milliseconds: 300),
             margin: EdgeInsets.only(left: authProvider.isSidebarOpen ? 250 : 0),
             child: Padding(
               padding: const EdgeInsets.all(20.0),
               child: SingleChildScrollView(
                 child: Form(
-                  key: _formKey,
+                  key: _TeamKey,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      const Text(
                         "隊伍報名",
                         style: TextStyle(
                           fontSize: 28,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      SizedBox(height: 30),
+                      const SizedBox(height: 30),
                       TextFormField(
                         controller: _teamNameController,
                         decoration: InputDecoration(
                           labelText: "隊伍名稱",
-                          border: OutlineInputBorder(),
+                          border: const OutlineInputBorder(),
                           filled: true,
                           fillColor: Colors.grey.shade50,
                         ),
@@ -98,18 +99,18 @@ class _TeamDataState extends State<TeamData> {
                           return null;
                         },
                       ),
-                      SizedBox(height: 30),
-                      Text(
+                      const SizedBox(height: 30),
+                      const Text(
                         "成員資料 (至少兩人，最多六人)",
                         style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                       ),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       ..._studentData.asMap().entries.map((entry) {
                         int index = entry.key;
                         Map<String, dynamic> student = entry.value;
                         return Container(
-                          margin: EdgeInsets.symmetric(vertical: 20),
-                          padding: EdgeInsets.all(15),
+                          margin: const EdgeInsets.symmetric(vertical: 20),
+                          padding: const EdgeInsets.all(15),
                           decoration: BoxDecoration(
                             border: Border.all(color: Colors.grey.shade300),
                             borderRadius: BorderRadius.circular(10),
@@ -119,9 +120,9 @@ class _TeamDataState extends State<TeamData> {
                             children: [
                               Text(
                                 "成員 ${index + 1}",
-                                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                               ),
-                              SizedBox(height: 10),
+                              const SizedBox(height: 10),
                               ...student.keys
                                   .where((field) => field != "學生證" && field != "是否為隊長")
                                   .map((field) {
@@ -131,7 +132,7 @@ class _TeamDataState extends State<TeamData> {
                                     controller: student[field],
                                     decoration: InputDecoration(
                                       labelText: field,
-                                      border: OutlineInputBorder(),
+                                      border: const OutlineInputBorder(),
                                       filled: true,
                                       fillColor: Colors.grey.shade50,
                                     ),
@@ -143,7 +144,7 @@ class _TeamDataState extends State<TeamData> {
                                     },
                                   ),
                                 );
-                              }).toList(),
+                              }),
                               Row(
                                 children: [
                                   ElevatedButton(
@@ -151,7 +152,7 @@ class _TeamDataState extends State<TeamData> {
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: Colors.blue,
                                       foregroundColor: Colors.white,
-                                      padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                                      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(8),
                                       ),
@@ -162,10 +163,10 @@ class _TeamDataState extends State<TeamData> {
                                           : "已選擇: ${student["學生證"].path.split('/').last}",
                                     ),
                                   ),
-                                  SizedBox(width: 20),
+                                  const SizedBox(width: 20),
                                   Row(
                                     children: [
-                                      Text("是否為隊長"),
+                                      const Text("是否為隊長"),
                                       Radio(
                                         value: 1,
                                         groupValue: student["是否為隊長"],
@@ -185,8 +186,8 @@ class _TeamDataState extends State<TeamData> {
                             ],
                           ),
                         );
-                      }).toList(),
-                      SizedBox(height: 30),
+                      }),
+                      const SizedBox(height: 30),
                       DropdownButtonFormField<String>(
                         value: _teamType,
                         items: ["創意發想組", "創業實作組"].map((type) {
@@ -202,26 +203,26 @@ class _TeamDataState extends State<TeamData> {
                         },
                         decoration: InputDecoration(
                           labelText: "選擇隊伍類型",
-                          border: OutlineInputBorder(),
+                          border: const OutlineInputBorder(),
                           filled: true,
                           fillColor: Colors.grey.shade50,
                         ),
                       ),
-                      SizedBox(height: 30),
+                      const SizedBox(height: 30),
                       Center(
                         child: SizedBox(
                           width: 200,
                           child: ElevatedButton(
                             onPressed: _registerTeam,
                             style: ElevatedButton.styleFrom(
-                              padding: EdgeInsets.symmetric(vertical: 15),
+                              padding: const EdgeInsets.symmetric(vertical: 15),
                               backgroundColor: Colors.blue,
                               foregroundColor: Colors.white,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10),
                               ),
                             ),
-                            child: Text(
+                            child: const Text(
                               "提交報名",
                               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                             ),

@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:http/http.dart' as http;
 import 'dart:html' as html;
@@ -50,7 +49,7 @@ class ApiService {
       for (var file in files) {
         print(request.fields);
         request.files.add(
-          await http.MultipartFile.fromBytes(
+          /*await*/ http.MultipartFile.fromBytes(
             'files', // 對應後端的字段名
             file.bytes!,
             filename: file.name
@@ -62,7 +61,7 @@ class ApiService {
     if(Imgs != null){
       for (var Img in Imgs) {
         request.files.add(
-          await http.MultipartFile.fromBytes(
+          /*await*/ http.MultipartFile.fromBytes(
             'Images', // 對應後端的字段名
             Img.bytes!,
             filename: Img.name

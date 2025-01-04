@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class JudgeDataFrame extends StatelessWidget{
-  JudgeDataFrame({super.key});
+  const JudgeDataFrame({super.key});
   
   @override
   Widget build(BuildContext context){
@@ -17,11 +17,11 @@ class JudgeDataFrame extends StatelessWidget{
     bool iswidthful = screenWidth > 850 ? true : false;
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar:Navbar(),
+      appBar:const Navbar(),
       body: Stack(
         children: [
           AnimatedContainer(
-            duration: Duration(milliseconds: 300),
+            duration: const Duration(milliseconds: 300),
             margin: EdgeInsets.only(left: authProvider.isSidebarOpen ? 250 : 0),
             child:SafeArea(
               child: Row(
@@ -32,11 +32,11 @@ class JudgeDataFrame extends StatelessWidget{
                   
                   Column(
                     children: [
-                      Padding(padding: EdgeInsets.only(top: 20)),
+                      const Padding(padding: EdgeInsets.only(top: 20)),
 
                       SizedBox(
                         width: iswidthful?850:screenWidth,
-                        child: JudgeData(),
+                        child: const JudgeData(),
                       ),
 
                     ],
@@ -57,8 +57,10 @@ class JudgeDataFrame extends StatelessWidget{
 }
 
 class JudgeData extends StatefulWidget{
+  const JudgeData({super.key});
+
   @override
-  _JudgeDataState createState() => _JudgeDataState();
+  State<JudgeData> createState() => _JudgeDataState();
 }
 
 class _JudgeDataState extends State<JudgeData> {
@@ -75,15 +77,15 @@ class _JudgeDataState extends State<JudgeData> {
         children: [
           Row(
             children: [
-              Padding(padding: EdgeInsets.only(left: 15)),
-              Text("評審資料",
+              const Padding(padding: EdgeInsets.only(left: 15)),
+              const Text("評審資料",
               style: TextStyle(fontSize: 20)),
-              Spacer(),
+              const Spacer(),
               TextButton(
                 onPressed:(){
                   _openAddJudgeForm(context);
                 } ,
-                child: Row(
+                child: const Row(
                   children: [
                     Icon(Icons.add_box_outlined,color: Colors.black,),
                     Text("新增評審",style: TextStyle(fontSize: 16),)
@@ -91,9 +93,9 @@ class _JudgeDataState extends State<JudgeData> {
                 )),              
             ],
           ),
-          SizedBox(height: 20,),
+          const SizedBox(height: 20,),
           Table(
-            border: TableBorder(
+            border: const TableBorder(
               top: BorderSide(color: Colors.grey ),
               bottom: BorderSide(color: Colors.grey ),
               horizontalInside: BorderSide(color: Colors.grey ),
@@ -101,7 +103,7 @@ class _JudgeDataState extends State<JudgeData> {
               right: BorderSide.none,
               left: BorderSide.none
             ),
-            columnWidths: {
+            columnWidths: const {
               0: FlexColumnWidth(1),
               1: FlexColumnWidth(0.5),
               2: FlexColumnWidth(1),
@@ -114,8 +116,8 @@ class _JudgeDataState extends State<JudgeData> {
                   Container(
                     height: 30,
                     alignment: Alignment.centerLeft,
-                    padding: EdgeInsets.only(left: 15),
-                    child: Text(
+                    padding: const EdgeInsets.only(left: 15),
+                    child: const Text(
                       "姓名",
                       textAlign: TextAlign.left,
                     ),
@@ -123,7 +125,7 @@ class _JudgeDataState extends State<JudgeData> {
                   Container(
                     height: 30,
                     alignment: Alignment.centerLeft,
-                    child: Text(
+                    child: const Text(
                       "性別",
                       textAlign: TextAlign.left,
                     ),
@@ -131,7 +133,7 @@ class _JudgeDataState extends State<JudgeData> {
                   Container(
                     height: 30,
                     alignment: Alignment.centerLeft,
-                    child: Text(
+                    child: const Text(
                       "電話",
                       textAlign: TextAlign.left,
                     ),
@@ -139,7 +141,7 @@ class _JudgeDataState extends State<JudgeData> {
                   Container(
                     height: 30,
                     alignment: Alignment.centerLeft,
-                    child: Text(
+                    child: const Text(
                       "Email",
                       textAlign: TextAlign.left,
                     ),
@@ -147,7 +149,7 @@ class _JudgeDataState extends State<JudgeData> {
                   Container(
                     height: 30,
                     alignment: Alignment.centerLeft,
-                    child: Text(
+                    child: const Text(
                       "頭銜",
                       textAlign: TextAlign.left,
                     ),
@@ -158,7 +160,7 @@ class _JudgeDataState extends State<JudgeData> {
                 Container(
                   height: 30,
                   alignment: Alignment.centerLeft,
-                  padding: EdgeInsets.only(left: 15),
+                  padding: const EdgeInsets.only(left: 15),
                   child: Text(
                     item.name,
                     textAlign: TextAlign.left,
@@ -198,7 +200,7 @@ class _JudgeDataState extends State<JudgeData> {
                   ),
                 ):Container(),
               ]
-            )).toList()
+            ))
           ])
         ],
       ),
@@ -210,7 +212,7 @@ void _openAddJudgeForm(BuildContext context) {
   showDialog(
     context: context,
     builder: (BuildContext context) {
-      return AlertDialog(
+      return const AlertDialog(
         backgroundColor: Colors.white,
         title: Text("新增評審"),
         content: AddJudgeForm(),
@@ -220,10 +222,10 @@ void _openAddJudgeForm(BuildContext context) {
 }
 
 class AddJudgeForm extends StatefulWidget {
-  AddJudgeForm({super.key});
+  const AddJudgeForm({super.key});
 
   @override
-  _AddJudgeFormState createState() => _AddJudgeFormState();
+  State<AddJudgeForm> createState() => _AddJudgeFormState();
 }
 
 class _AddJudgeFormState extends State<AddJudgeForm> {
@@ -247,14 +249,9 @@ class _AddJudgeFormState extends State<AddJudgeForm> {
         title: _titleController.text
         );
     });
-    print(judge!.id);
-    print(judge!.title);
-    print(judge!.name);
-    print(judge!.sexual);
-    print(judge!.phone);
     Navigator.of(context).pop(); // 關閉修改表單
     _judgeService.addJudge(judge!);
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("使用者資料已更新")));
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("使用者資料已更新")));
   }
 
   @override
@@ -264,9 +261,9 @@ class _AddJudgeFormState extends State<AddJudgeForm> {
       children: [
         TextField(
           controller: _nameController,
-          decoration: InputDecoration(labelText: "姓名"),
+          decoration: const InputDecoration(labelText: "姓名"),
         ),
-        SizedBox(height: 10,),
+        const SizedBox(height: 10,),
         const Text("生理性別"),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -280,7 +277,7 @@ class _AddJudgeFormState extends State<AddJudgeForm> {
                 });
               },
             ),
-            Text("男"),
+            const Text("男"),
             Radio<String>(
               value: "女",
               groupValue: _sexual,
@@ -290,34 +287,34 @@ class _AddJudgeFormState extends State<AddJudgeForm> {
                 });
               },
             ),
-            Text("女"),
+            const Text("女"),
           ],
         ),
-        SizedBox(height: 10,),
+        const SizedBox(height: 10,),
         TextField(
           controller: _emailController,
-          decoration: InputDecoration(labelText: "email"),
+          decoration: const InputDecoration(labelText: "email"),
         ),
         TextField(
           controller: _phoneController,
-          decoration: InputDecoration(labelText: "電話"),
+          decoration: const InputDecoration(labelText: "電話"),
         ),
         TextField(
           controller: _titleController,
-          decoration: InputDecoration(labelText: "頭銜"),
+          decoration: const InputDecoration(labelText: "頭銜"),
         ),
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
         Row(
           children:[ 
             ElevatedButton(
               onPressed: _saveChanges,
-              child: Text("新增評審"),
+              child: const Text("新增評審"),
             ),
-            Spacer(),
+            const Spacer(),
             ElevatedButton(
               // style: ButtonStyle(),
               onPressed: (){Navigator.of(context).pop();},
-              child: Text("取消"),
+              child: const Text("取消"),
             ),
           ]
         ),
