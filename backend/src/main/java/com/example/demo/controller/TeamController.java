@@ -213,4 +213,21 @@ public class TeamController {
         // return ResponseEntity.ok(teams);
         return ResponseEntity.ok(List.of(team));
     }
+
+    //拿老師的指導隊伍
+    //只需要拿隊伍ID、名稱、狀態、組別
+    @GetMapping("/trTeam/{trid}/{year}")
+    public ResponseEntity<List<Team>> getTeacherTeams(@PathVariable String trid, @PathVariable String year) {
+        // List<Team> teams = teamDAO.getTeacherTeams(teacherid, year);
+
+        // 假資料
+        Team team = new Team();
+        team.setTeamId("4");
+        team.setTeamName("team4");
+        team.setTeamType("type4");
+        team.setTeamState("已審核");
+        
+        // return ResponseEntity.ok(teams);
+        return ResponseEntity.ok(List.of(team));
+    }
 }

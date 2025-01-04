@@ -81,4 +81,17 @@ public class WorkshopController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(false); // 失敗回傳 false
         }
     }
+
+    //學生報名工作坊，送學生id到後端
+    @PostMapping("/register/{wsid}")
+    public ResponseEntity<Boolean> registerWorkshop(@PathVariable int wsid, @RequestBody String stuid) {
+        // boolean isRegistered = workshopDAO.registerWorkshop(wsid, stuid);
+        boolean isRegistered = true; // 假設報名成功，測試用
+
+        if (isRegistered) {
+            return ResponseEntity.status(HttpStatus.OK).body(true); // 成功回傳 true
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(false); // 失敗回傳 false
+        }
+    }
 }

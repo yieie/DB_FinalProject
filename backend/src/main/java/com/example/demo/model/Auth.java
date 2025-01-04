@@ -3,6 +3,7 @@ package com.example.demo.model;
 public class Auth {
     private String username;
     private String password;
+    private String usertype;
 
     public String getUsername() {
         return username;
@@ -20,11 +21,20 @@ public class Auth {
         this.password = password;
     }
 
+    public String getUsertype() {
+        return usertype;
+    }
+
+    public void setUsertype(String usertype) {
+        this.usertype = usertype;
+    }
+
     @Override
     public String toString() {
         return "Auth{" +
                 "username='" + username + '\'' +
                 ", password='" + password + '\'' +
+                ", usertype='" + usertype + '\'' +
                 '}';
     }
 }

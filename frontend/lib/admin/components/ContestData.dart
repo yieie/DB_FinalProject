@@ -244,6 +244,7 @@ class _showDetailTeamState extends State<showDetailTeam>{
       stu = await _adminTeamService.getTeamStudent(widget.teamid); 
       if(team!.teacheremail != null){
         teacher = await _adminTeamService.getTeamTeacher(team!.teacheremail!);
+        print("發出");
       }
     }
     catch(e){

@@ -26,6 +26,7 @@ class AdminTeamService {
   //拿隊伍的所有資料
   Future<Team> getDetailTeam(String teamid) async{
     final response = await _apiService.get('/Teams/$teamid');
+    print(response);
     return Team.fromJson(response);
   }
 
@@ -33,12 +34,15 @@ class AdminTeamService {
   //回傳資料請將代表人(leader)放在首位
   Future<List<Student>> getTeamStudent(String teamid) async{
     final response = await _apiService.get('/Stu/$teamid');
+    print(response);
     return (response as List).map((json)=>Student.fromJson(json)).toList();
   }
 
   //拿隊伍指導老師的資料
   Future<Teacher> getTeamTeacher(String teacheremail) async{
+    print(teacheremail);
     final response = await _apiService.get('/Tr/$teacheremail');
+    print(response);
     return Teacher.fromJson(response);
   }
 
