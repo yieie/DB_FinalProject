@@ -8,14 +8,14 @@ class RateService {
   //拿創意發想組的所有隊伍
   //只需要隊伍ID、隊伍名稱、作品名稱、隊伍類型
   Future<List<Team>> getAllTeamIdea() async{
-    final response = await _apiService.get('/Team/idea');
+    final response = await _apiService.get('/Teams/idea');
     return (response as List).map((json)=>Team.fromJson(json)).toList();
   }
 
   //拿創業實作組的所有隊伍
   //只需要隊伍ID、隊伍名稱、作品名稱、隊伍類型
   Future<List<Team>> getAllTeamBusiness() async{
-    final response = await _apiService.get('/Team/business');
+    final response = await _apiService.get('/Teams/business');
     return (response as List).map((json)=>Team.fromJson(json)).toList();
   }
 
@@ -30,13 +30,13 @@ class RateService {
    *}
    */
   Future<void> addScore(Map<String,String> data,String teamid) async{
-    await _apiService.post('/Score/$teamid', data);
+    await _apiService.post('/Score/add/$teamid', data);
   }
 
   //拿評審評的所有分數，要回傳分數1~4，總分，隊伍的id、名字、組別，評審的名字(不是id!!)，如果有排名要回傳排名
   //只需要回傳當年度的成績
   Future<List<Score>> getAllScorebyJudgeId(String judgeid) async{
-    final response = await _apiService.get('/Score/$judgeid');
+    final response = await _apiService.get('/Score/getJudge/$judgeid');
     return (response as List).map((json) => Score.fromJson(json)).toList();
   }
 }

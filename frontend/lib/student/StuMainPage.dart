@@ -29,7 +29,7 @@ class _StuMainPageState extends State<StuMainPage>{
             margin: EdgeInsets.only(left: authProvider.isSidebarOpen ? 250 : 0),
             child:const  Dashboard()
           ),
-          Sidebar()
+          const Sidebar()
         ]
       )
     );

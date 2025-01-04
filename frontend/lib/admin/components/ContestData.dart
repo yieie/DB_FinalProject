@@ -49,7 +49,7 @@ class _ContestDataState extends State<ContestData> {
               ],
             )
           ),
-          Sidebar()
+          const Sidebar()
         ]
       )
     );
@@ -66,7 +66,7 @@ class selectBar extends StatefulWidget{
   selectBar({super.key, required this.onUpdateTeams});
 
   @override
-  _selectedBarState createState() => _selectedBarState();
+  State<selectBar> createState() => _selectedBarState();
 }
 
 class _selectedBarState extends State<selectBar>{
@@ -249,7 +249,7 @@ class _showDetailTeamState extends State<showDetailTeam>{
     catch(e){
       print('error:$e');
       setState(() {
-        team= Team(teamid: '2024team001', teamname: '我們這一對', teamtype: '創意實作組',state: '報名待審核',worksummary: '你好我哈囉刮刮刮\n刮刮刮刮刮',teacheremail: "dijfi@gmail.com",worksdgs: '1,2,5',workyturl: 'https://www.google.com/');
+        team= Team(teamid: '2024team001', teamname: '我們這一對', teamtype: '創意實作組',state: '已審核',worksummary: '你好我哈囉刮刮刮\n刮刮刮刮刮',teacheremail: "dijfi@gmail.com",worksdgs: '1,2,5',workyturl: 'https://www.google.com/');
       stu=[
         Student(id: 'A1105546', name: '王大明', email: 'a1105546@mail.nuk.edu.tw', sexual: '男', phone: '0933556456', major: '資訊工程系', grade: '大四'),
         Student(id: 'A1113324', name: '陳曉慧', email: 'a1113324@mail.nuk.edu.tw', sexual: '女', phone: '0955777888', major: '資訊管理系', grade: '大三'),
@@ -488,26 +488,27 @@ class _showDetailTeamState extends State<showDetailTeam>{
                 ),
               ),
               const SizedBox(height: 20,),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ElevatedButton(
-                    onPressed:() {
-                      editTeamState(team!.teamid, team!.state!, '通過');
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("隊伍狀態已更新")));
-                    }, 
-                    child: const Text("審核通過")
-                  ),
-                  const SizedBox(width: 20,),
-                  ElevatedButton(
-                    onPressed:() {
-                      editTeamState(team!.teamid, team!.state!, '不通過');
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("隊伍狀態已更新")));
-                    }, 
-                    child: const Text("審核不通過，需補件")
-                  ),
-                ],
-              )
+              if(team!.state=="報名待審核" || team!.state=="待審核初賽資格" || team!.state=="已補件")
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton(
+                      onPressed:() {
+                        editTeamState(team!.teamid, team!.state!, '通過');
+                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("隊伍狀態已更新")));
+                      }, 
+                      child: const Text("審核通過")
+                    ),
+                    const SizedBox(width: 20,),
+                    ElevatedButton(
+                      onPressed:() {
+                        editTeamState(team!.teamid, team!.state!, '不通過');
+                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("隊伍狀態已更新")));
+                      }, 
+                      child: const Text("審核不通過，需補件")
+                    ),
+                  ],
+                )
               
             ],
           ),
