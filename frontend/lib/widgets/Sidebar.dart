@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:db_finalproject/admin/components/admin.dart';
 import 'package:db_finalproject/judge/components/judge.dart';
 import 'package:db_finalproject/student/components/stu.dart';
-import 'package:db_finalproject/teacher/components/TeachTeams.dart';
 import 'package:db_finalproject/common/components/PersonalData.dart';
 
 class Sidebar extends StatefulWidget{
@@ -18,7 +17,7 @@ class _SidebarState extends State<Sidebar> {
   final Map<String, List<String>> userSidebar = {
     "admin": ['公告管理','工作坊管理','評審資料管理',"隊伍管理","查看評分資料"],
     "stu": ["個人資料管理","隊伍報名管理","文件上傳","工作坊報名"],
-    "tr": ["個人資料管理","指導隊伍管理"],
+    "tr": ["個人資料管理"],
     "judge": ["個人資料管理","評分列表","評分隊伍資料"],
   }; 
 
@@ -134,24 +133,14 @@ class _SidebarState extends State<Sidebar> {
         );
       }
   }else{
-    if(str =='個人資料管理'){
-        return 
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const PersonalData(),
-          ),
-        );
-      }else{
-        return 
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const TeachTeams(),
-          ),
-        );
-      }
-  }
+    return 
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const PersonalData(),
+      ),
+    );
+}
   }
   
   @override

@@ -49,7 +49,7 @@ class _ContestDataState extends State<ContestData> {
               ],
             )
           ),
-          Sidebar()
+          const Sidebar()
         ]
       )
     );
@@ -66,7 +66,7 @@ class selectBar extends StatefulWidget{
   selectBar({super.key, required this.onUpdateTeams});
 
   @override
-  _selectedBarState createState() => _selectedBarState();
+  State<selectBar> createState() => _selectedBarState();
 }
 
 class _selectedBarState extends State<selectBar>{
@@ -202,7 +202,7 @@ class _showTeamState extends State<showTeams>{
               title: Text('${team.teamid}: ${team.teamname}'),
               subtitle: Text("隊伍狀態:${team.state}"),
               trailing: IconButton(
-                icon: Icon(Icons.edit),
+                icon: const Icon(Icons.edit),
                 onPressed: () {
                   html.window.open(
                     '/#/team/review?teamid=${team.teamid}', // 新視窗的網址
@@ -297,6 +297,7 @@ class _showDetailTeamState extends State<showDetailTeam>{
 
   @override
   Widget build(BuildContext context){
+    final authProvider = Provider.of<AuthProvider>(context);
     return Scaffold(
       backgroundColor: Colors.white,
       body: team==null?const Center(child: CircularProgressIndicator()):
@@ -488,26 +489,27 @@ class _showDetailTeamState extends State<showDetailTeam>{
                 ),
               ),
               const SizedBox(height: 20,),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ElevatedButton(
-                    onPressed:() {
-                      editTeamState(team!.teamid, team!.state!, '通過');
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("隊伍狀態已更新")));
-                    }, 
-                    child: const Text("審核通過")
-                  ),
-                  const SizedBox(width: 20,),
-                  ElevatedButton(
-                    onPressed:() {
-                      editTeamState(team!.teamid, team!.state!, '不通過');
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("隊伍狀態已更新")));
-                    }, 
-                    child: const Text("審核不通過，需補件")
-                  ),
-                ],
-              )
+              if(authProvider.usertype=='admin' &&( team!.state=="報名待審核" || team!.state=="待審核初賽資格" || team!.state=="已補件"))
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton(
+                      onPressed:() {
+                        editTeamState(team!.teamid, team!.state!, '通過');
+                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("隊伍狀態已更新")));
+                      }, 
+                      child: const Text("審核通過")
+                    ),
+                    const SizedBox(width: 20,),
+                    ElevatedButton(
+                      onPressed:() {
+                        editTeamState(team!.teamid, team!.state!, '不通過');
+                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("隊伍狀態已更新")));
+                      }, 
+                      child: const Text("審核不通過，需補件")
+                    ),
+                  ],
+                )
               
             ],
           ),

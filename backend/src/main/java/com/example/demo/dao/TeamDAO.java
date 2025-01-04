@@ -62,6 +62,7 @@ public class TeamDAO {
                 Team team = new Team();
                 team.setTeamId(rs.getString("TeamID"));
                 team.setTeamName(rs.getString("TeamName"));
+                team.setTeamType(rs.getString("TeamType"));
                 team.setAffidavit(rs.getString("Affidavit"));
                 team.setConsent(rs.getString("Consent"));
                 team.setWorkIntro(rs.getString("WorkIntro"));
