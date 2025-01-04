@@ -18,8 +18,8 @@ public class Ann {
     private String fileType;
     private byte[] fileData;
     private String adminID;
-    private String filePath; // 後端用
-    private String posterPath; // 後端用
+    private List<String> filePath = new ArrayList<>(); // 後端用
+    private List<String> posterPath = new ArrayList<>(); // 後端用
 
     // @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
@@ -136,19 +136,19 @@ public class Ann {
         return images;
     }
 
-    public String getFilePath() {
+    public List<String> getFilePath() {
         return filePath;
     }
 
-    public void setFilePath(String filePath) {
+    public void setFilePath(List<String> filePath) {
         this.filePath = filePath;
     }
 
-    public String getPosterPath() {
+    public List<String> getPosterPath() {
         return posterPath;
     }
 
-    public void setPosterPath(String posterPath) {
+    public void setPosterPath(List<String> posterPath) {
         this.posterPath = posterPath;
     }
 

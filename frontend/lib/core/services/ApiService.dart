@@ -96,7 +96,7 @@ class ApiService {
   }
 
   Future<dynamic> downloadFile(String fileName) async {
-    final fileUrl = "$baseUrl/$fileName";
+    final fileUrl = "$baseUrl/File/$fileName"; // File是後端加的api路徑，有錯告訴我
     
     try {
       // 發送請求獲取檔案
