@@ -88,138 +88,140 @@ class _JudgeDataState extends State<JudgeData> {
   }
   @override
   Widget build(BuildContext context){
-    return Align(
-      alignment: Alignment.center,
-      child: Column(
-        children: [
-          Row(
-            children: [
-              const Padding(padding: EdgeInsets.only(left: 15)),
-              const Text("評審資料",
-              style: TextStyle(fontSize: 20)),
-              const Spacer(),
-              TextButton(
-                onPressed:(){
-                  _openAddJudgeForm(context);
-                } ,
-                child: const Row(
-                  children: [
-                    Icon(Icons.add_box_outlined,color: Colors.black,),
-                    Text("新增評審",style: TextStyle(fontSize: 16),)
-                  ],
-                )),              
-            ],
-          ),
-          const SizedBox(height: 20,),
-          Table(
-            border: const TableBorder(
-              top: BorderSide(color: Colors.grey ),
-              bottom: BorderSide(color: Colors.grey ),
-              horizontalInside: BorderSide(color: Colors.grey ),
-              verticalInside:BorderSide.none,
-              right: BorderSide.none,
-              left: BorderSide.none
+    return SingleChildScrollView(
+      child: SizedBox(
+        height: 650,
+        child: Column(
+          children: [
+            Row(
+              children: [
+                const Padding(padding: EdgeInsets.only(left: 15)),
+                const Text("評審資料",
+                style: TextStyle(fontSize: 20)),
+                const Spacer(),
+                TextButton(
+                  onPressed:(){
+                    _openAddJudgeForm(context);
+                  } ,
+                  child: const Row(
+                    children: [
+                      Icon(Icons.add_box_outlined,color: Colors.black,),
+                      Text("新增評審",style: TextStyle(fontSize: 16),)
+                    ],
+                  )),              
+              ],
             ),
-            columnWidths: const {
-              0: FlexColumnWidth(1),
-              1: FlexColumnWidth(0.5),
-              2: FlexColumnWidth(1),
-              3: FlexColumnWidth(2),
-              4: FlexColumnWidth(3),
-            },
-            children: [
-              TableRow(
-                children: <Widget>[
+            const SizedBox(height: 20,),
+            Table(
+              border: const TableBorder(
+                top: BorderSide(color: Colors.grey ),
+                bottom: BorderSide(color: Colors.grey ),
+                horizontalInside: BorderSide(color: Colors.grey ),
+                verticalInside:BorderSide.none,
+                right: BorderSide.none,
+                left: BorderSide.none
+              ),
+              columnWidths: const {
+                0: FlexColumnWidth(1),
+                1: FlexColumnWidth(0.5),
+                2: FlexColumnWidth(1),
+                3: FlexColumnWidth(2),
+                4: FlexColumnWidth(3),
+              },
+              children: [
+                TableRow(
+                  children: <Widget>[
+                    Container(
+                      height: 30,
+                      alignment: Alignment.centerLeft,
+                      padding: const EdgeInsets.only(left: 15),
+                      child: const Text(
+                        "姓名",
+                        textAlign: TextAlign.left,
+                      ),
+                    ),
+                    Container(
+                      height: 30,
+                      alignment: Alignment.centerLeft,
+                      child: const Text(
+                        "性別",
+                        textAlign: TextAlign.left,
+                      ),
+                    ),
+                    Container(
+                      height: 30,
+                      alignment: Alignment.centerLeft,
+                      child: const Text(
+                        "電話",
+                        textAlign: TextAlign.left,
+                      ),
+                    ),
+                    Container(
+                      height: 30,
+                      alignment: Alignment.centerLeft,
+                      child: const Text(
+                        "Email",
+                        textAlign: TextAlign.left,
+                      ),
+                    ),
+                    Container(
+                      height: 30,
+                      alignment: Alignment.centerLeft,
+                      child: const Text(
+                        "頭銜",
+                        textAlign: TextAlign.left,
+                      ),
+                    ),
+                  ],
+                ),...judges.map((item)=>TableRow(
+                children: [
                   Container(
                     height: 30,
                     alignment: Alignment.centerLeft,
                     padding: const EdgeInsets.only(left: 15),
-                    child: const Text(
-                      "姓名",
+                    child: Text(
+                      item.name,
+                      textAlign: TextAlign.left,
+                    ),
+                  ),  
+                  Container(
+                    height: 30,
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      item.sexual,
                       textAlign: TextAlign.left,
                     ),
                   ),
                   Container(
                     height: 30,
                     alignment: Alignment.centerLeft,
-                    child: const Text(
-                      "性別",
+                    child: Text(
+                      item.phone,
                       textAlign: TextAlign.left,
                     ),
                   ),
                   Container(
                     height: 30,
                     alignment: Alignment.centerLeft,
-                    child: const Text(
-                      "電話",
+                    child: Text(
+                      item.email,
                       textAlign: TextAlign.left,
                     ),
                   ),
+                  item.title!=null?
                   Container(
                     height: 30,
                     alignment: Alignment.centerLeft,
-                    child: const Text(
-                      "Email",
+                    child: Text(
+                      item.title!,
                       textAlign: TextAlign.left,
                     ),
-                  ),
-                  Container(
-                    height: 30,
-                    alignment: Alignment.centerLeft,
-                    child: const Text(
-                      "頭銜",
-                      textAlign: TextAlign.left,
-                    ),
-                  ),
-                ],
-              ),...judges.map((item)=>TableRow(
-              children: [
-                Container(
-                  height: 30,
-                  alignment: Alignment.centerLeft,
-                  padding: const EdgeInsets.only(left: 15),
-                  child: Text(
-                    item.name,
-                    textAlign: TextAlign.left,
-                  ),
-                ),  
-                Container(
-                  height: 30,
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    item.sexual,
-                    textAlign: TextAlign.left,
-                  ),
-                ),
-                Container(
-                  height: 30,
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    item.phone,
-                    textAlign: TextAlign.left,
-                  ),
-                ),
-                Container(
-                  height: 30,
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    item.email,
-                    textAlign: TextAlign.left,
-                  ),
-                ),
-                item.title!=null?
-                Container(
-                  height: 30,
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    item.title!,
-                    textAlign: TextAlign.left,
-                  ),
-                ):Container(),
-              ]
-            ))
-          ])
-        ],
+                  ):Container(),
+                ]
+              ))
+            ])
+          ],
+        ),
       ),
     );
   }
