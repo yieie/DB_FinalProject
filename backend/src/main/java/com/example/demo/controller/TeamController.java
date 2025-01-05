@@ -182,4 +182,22 @@ public class TeamController {
         teams.add(team);
         return ResponseEntity.ok(teams);
     }
+
+    //拿隊伍資訊，只需要隊伍ID、名稱、狀態、組別、作品名稱
+    //只需要拿隊伍狀態為初賽隊伍 or 決賽
+    @GetMapping("/incontest")
+    public ResponseEntity<List<Team>> getInContestTeams() {
+        // List<Team> teams = teamDAO.getInContestTeams();
+
+        // 假資料
+        Team team = new Team();
+        team.setTeamId("3");
+        team.setTeamName("team3");
+        team.setTeamType("type3");
+        team.setTeamState("未審核");
+        team.setWorkName("work3");
+        
+        // return ResponseEntity.ok(teams);
+        return ResponseEntity.ok(List.of(team));
+    }
 }
