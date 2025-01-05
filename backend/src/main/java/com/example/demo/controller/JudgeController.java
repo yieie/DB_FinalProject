@@ -15,6 +15,7 @@ import com.example.demo.model.Judge;
 import com.example.demo.model.Teacher;
 import com.example.demo.dao.JudgeDAO;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -53,13 +54,19 @@ public class JudgeController {
     
     //更新使用者資料
     @PostMapping("/{id}/update")
-    public ResponseEntity<Void> updateJudge(@PathVariable String id, @RequestBody Judge judge) {
+    public ResponseEntity<Void> updateJudge(@PathVariable String id, @RequestBody Map<String, String> data) {
         // teamDAO.updateJudge(id, judge);
         // 有這些會改
         // 'passwd': passwd,
         // 'name': name,
         // 'sexual': sexual,
         // 'phone': phone
+        System.out.println(data.get("id"));
+        System.out.println(data.get("passwd"));
+        System.out.println(data.get("name"));
+        System.out.println(data.get("email"));
+        System.out.println(data.get("sexual"));
+        System.out.println(data.get("phone"));
         return ResponseEntity.ok().build();
     }
 

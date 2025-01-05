@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.Map;
 
 
 @RestController
@@ -47,7 +48,7 @@ public class TeacherController {
 
     //更新使用者資料
     @PostMapping("/{id}/update")
-    public ResponseEntity<Void> updateTeacher(@PathVariable String id, @RequestBody Teacher teacher) {
+    public ResponseEntity<Void> updateTeacher(@PathVariable String id, @RequestBody Map<String, String> data) {
         // teamDAO.updateTeam(id, teacher);
         // 有這些會改
         // 'id':id,
@@ -56,6 +57,12 @@ public class TeacherController {
         // 'email': email,
         // 'sexual': sexual,
         // 'phone': phone
+        System.out.println(data.get("id"));
+        System.out.println(data.get("passwd"));
+        System.out.println(data.get("name"));
+        System.out.println(data.get("email"));
+        System.out.println(data.get("sexual"));
+        System.out.println(data.get("phone"));
         return ResponseEntity.ok().build();
     }
 

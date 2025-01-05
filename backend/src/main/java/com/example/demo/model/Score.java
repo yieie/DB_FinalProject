@@ -16,10 +16,10 @@ public class Score {
     private String teamname;
     private String teamtype;
     private String judgename;
-    private String rate1;
-    private String rate2;
-    private String rate3;
-    private String rate4;
+    private int rate1;
+    private int rate2;
+    private int rate3;
+    private int rate4;
     private String totalrate;
     private String teamrank;
 
@@ -58,35 +58,35 @@ public class Score {
         this.judgename = judgename;
     }
 
-    public String getRate1() {
+    public int getRate1() {
         return rate1;
     }
 
-    public void setRate1(String rate1) {
+    public void setRate1(int rate1) {
         this.rate1 = rate1;
     }
 
-    public String getRate2() {
+    public int getRate2() {
         return rate2;
     }
 
-    public void setRate2(String rate2) {
+    public void setRate2(int rate2) {
         this.rate2 = rate2;
     }
 
-    public String getRate3() {
+    public int getRate3() {
         return rate3;
     }
 
-    public void setRate3(String rate3) {
+    public void setRate3(int rate3) {
         this.rate3 = rate3;
     }
 
-    public String getRate4() {
+    public int getRate4() {
         return rate4;
     }
 
-    public void setRate4(String rate4) {
+    public void setRate4(int rate4) {
         this.rate4 = rate4;
     }
 
