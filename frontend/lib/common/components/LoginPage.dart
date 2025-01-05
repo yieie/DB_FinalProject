@@ -44,7 +44,8 @@ class _LoginFormState extends State<LoginForm> {
     if(username.contains('@')){
       usertype='tj';
     }
-    else if(username.indexOf(RegExp(r'[ABLM][ablm]')) == 0 && username.length == 8){
+    else if(username.indexOf(RegExp(r'(A|B|L|M)',caseSensitive: false)) == 0 && username.length == 8){
+      
       if(regex.hasMatch(username.substring(1,4))){
         usertype='stu';
       }
@@ -107,6 +108,11 @@ class _LoginFormState extends State<LoginForm> {
                     labelText: '帳號',
                     hintText: '請輸入帳號',
                   ),
+                  onSaved: (newValue) {
+                    setState(() {
+                      _usernameController.text = newValue!;
+                    });
+                  },
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return '帳號請勿為空值';
@@ -123,6 +129,11 @@ class _LoginFormState extends State<LoginForm> {
                     labelText: '密碼',
                     hintText: '請輸入密碼',
                   ),
+                  onSaved: (newValue) {
+                    setState(() {
+                      _passwordController.text = newValue!;
+                    });
+                  },
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return '密碼請勿為空值';
@@ -132,7 +143,10 @@ class _LoginFormState extends State<LoginForm> {
                 ),
                 const SizedBox(height: 20),
                 TextButton(
-                  onPressed:_login,
+                  onPressed:(){
+                    _loginfromkey.currentState!.save();
+                    _login();
+                  },
                   style: TextButton.styleFrom(
                     backgroundColor: Colors.grey.shade200,
                     foregroundColor: Colors.black,
