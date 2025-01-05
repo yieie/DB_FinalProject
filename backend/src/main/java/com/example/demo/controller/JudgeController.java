@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import com.example.demo.model.Judge;
 import com.example.demo.model.Teacher;
 import com.example.demo.dao.JudgeDAO;
+import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -59,4 +60,19 @@ public class JudgeController {
         // 'phone': phone
         return ResponseEntity.ok().build();
     }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<Judge>> getAllJudges() {
+        // List<Judge> judges = judgeDAO.getAllJudges();
+
+        Judge judge1 = new Judge();
+        judge1.setJudgeid("1");
+        judge1.setJudgename("王小明");
+        judge1.setJudgeemail("mail.com");
+        judge1.setJudgesexual("男");
+        judge1.setJudgephone("0912345678");
+        judge1.setJudgetitle("教授");
+        List<Judge> judges = List.of(judge1);
+        return ResponseEntity.ok(judges);
+    } 
 }

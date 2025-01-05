@@ -6,7 +6,7 @@ class JudgeService {
 
   //拿所有judge資料，全部都要(除了passwd)
   Future<List<Judge>> getAllJudge() async{
-    final response = await _apiService.get('/Judge');
+    final response = await _apiService.get('/Judge/all');
     return (response as List).map((json) => Judge.fromJson(json)).toList();
   }
 
