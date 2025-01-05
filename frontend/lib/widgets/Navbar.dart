@@ -45,6 +45,13 @@ class _NavbarState extends State<Navbar> {
           style: TextButton.styleFrom(foregroundColor: Colors.black),
           child: const Text('首頁'),
         ),
+        TextButton(
+          onPressed:() {
+            Navigator.pushNamed(context, '/history');
+          },
+          style: TextButton.styleFrom(foregroundColor: Colors.black),
+          child: const Text('歷史資料'),
+        ),
         if (authProvider.isLoggedIn)
           TextButton(
             onPressed: () {
