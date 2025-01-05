@@ -15,37 +15,6 @@ import java.util.List;
 @RequestMapping("/api/Stu")
 public class StudentController {
     private final StudentDAO studentDAO = new StudentDAO();
-    // @PostMapping("/login")
-    // public ResponseEntity<String> stuLogin(@RequestBody Student stu) {
-    //     String stuId = stu.getStuID();
-    //     String stuPasswd = stu.getStuPasswd();
-        
-    //     /*等DAO寫好，需要check student的id和password是否正確 */
-    //     boolean isAuthenticated = studentDAO.authenticate(stuId, stuPasswd);
-    //     if(isAuthenticated) {
-    //         return ResponseEntity.ok("Login successful");
-    //     }
-    //     return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
-    // }
-    
-    // @PostMapping("/register")
-    // public ResponseEntity<String> stuRegister(@RequestBody Student stu) {
-    //     String stuId = stu.getStuID();
-    //     String stuPasswd = stu.getStuPasswd();
-    //     String stuName = stu.getStuName();
-    //     String stuSex = stu.getStuSex();
-    //     String stuPhone = stu.getStuPhone();
-    //     String stuEmail = stu.getStuEmail();
-    //     String stuDepartment = stu.getStuDepartment();
-    //     String stuGrade = stu.getStuGrade();
-    //     System.out.println(stu);
-    //     /*等DAO寫好，需要insert student的每個attribute */
-    //     boolean isRegistered = studentDAO.register(stuId, stuPasswd, stuName, stuSex, stuPhone, stuEmail, stuDepartment, stuGrade);
-    //     if(isRegistered) {
-    //         return ResponseEntity.ok("Register successful");
-    //     }
-    //     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to register");
-    // }
     
     //拿隊伍隊員的所有資料
     //回傳資料請將代表人(leader)放在首位
@@ -96,6 +65,39 @@ public class StudentController {
         // 'email': email,
         // 'sexual': sexual,
         // 'phone': phone
+        return ResponseEntity.ok().build();
+    }
+
+    //拿學生的teamid，如果沒有回傳'無'
+    @GetMapping("/{stuid}/teamid")
+    public ResponseEntity<String> getStudentTeamId(@PathVariable String stuid) {
+        // String teamid = studentDAO.getStudentTeamId(stuid);
+        String teamid = "1";
+        return ResponseEntity.ok(teamid);
+    }
+
+    //拿學生的workid，如果沒有回傳'無'
+    @GetMapping("/{stuid}/workid")
+    public ResponseEntity<String> getStudentWorkId(@PathVariable String stuid) {
+        // String workid = studentDAO.getStudentWorkId(stuid);
+        String workid = "1";
+        return ResponseEntity.ok(workid);
+    }
+
+    @PostMapping("/add")
+    public ResponseEntity<Void> addStudent(@RequestBody List<Student> students) {
+        // studentDAO.addStudent(students);
+        // 這裡看不懂前端isleader怎麼傳
+        for(Student student: students) {
+            System.out.println(student.getStuID());
+            System.out.println(student.getStuName());
+            System.out.println(student.getStuEmail());
+            System.out.println(student.getStuSex());
+            System.out.println(student.getStuPhone());
+            System.out.println(student.getStuDepartment());
+            System.out.println(student.getStuGrade());
+            System.out.println(student.getStuRole());
+        }
         return ResponseEntity.ok().build();
     }
 }

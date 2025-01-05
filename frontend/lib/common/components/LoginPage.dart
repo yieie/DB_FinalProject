@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:db_finalproject/common/logic/LoginService.dart';
 import 'package:db_finalproject/widgets/Navbar.dart';
 import 'package:db_finalproject/core/services/AuthProvider.dart';
+import 'dart:convert';
 
 
 class LoginPage extends StatelessWidget {
@@ -56,6 +57,7 @@ class _LoginFormState extends State<LoginForm> {
       usertype = 'admin';
     }
     String? response = await _loginService.login(usertype!, username, password);
+    print(response);
 
     if (response != null) {
       print("登入成功: $response");
@@ -72,6 +74,7 @@ class _LoginFormState extends State<LoginForm> {
       );
     }
   }
+
 
   @override
   Widget build(BuildContext context) {

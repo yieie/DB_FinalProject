@@ -13,36 +13,6 @@ import java.util.List;
 public class TeacherController {
     private TeacherDAO teacherDAO = new TeacherDAO();
 
-    // @PostMapping("/login")
-    // public ResponseEntity<String> teacherLogin(@RequestBody Teacher teacher) {
-    //     String teacherId = teacher.getTrId();
-    //     String teacherPasswd = teacher.getTrPasswd();
-        
-    //     /*等DAO寫好，會傳前端輸入的老師帳號密碼，後端要驗證對不對 */
-    //     // boolean isAuthenticated = teacherDAO.authenticate(teacherId, teacherPasswd);
-    //     // if(isAuthenticated) {
-    //     //     return ResponseEntity.ok("Login successful");
-    //     // }
-    //     return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
-    // }
-
-    // @PostMapping("/register")
-    // public ResponseEntity<String> teacherRegister(@RequestBody Teacher teacher) {
-    //     String teacherId = teacher.getTrId();
-    //     String teacherPasswd = teacher.getTrPasswd();
-    //     String teacherName = teacher.getTrName();
-    //     String teacherJobType = teacher.getTrJobType();
-    //     String teacherDepartment = teacher.getTrDepartment();
-    //     String teacherOrganization = teacher.getTrOrganization();
-        
-    //     /*等DAO寫好，需要insert teacher的每個attribute */
-    //     // boolean isRegistered = teacherDAO.register(teacherId, teacherPasswd, teacherName, teacherJobType, teacherDepartment, teacherOrganization);
-    //     // if(isRegistered) {
-    //     //     return ResponseEntity.status(HttpStatus.CREATED).body("Register successful");
-    //     // }
-    //     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to register");
-    // }
-
     @GetMapping("{teacheremail}")
     public ResponseEntity<Teacher> getTeamTeacher(@PathVariable String teacheremail) {
         Teacher teacher = teacherDAO.getTeacherByEmail(teacheremail);
@@ -87,5 +57,18 @@ public class TeacherController {
         // 'sexual': sexual,
         // 'phone': phone
         return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/add")
+    public ResponseEntity<Boolean> addTeacher(@RequestBody Teacher teacher) {
+        // 前端會送tr資料庫裡的每個東西
+        // boolean isAdded = teacherDAO.addTeacher(teacher);
+        boolean isAdded = true;
+
+        if (isAdded) {
+            return ResponseEntity.status(HttpStatus.CREATED).body(true); // 成功回傳 true
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(false); // 失敗回傳 false
+        }
     }
 }
