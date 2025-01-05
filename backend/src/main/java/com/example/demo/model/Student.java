@@ -25,7 +25,7 @@ public class Student {
     private String stumajor;
     @JsonProperty("stugrade")
     private String stugrade;
-    @JsonProperty("stuisLeader")
+    @JsonProperty("stuisleader")
     private Boolean stuisLeader;
     @JsonProperty("teamid")
     private String teamid;

@@ -42,7 +42,7 @@ public class JudgeController {
     public ResponseEntity<Judge> getJudgeDetails(@PathVariable String id) {
         //Judge judge = judgeDAO.getJudgeDetails(id);
         Judge judge = new Judge();
-        judge.setJudgeid(id);
+        // judge.setJudgeid(id);
         judge.setJudgename("王小明");
         judge.setJudgeemail("mail.com");
         judge.setJudgesexual("男");

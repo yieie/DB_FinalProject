@@ -12,6 +12,7 @@ class PersonalDataService {
     usertype = usertype[0].toUpperCase() + usertype.substring(1);
     // final response = await _apiService.post('/$usertype/detailsData', {'${usertype}ID': useraccount});
     final response = await _apiService.get('/$usertype/detailsData/$useraccount');
+    print(response.toString());
     if(usertype == 'Stu'){
       return Student.fromJson(response);
     }else if(usertype == 'Tr'){

@@ -28,7 +28,7 @@ public class AuthDAO {
             case "tr":
                 tableName = "teacher";
                 userIdField = "TJEmail";
-                passwordField = "TrPasswd"; // 這裡要和資料庫的欄位名稱一樣
+                passwordField = "TJPassword"; // 這裡要和資料庫的欄位名稱一樣
                 break;
             case "judge":
                 tableName = "judge";

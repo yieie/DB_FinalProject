@@ -7,15 +7,23 @@ import com.example.demo.model.Team;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
-
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Path;
 
 
 @RestController
 @RequestMapping("/api/Stu")
 public class StudentController {
     private final StudentDAO studentDAO = new StudentDAO();
+    private static final String UPLOAD_DIR = "uploads/";
     
     //拿隊伍隊員的所有資料
     //回傳資料請將代表人(leader)放在首位
@@ -42,7 +50,7 @@ public class StudentController {
     public ResponseEntity<Student> getStudentDetails(@PathVariable String id) {
         // Student student = studentDAO.getStudentDetails(stu, id);
         Student student = new Student();
-        student.setStuID("B08901001");
+        // student.setStuID("B08901001");
         student.setStuName("王小明");
         student.setStuEmail("email.com");
         student.setStuSex("男");
@@ -106,5 +114,47 @@ public class StudentController {
             System.out.println(student.getStuRole());
         }
         return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/add/idcard")
+    public ResponseEntity<String> uploadImage(@RequestParam("Images") MultipartFile image) {
+        if (image.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Image file is empty");
+        }
+
+        try {
+            // Define the directory to save the image
+            Path uploadDirectory = Paths.get("uploads/images");
+
+            // Ensure the directory exists
+            if (!Files.exists(uploadDirectory)) {
+                Files.createDirectories(uploadDirectory);
+            }
+
+            // Save the image file
+            Path filePath = uploadDirectory.resolve(image.getOriginalFilename());
+            Files.write(filePath, image.getBytes());
+
+            return ResponseEntity.ok("Image uploaded successfully: " + filePath.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred while uploading the image");
+        }
+    }
+
+    public String saveFile(String fileName, byte[] data) throws IOException {
+        if (data == null || fileName == null) {
+            return null;
+        }
+        String relativePath = UPLOAD_DIR + fileName;
+        File dir = new File(UPLOAD_DIR);
+        if (!dir.exists()) {
+            dir.mkdirs();
+        }
+        File file = new File(relativePath);
+        try (FileOutputStream fos = new FileOutputStream(file)) {
+            fos.write(data);
+        }
+        return relativePath; // 返回相對路徑
     }
 }

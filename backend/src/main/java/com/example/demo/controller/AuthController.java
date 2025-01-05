@@ -67,7 +67,9 @@ public class AuthController {
         if (isAuthenticated) {
             Map<String, Object> response = new HashMap<>();
             response.put("usertype", usertype);
+            System.out.println(usertype);
             response.put("username", username);
+            System.out.println(username);
             response.put("message", "登入成功");
             return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(response);
         }
