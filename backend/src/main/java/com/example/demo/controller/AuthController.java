@@ -2,13 +2,19 @@ package com.example.demo.controller;
 
 import com.example.demo.dao.AuthDAO;
 import com.example.demo.model.Auth;
+import com.example.demo.model.Student;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.security.SecureRandom;
+import java.util.Map;
+
 import com.example.demo.service.EmailService;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 @RestController
 @RequestMapping("/api/auth")
@@ -20,10 +26,11 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody Auth auth) {
+        String usertype = auth.getUsertype();
         String username = auth.getUsername();
         String password = auth.getPassword();
 
-        boolean isAuthenticated = authDAO.authenticate(username, password);
+        boolean isAuthenticated = authDAO.authenticate(usertype, username, password);
         if (isAuthenticated) {
             // 測試mail用的，之後刪掉
             // String randomPassword = generateRandomPassword(8);
@@ -39,6 +46,28 @@ public class AuthController {
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
     }
+
+    // 只有學生要註冊
+    @PostMapping("/register")
+    public ResponseEntity<String> register(@RequestBody Map<String, Object> data) {
+        String stuId = (String) data.get("id");
+        String stuPasswd = (String) data.get("passwd");
+        String stuName = (String) data.get("name");
+        String stuEmail = (String) data.get("email");
+        String stuSex = (String) data.get("sexual");
+        String stuPhone = (String) data.get("phone");
+        String stuDepartment = (String) data.get("major");
+        String stuGrade = (String) data.get("grade");
+
+        // boolean isRegistered = authDAO.register(stuId, stuPasswd, stuName, stuSex, stuPhone, stuEmail, stuDepartment, stuGrade);
+        boolean isRegistered = true;
+        if (isRegistered) {
+            return ResponseEntity.ok("Register successful");
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Register failed");
+
+    }
+    
 
     // 生亂數密碼
     // private String generateRandomPassword(int length) {
