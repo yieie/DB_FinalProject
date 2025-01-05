@@ -18,8 +18,6 @@ import com.example.demo.dao.JudgeDAO;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-
-
 @RestController
 @RequestMapping("/api/Judge")
 public class JudgeController {
@@ -38,14 +36,14 @@ public class JudgeController {
 
     @GetMapping("/detailsData/{id}")
     public ResponseEntity<Judge> getJudgeDetails(@PathVariable String id) {
-        //Judge judge = judgeDAO.getJudgeDetails(id);
-        Judge judge = new Judge();
-        judge.setJudgeid(id);
-        judge.setJudgename("王小明");
-        judge.setJudgeemail("mail.com");
-        judge.setJudgesexual("男");
-        judge.setJudgephone("0912345678");
-        judge.setJudgetitle("教授");
+        Judge judge = judgeDAO.getJudgeDetails(id);
+        // Judge judge = new Judge();
+        // judge.setJudgeid(id);
+        // judge.setJudgename("王小明");
+        // judge.setJudgeemail("mail.com");
+        // judge.setJudgesexual("男");
+        // judge.setJudgephone("0912345678");
+        // judge.setJudgetitle("教授");
 
         return ResponseEntity.ok(judge);
     }
@@ -53,7 +51,7 @@ public class JudgeController {
     //更新使用者資料
     @PostMapping("/{id}/update")
     public ResponseEntity<Void> updateJudge(@PathVariable String id, @RequestBody Judge judge) {
-        // teamDAO.updateJudge(id, judge);
+        judgeDAO.updateJudge(judge);
         // 有這些會改
         // 'passwd': passwd,
         // 'name': name,
