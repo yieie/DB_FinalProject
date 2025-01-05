@@ -29,7 +29,7 @@ public class Ann {
     private byte[] filedata;
     @JsonProperty("adminid")
     private String adminid;
-    @JsonProperty("anntime")
+    @JsonProperty("filepath")
     private List<String> filepath = new ArrayList<>(); // 後端用
     @JsonProperty("posterpath")
     private List<String> posterpath = new ArrayList<>(); // 後端用

@@ -116,9 +116,9 @@ public class AnnController {
     @PostMapping(value = "/edit/{id}", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
     public ResponseEntity<String> editAnnouncement(
             @PathVariable("id") int id,
-            @RequestParam(value = "annid", required = false) int annId,
+            @RequestParam(value = "annid") int annId,
             @RequestParam(value = "anndate", required = false) String annDate,
-            @RequestParam(value = "anntitle", required = false) String annTitle,
+            @RequestParam(value = "anntitle") String annTitle,
             @RequestParam("anninfo") String annInfo,
             @RequestParam("annadmin") String annAdmin,
             @RequestPart(value = "files", required = false) MultipartFile[] files,
