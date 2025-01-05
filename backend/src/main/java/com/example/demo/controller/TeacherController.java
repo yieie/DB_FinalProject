@@ -45,18 +45,18 @@ public class TeacherController {
 
     @GetMapping("{teacheremail}")
     public ResponseEntity<Teacher> getTeamTeacher(@PathVariable String teacheremail) {
-        // Teacher teacher = teacherDAO.getTeacherByEmail(teacheremail);
+        Teacher teacher = teacherDAO.getTeacherByEmail(teacheremail);
 
-        // //在資料庫裏面email只存在id欄位，在前端為了方便呼叫會多email欄位
-        Teacher teacher = new Teacher();
-        teacher.setTrId("teacher.gamil");
-        teacher.setTrName("王小明");
-        teacher.setTrEmail("teacher.gamil");
-        teacher.setTrSexual("男");
-        teacher.setTrPhone("0912345678");
-        teacher.setTrJobType("教授");
-        teacher.setTrDepartment("資訊工程學系");
-        teacher.setTrOrganization("國立高雄大學");
+        //在資料庫裏面email只存在id欄位，在前端為了方便呼叫會多email欄位
+        // Teacher teacher = new Teacher();
+        // teacher.setTrId("teacher.gamil");
+        // teacher.setTrName("王小明");
+        // teacher.setTrEmail("teacher.gamil");
+        // teacher.setTrSexual("男");
+        // teacher.setTrPhone("0912345678");
+        // teacher.setTrJobType("教授");
+        // teacher.setTrDepartment("資訊工程學系");
+        // teacher.setTrOrganization("國立高雄大學");
         return ResponseEntity.ok(teacher);
     }
 

@@ -17,7 +17,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 // Ann格式: Ann{annID=-1, annTitle='', annInfo='werwer', poster='', fileName='', fileType='null', fileData='', adminID='admin1', annTime=null}
-// 資料庫要自己加現在的時間 (加上上傳時間)
+// 資料庫要自己加現在的時間
 
 @RestController
 @RequestMapping("/api/Ann")
@@ -71,7 +71,7 @@ public class AnnController {
             ann.setAnnTitle(annTitle);
             ann.setAnnInfo(annInfo);
             ann.setAdminID(annAdmin);
-
+            System.out.println("加"+ann.getAdminID());
             // 處理文件
             if (files != null) {
                 for (MultipartFile file : files) {
@@ -81,8 +81,7 @@ public class AnnController {
                     ann.setFileType(contentType);
                     String filePath = annDAO.saveFile(file.getOriginalFilename(), file.getBytes());
                     ann.addFile(file.getOriginalFilename(), file.getContentType(), filePath);
-                    //ann.setFilePath(filePath + "/" + originalFilename + "." + contentType);
-                    ann.setFilePath(filePath);
+                    ann.setFilePath(List.of(filePath));
                     System.out.println(ann.getFilePath());
                 }
             }
@@ -90,21 +89,19 @@ public class AnnController {
             // 處理圖片
             if (images != null) {
                 for (MultipartFile image : images) {
-                    String originalFilename = image.getOriginalFilename(); // 圖片名稱
                     String contentType = image.getContentType(); // 圖片類型 (MIME 類型)
-                    ann.setFileName(List.of(originalFilename));
                     ann.setFileType(contentType);
                     String imagePath = annDAO.saveFile(image.getOriginalFilename(), image.getBytes());
                     ann.addImage(image.getOriginalFilename(), image.getContentType(), imagePath);
-                    //ann.setPosterPath(imagePath + "/" + originalFilename + "." + contentType);
-                    ann.setPosterPath(imagePath);
-
+                    ann.setPosterPath(List.of(imagePath));
                     System.out.println(ann.getPosterPath() + "\n");
                 }
             }
-            System.out.println(ann);
-            boolean isAdded = annDAO.addAnnouncement(ann);
             
+            System.out.println(ann);
+
+
+            boolean isAdded = annDAO.addAnnouncement(ann);
             if (isAdded) {
                 return ResponseEntity.status(HttpStatus.CREATED).body("Announcement added successfully");
             } else {
@@ -133,7 +130,7 @@ public class AnnController {
             ann.setAnnTitle(annTitle);
             ann.setAnnInfo(annInfo);
             ann.setAdminID(annAdmin);
-
+            System.out.println("靠"+ann.getAdminID());
             if (files != null) {
                 for (MultipartFile file : files) {
                     String originalFilename = file.getOriginalFilename(); // 檔案名稱
@@ -142,23 +139,22 @@ public class AnnController {
                     ann.setFileType(contentType);
                     String filePath = annDAO.saveFile(file.getOriginalFilename(), file.getBytes());
                     ann.addFile(file.getOriginalFilename(), file.getContentType(), filePath);
-                    ann.setFilePath(filePath + "/" + originalFilename + "." + contentType);
+                    ann.setFilePath(List.of(filePath));
                 }
             }
 
             if (images != null) {
                 for (MultipartFile image : images) {
-                    String originalFilename = image.getOriginalFilename(); // 圖片名稱
                     String contentType = image.getContentType(); // 圖片類型 (MIME 類型)
-                    ann.setFileName(List.of(originalFilename));
                     ann.setFileType(contentType);
                     String imagePath = annDAO.saveFile(image.getOriginalFilename(), image.getBytes());
                     ann.addImage(image.getOriginalFilename(), image.getContentType(), imagePath);
-                    ann.setPosterPath(imagePath + "/" + originalFilename + "." + contentType);
+                    ann.setPosterPath(List.of(imagePath));
                 }
             }
             
             boolean isUpdated = annDAO.updateAnnouncement(ann);
+            
             if (isUpdated) {
                 return ResponseEntity.ok("Announcement updated successfully");
             } else {

@@ -42,10 +42,11 @@ public class AnnDAO {
         String sql2 = "SELECT * FROM ann_annposter WHERE AnnID = ?";
         String sql3 = "SELECT * FROM ann_annfile WHERE AnnID = ?";
         
-        // 用來儲存poster和file的列表
+        // 用來儲存 poster 和 file 的列表
         List<String> posterURLs = new ArrayList<>();
         List<String> fileURLs = new ArrayList<>();
-        
+        List<String> fileNames = new ArrayList<>(); // 新增檔案名稱的列表
+    
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             
@@ -64,8 +65,8 @@ public class AnnDAO {
                         pstmt2.setInt(1, AnnID);
                         try (ResultSet rs2 = pstmt2.executeQuery()) {
                             while (rs2.next()) {
-                                // 假設poster的URL存在名為 PosterURL 欄位
-                                posterURLs.add(rs2.getString("PosterURL"));
+                                // 假設 poster 的 URL 存在名為 PosterURL 欄位
+                                posterURLs.add(rs2.getString("AnnPoster"));
                             }
                         }
                     }
@@ -75,15 +76,17 @@ public class AnnDAO {
                         pstmt3.setInt(1, AnnID);
                         try (ResultSet rs3 = pstmt3.executeQuery()) {
                             while (rs3.next()) {
-                                // 假設file的URL存在名為 FileURL 欄位
-                                fileURLs.add(rs3.getString("FileURL"));
+                                // 假設 file 的 URL 和檔案名稱分別存於 FileURL 和 FileName 欄位
+                                fileURLs.add(rs3.getString("AnnFileURL"));
+                                fileNames.add(rs3.getString("AnnFileName")); // 新增檔案名稱
                             }
                         }
                     }
                     
                     // 將收集到的資料設置到 Ann 物件
-                    ann.setPoster(posterURLs);  
-                    ann.setFileUrl(fileURLs);     
+                    ann.setPoster(posterURLs);
+                    ann.setFileUrl(fileURLs);
+                    ann.setFileName(fileNames); // 設置檔案名稱列表
                 }
             }
         } catch (SQLException e) {
@@ -91,6 +94,7 @@ public class AnnDAO {
         }
         return ann;
     }
+    
     
 
     public boolean addAnnouncement(Ann ann) {
@@ -102,7 +106,6 @@ public class AnnDAO {
              PreparedStatement pstmt1 = conn.prepareStatement(sql1, Statement.RETURN_GENERATED_KEYS);
              PreparedStatement pstmt2 = conn.prepareStatement(sql2);
              PreparedStatement pstmt3 = conn.prepareStatement(sql3)) {
-    
             // 插入公告基本資料
             pstmt1.setString(1, ann.getAnnTitle());
             pstmt1.setString(2, ann.getAnnInfo());
@@ -116,14 +119,14 @@ public class AnnDAO {
                 int ann_ID = rs.getInt(1);  // 獲取生成的公告ID
     
                 // 處理 Poster (假設 Ann 類別有 getPosters() 方法返回 Poster 的 List)
-                List<String> posters = ann.getPoster();  // 多個 Poster 路徑
+                List<String> posters = ann.getPosterPath();  // 多個 Poster 路徑
                 for (String poster : posters) {
                     pstmt2.setString(1, poster);  // 設定 Poster 路徑
                     pstmt2.setInt(2, ann_ID);     // 關聯到剛剛插入的公告
                     pstmt2.executeUpdate();
                 }
     
-                List<String> fileUrls = ann.getFileUrl();  // 多個 File URL
+                List<String> fileUrls = ann.getFilePath();  // 多個 File URL
                 List<String> fileNames = ann.getFileName(); // 多個 File 名稱
                 for (int i = 0; i < fileUrls.size(); i++) {
                     pstmt3.setString(1, fileUrls.get(i));  // 設定 File URL
@@ -143,6 +146,8 @@ public class AnnDAO {
 
     public boolean updateAnnouncement(Ann ann) {
         // 更新公告的基本資料
+        System.out.println("三小"+ann.getAnnID()+ann.getAdminID());
+
         String sql1 = "UPDATE ann SET AnnTitle = ?, AnnInfo = ?, AnnTime = ?, AdminID = ? WHERE AnnID = ?";
         
         // 更新海報資料
@@ -155,11 +160,10 @@ public class AnnDAO {
              PreparedStatement pstmt1 = conn.prepareStatement(sql1);
              PreparedStatement pstmt2 = conn.prepareStatement(sql2);
              PreparedStatement pstmt3 = conn.prepareStatement(sql3)) {
-        
             // 更新公告的基本資料
             pstmt1.setString(1, ann.getAnnTitle());
             pstmt1.setString(2, ann.getAnnInfo());
-            pstmt1.setTimestamp(3, Timestamp.valueOf(ann.getAnnTime())); // 使用 AnnTime 的值
+            pstmt1.setTimestamp(3, Timestamp.valueOf(LocalDateTime.now()));
             pstmt1.setString(4, ann.getAdminID());
             pstmt1.setInt(5, ann.getAnnID());
             pstmt1.executeUpdate();
@@ -188,7 +192,6 @@ public class AnnDAO {
             return false;
         }
     }
-    
     
 
     public String saveFile(String fileName, byte[] data) throws IOException {
