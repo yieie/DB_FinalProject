@@ -195,7 +195,7 @@ class _TeamsCondState extends State<TeamsCond>{
                           borderRadius: BorderRadius.circular(20)
                         ),
                         child: Text(
-                          "已審核：${status.solved}",
+                          "已審核：${status.approved}",
                           textAlign: TextAlign.center,
                         )
                       ),
@@ -209,7 +209,7 @@ class _TeamsCondState extends State<TeamsCond>{
                           borderRadius: BorderRadius.circular(20)
                         ),
                         child: Text(
-                          "待審核：${status.solved}",
+                          "待審核：${status.notreview}",
                           textAlign: TextAlign.center,
                         )
                       ),
@@ -223,7 +223,7 @@ class _TeamsCondState extends State<TeamsCond>{
                           borderRadius: BorderRadius.circular(20)
                         ),
                         child: Text(
-                          "需補件：${status.solved}",
+                          "需補件：${status.incomplete}",
                           textAlign: TextAlign.center,
                         )
                       ),

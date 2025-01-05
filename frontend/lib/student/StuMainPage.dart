@@ -1,11 +1,14 @@
-import 'package:db_finalproject/core/services/ApiService.dart';
+import 'package:db_finalproject/data/Teacher.dart';
 import 'package:db_finalproject/data/Team.dart';
 import 'package:db_finalproject/data/Student.dart';
+import 'package:db_finalproject/student/logic/SutTeamService.dart';
 import 'package:db_finalproject/widgets/Sidebar.dart';
 import 'package:flutter/material.dart';
 import 'package:db_finalproject/widgets/Navbar.dart';
 import 'package:db_finalproject/core/services/AuthProvider.dart';
 import 'package:provider/provider.dart';
+import 'package:db_finalproject/admin/logic/AdminTeamService.dart';
+import 'dart:html' as html;
 
 class StuMainPage extends StatefulWidget{
   const StuMainPage({super.key});
@@ -43,7 +46,6 @@ class Dashboard extends StatefulWidget{
 }
 
 class _DashboardState extends State<Dashboard>{
-  final ApiService _apiService = ApiService();
  
   @override
   Widget build(BuildContext context){
@@ -62,7 +64,7 @@ class _DashboardState extends State<Dashboard>{
                 children: [
                   const Padding(padding: EdgeInsets.only(top: 20)),
 
-                  TeamsCond(apiService: _apiService,rowheight: 30,screenWidth: screenWidth),
+                  TeamsCond(rowheight: 30,screenWidth: screenWidth),
 
                 ],
               ),
@@ -79,62 +81,97 @@ class _DashboardState extends State<Dashboard>{
 }
 
 class TeamsCond extends StatefulWidget{
-  final ApiService apiService;
   final double rowheight;
   final double screenWidth;
-  const TeamsCond({super.key, required this.apiService, required this.rowheight ,required this.screenWidth});
+  const TeamsCond({super.key, required this.rowheight ,required this.screenWidth});
   @override
   State<TeamsCond> createState() => _TeamsCondState();
 }
 
 class _TeamsCondState extends State<TeamsCond>{
-  List<Student> teammember=[
-    Student(id: "A1103336", name: "王曉明", email: "A1103336@mail.nuk.edu.tw", sexual: "男", phone: "0925111222", major: "資訊管理學系", grade: "大四",isLeader: true),
-    Student(id: "A1113302", name: "許雅婷", email: "A1113302@mail.nuk.edu.tw", sexual: "女", phone: "0919333444", major: "資訊管理學系", grade: "大三"),
-    Student(id: "A1113311", name: "廖陳祥", email: "A1113311@mail.nuk.edu.tw", sexual: "男", phone: "0935666555", major: "資訊管理學系", grade: "大三"),
-    Student(id: "A1123328", name: "張暄予", email: "A1123328@mail.nuk.edu.tw", sexual: "女", phone: "0978654852", major: "資訊管理學系", grade: "大二"),
-  ];
+  List<Student> stu=[];
   String i="hi";
-  Team team=Team(
-    teamid: "2024team001", 
-    teamname: "我們這一隊", 
-    teamtype: "創意發想",
-    workid: "2024work001",
-    state: "待審核",
-    consent: "1111",
-    worksummary: "鴉鴉鴉鴉鴉鴉",
-    );
+  Team? team;
+  Teacher? tr;
+  String teamid='';
+  final StuTeamService _stuTeamService = StuTeamService();
+  final AdminTeamService _adminTeamService = AdminTeamService();
 
-  /*Future<void> fetchBasicAllTeam() async{
-    try {
-      teams = await widget.apiService.getBasicAllTeam();
-      setState((){});
-      // 更新 UI 或處理邏輯
-      print('Fetched ${teams} announcements');
-    } catch (e) {
-      print('Error: $e');
-      //測試用資
-      setState((){
-        teams=[ Team(teamid: "2024team001", teamname: "我們這一隊", workid: "2024work001",state: "待審核",consent: "1111"),
-                Team(teamid: "2024team321", teamname: "你說都的隊", workid: "2024work001",state: "已補件",affidavit: "1111",consent: "1111"),
-                Team(teamid: "2024team456", teamname: "對對隊", workid: "2024work001",state: "需補件",workintro: "1111"),
-                Team(teamid: "2024team021", teamname: "不可能不隊", workid: "2024work001",state: "已審核",affidavit: "1111"),
-                Team(teamid: "2024team091", teamname: "對啦隊", workid: "2024work001",state: "初賽隊伍",consent: "1111",workintro: "1111"),
-                Team(teamid: "2024team102", teamname: "感覺對了就隊", workid: "2024work001",state: "決賽隊伍",workintro: "1111" ,consent: "1111",affidavit: "1111")
-                ];
+  Future<void> fetchStuTeamId(String stuid) async{
+    try{
+      teamid=await _stuTeamService.getStudentTeamId(stuid);
+      setState(() {});
+    }catch(e){
+      print(e);
+    }
+  }
+
+  Future<void> fectchteamdetail() async{
+    try{
+      team= await _adminTeamService.getDetailTeam(teamid);
+      stu = await _adminTeamService.getTeamStudent(teamid); 
+      if(team!.teacheremail != null){
+        tr = await _adminTeamService.getTeamTeacher(team!.teacheremail!);
+      }
+      setState(() {});
+    }
+    catch(e){
+      print('error:$e');
+      setState(() {
+        team= Team(teamid: '2024team001', teamname: '我們這一對', teamtype: '創意實作組',state: '報名待審核',worksummary: '你好我哈囉刮刮刮\n刮刮刮刮刮',teacheremail: "dijfi@gmail.com",worksdgs: '1,2,5',workyturl: 'https://www.google.com/');
+      stu=[
+        Student(id: 'A1105546', name: '王大明', email: 'a1105546@mail.nuk.edu.tw', sexual: '男', phone: '0933556456', major: '資訊工程系', grade: '大四'),
+        Student(id: 'A1113324', name: '陳曉慧', email: 'a1113324@mail.nuk.edu.tw', sexual: '女', phone: '0955777888', major: '資訊管理系', grade: '大三'),
+        Student(id: 'A1124477', name: '呂又亮', email: 'a1124477@mail.nuk.edu.tw', sexual: '男', phone: '0933145346', major: '哈哈哈哈系', grade: '大二'),
+      ];
+      tr =Teacher(id: 'dijfi@gmail.com', name: '張大業', email: 'dijfi@gmail.com', sexual: '男', phone: '0966444888');
+        
       });
     }
-  } */
+  }
 
   @override
   void initState() {
     super.initState();
-    // fetchBasicAllTeam();
+    Future.microtask(() {
+      final authProvider = Provider.of<AuthProvider>(context, listen: false);
+      if (authProvider.usertype == 'stu' && authProvider.useraccount != 'none') {
+        fetchStuTeamId(authProvider.useraccount);
+      }  
+    });
+    if(teamid.contains('team')){
+      fectchteamdetail();
+    }
   }
 
   @override
   Widget build(BuildContext context){
-    return 
+    final authProvider = Provider.of<AuthProvider>(context);
+    return (teamid == '無' || teamid == '')? 
+    Column(
+      children: [
+        const Text("您還沒報名參加比賽喔！",style: TextStyle(fontSize: 24),),
+        const SizedBox(height: 20,),
+        TextButton(
+          onPressed: (){
+            html.window.open(
+              '/#/contest?stuid=${authProvider.useraccount}', // 新視窗的網址
+              'JoinContest',      // 視窗名稱（用於管理視窗實例）
+              'width=1000,height=720,left=200,top=100', // 視窗屬性
+            );
+          }, 
+          child: const Text(
+            "點選此處立即報名參加",
+            style: TextStyle(
+              fontSize: 20,
+              color: Colors.blue,
+              decoration: TextDecoration.underline,
+              decorationColor: Colors.blue,
+            ),)
+        )
+      ],
+    )
+    :
           Container(
             width: widget.screenWidth>850?850:widget.screenWidth*0.9,
             height: 500,
@@ -184,17 +221,17 @@ class _TeamsCondState extends State<TeamsCond>{
                           width: 100,
                           padding: const EdgeInsets.only(top: 4),
                           decoration: BoxDecoration(
-                            color: team.state == "待審核" ? Colors.grey.shade300 :
-                                    team.state == "已審核" ? Colors.green.shade200 :
-                                    team.state == "需補件" ? Colors.red.shade200 :
-                                    team.state == "已補件" ? Colors.orange.shade200 :
-                                    team.state == "初賽隊伍" ? Colors.blue.shade200 :
-                                    team.state == "決賽隊伍" ? Colors.blue.shade400 :
+                            color: team!.state == "待審核" ? Colors.grey.shade300 :
+                                    team!.state == "已審核" ? Colors.green.shade200 :
+                                    team!.state == "需補件" ? Colors.red.shade200 :
+                                    team!.state == "已補件" ? Colors.orange.shade200 :
+                                    team!.state == "初賽隊伍" ? Colors.blue.shade200 :
+                                    team!.state == "決賽隊伍" ? Colors.blue.shade400 :
                                     Colors.white,
                             borderRadius: BorderRadius.circular(20)
                           ),
                           child: Text(
-                            team.state!,
+                            team!.state!,
                             textAlign: TextAlign.center,
                             style: const TextStyle(
                               fontSize: 16
@@ -242,7 +279,7 @@ class _TeamsCondState extends State<TeamsCond>{
 
                       ],
                     ),
-                  teammember.isEmpty? const Center(child: CircularProgressIndicator()):
+                  stu!.isEmpty? const Center(child: CircularProgressIndicator()):
                   Table(
                     border: const TableBorder(
                       top: BorderSide(color: Colors.grey ),
@@ -261,7 +298,7 @@ class _TeamsCondState extends State<TeamsCond>{
                       5: FlexColumnWidth(4),
                       6: FlexColumnWidth(8)
                     },
-                    children: teammember.asMap().entries.map((entry){
+                    children: stu.asMap().entries.map((entry){
                       int index = entry.key;
                       Student item = entry.value;
                       return TableRow(
@@ -360,11 +397,11 @@ class _TeamsCondState extends State<TeamsCond>{
                           height: 20,
                           width: 70,
                           decoration: BoxDecoration(
-                            color: team.workintro == null ? Colors.grey.shade300:Colors.green.shade200,
+                            color: team!.workintro == null ? Colors.grey.shade300:Colors.green.shade200,
                             borderRadius: BorderRadius.circular(20)
                           ),
                           child: Text(
-                            team.workintro == null? "未上傳":"已上傳",
+                            team!.workintro == null? "未上傳":"已上傳",
                             textAlign: TextAlign.center,
                           ),
                         )
@@ -379,11 +416,11 @@ class _TeamsCondState extends State<TeamsCond>{
                           height: 20,
                           width: 70,
                           decoration: BoxDecoration(
-                            color: team.affidavit == null ? Colors.grey.shade300:Colors.green.shade200,
+                            color: team!.affidavit == null ? Colors.grey.shade300:Colors.green.shade200,
                             borderRadius: BorderRadius.circular(20)
                           ),
                           child: Text(
-                            team.affidavit == null? "未上傳":"已上傳",
+                            team!.affidavit == null? "未上傳":"已上傳",
                             textAlign: TextAlign.center,
                           ),
                         )
@@ -398,17 +435,16 @@ class _TeamsCondState extends State<TeamsCond>{
                           height: 20,
                           width: 70,
                           decoration: BoxDecoration(
-                            color: team.consent == null ? Colors.grey.shade300:Colors.green.shade200,
+                            color: team!.consent == null ? Colors.grey.shade300:Colors.green.shade200,
                             borderRadius: BorderRadius.circular(20)
                           ),
                           child: Text(
-                            team.consent == null? "未上傳":"已上傳",
+                            team!.consent == null? "未上傳":"已上傳",
                             textAlign: TextAlign.center,
                           ),
                         )
                       ),
                       const Spacer()
-
                     ],
                   )
                 ],

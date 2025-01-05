@@ -3,7 +3,7 @@ class TeamsStatus {
   int approved; //審核通過數量
   int notreview; //未審核數量
   int incomplete; //需補件數量
-  int solved; //已補件數量
+  int solved; //已補件
 
   TeamsStatus({
     required this.amounts, 
@@ -18,8 +18,8 @@ class TeamsStatus {
       amounts: json['amounts'] as int, 
       approved: json['approved'] as int, 
       notreview: json['notreview'] as int, 
-      incomplete: json['incomplete'] as int, 
-      solved: json['solved'] as int
+      incomplete: json['incomplete'] as int,
+      solved: json['solved'] as int 
     );
   }
 }

@@ -78,6 +78,7 @@ class _selectedBarState extends State<selectBar>{
   List<Team> teams=[];
 
   Future<void> _search() async{
+    widget.onUpdateTeams([]);
     try{
       teams = await _adminTeamService.getBasicAllTeamWithConstraint({
         'teamyear':_selectedyears,
@@ -184,7 +185,8 @@ class _showTeamState extends State<showTeams>{
 
   @override
   Widget build(BuildContext context){
-    return Expanded(
+    return widget.teams.isEmpty ? const Center(child: CircularProgressIndicator()) :
+    Expanded(
       child: ListView.builder(
         itemCount: widget.teams.length,
         itemBuilder: (context, index) {

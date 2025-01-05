@@ -86,7 +86,7 @@ class _SidebarState extends State<Sidebar> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => const TeamData(),
+            builder: (context) => const TeammemberData(),
           ),
         );
       }else if(str =='文件上傳'){
@@ -94,7 +94,7 @@ class _SidebarState extends State<Sidebar> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => const ContestDataUpload(),
+            builder: (context) => const UploadWorkData(),
           ),
         );
       }else{

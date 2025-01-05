@@ -1,9 +1,13 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 
 class UploadFiles extends StatefulWidget {
+  int max;
+  String title;
   final Function(List<PlatformFile>) onFilesChanged;
-  const UploadFiles({super.key, required this.onFilesChanged});
+  UploadFiles({super.key,this.max=5 ,this.title="選擇文件" ,required this.onFilesChanged});
   @override
   State<UploadFiles> createState() => _UploadFilesState();
 }
@@ -22,7 +26,7 @@ class _UploadFilesState extends State<UploadFiles> {
     if (result != null && result.files.isNotEmpty) {
       setState(() {
         _selectedFiles.add(result.files.first);
-         widget.onFilesChanged(_selectedFiles);
+        widget.onFilesChanged(_selectedFiles);
       });
     }
   }
@@ -55,10 +59,16 @@ class _UploadFilesState extends State<UploadFiles> {
               padding: const EdgeInsets.only(top:5,bottom: 4,left: 15,right: 15),
               child: Row(
                 children: [
-                  const Text("選擇圖片",style: TextStyle(fontSize: 16),),
+                  Text(widget.title ,style: TextStyle(fontSize: 16),),
                   const Spacer(),
                   ElevatedButton(
-                    onPressed: selectSingleFile,
+                    onPressed: (){
+                      if(_selectedFiles.length < widget.max){
+                        selectSingleFile();
+                      }else{
+                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("檔案已達最高上限")));
+                      }
+                    },
                     child: const Text('選擇檔案'),
                   ),
                   const SizedBox(width: 20),
