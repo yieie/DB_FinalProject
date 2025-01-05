@@ -48,7 +48,8 @@ class CarouselSlidePage extends StatelessWidget{
 
                 SizedBox(
                   width:iswidthful?1000:width,
-                  child: const LatestAnn(),
+                  height: 200,
+                  child: const SingleChildScrollView(child: LatestAnn()),
                 )
 
               ],

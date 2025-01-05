@@ -149,17 +149,17 @@ class _JoinContestState extends State<JoinContest>{
     if(_tremailController.text.isNotEmpty){
       tr={
         'trid':_tremailController.text,
-        'trname':_trnameController,
+        'trname':_trnameController.text,
         'trsexual':_trsexController,
-        'trphone': _trphoneController,
-        'trjobtype': _trjobtypeController,
-        'trdepartment': _trdepartmentController,
-        'trorganization': _troranizationController
+        'trphone': _trphoneController.text,
+        'trjobtype': _trjobtypeController.text,
+        'trdepartment': _trdepartmentController.text,
+        'trorganization': _troranizationController.text
       };
     }
 
     Map<String, dynamic> team = {
-      'teamname':_teamnameController,
+      'teamname':_teamnameController.text,
       'teamtype':_teamtypeController
     };
     String sdg='';
@@ -169,8 +169,8 @@ class _JoinContestState extends State<JoinContest>{
       }
     }
     Map<String, dynamic> work = {
-      'workname': _worknameController,
-      'worksummary': _worksummaryController,
+      'workname': _worknameController.text,
+      'worksummary': _worksummaryController.text,
       'worksdgs': sdg
     };
     try{
@@ -184,9 +184,9 @@ class _JoinContestState extends State<JoinContest>{
   @override
   void initState(){
     super.initState();
-    // fetchStudentData();
+    fetchStudentData();
     _addStudent();
-    _addStudent();
+    // _addStudent();
   }
 
   @override
@@ -407,7 +407,7 @@ class _JoinContestState extends State<JoinContest>{
                               setState(() {
                                 _stuemailController[index].text = '${_stuidController[index].text}@mail.nuk.edu.tw';
                               });
-                              print(_stuemailController[index].text);
+                              // print(_stuemailController[index].text);
                             },
                           ),
                         ),
