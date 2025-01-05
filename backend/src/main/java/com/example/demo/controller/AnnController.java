@@ -118,15 +118,15 @@ public class AnnController {
     @PostMapping(value = "/edit/{id}", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
     public ResponseEntity<String> editAnnouncement(
             @PathVariable("id") int id,
-            @RequestParam("annid") int annId,
+            @RequestParam(value = "annid", required = false) int annId,
             @RequestParam(value = "anndate", required = false) String annDate,
-            @RequestParam("anntitle") String annTitle,
+            @RequestParam(value = "anntitle", required = false) String annTitle,
             @RequestParam("anninfo") String annInfo,
             @RequestParam("annadmin") String annAdmin,
             @RequestPart(value = "files", required = false) MultipartFile[] files,
             @RequestPart(value = "Images", required = false) MultipartFile[] images) {
         try {
-            System.out.println(annId);
+            // System.out.println(annId);
             Ann ann = new Ann();
             // 資料庫要自己加現在的時間
             ann.setAnnID(id);
