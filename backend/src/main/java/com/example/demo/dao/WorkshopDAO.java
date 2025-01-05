@@ -14,6 +14,8 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.List;
+import java.util.ArrayList;
 import java.util.Locale;
 import java.text.SimpleDateFormat;
 import java.text.ParseException;
@@ -49,9 +51,36 @@ public class WorkshopDAO {
         return String.format("%02d:%02d:00", hour, minute);
     }
 
+    public List<Workshop> getAllWorkshops(){
+        List<Workshop> workshops = new ArrayList<>();
+        String sql = "SELECT w.WSID, WSDate, WSTime, WSTopic, LectName, LectTitle, LectPhone, LectEmail, LectAddress "+
+        "FROM work_shop as w, lecturer as l where w.WSID = l.WSID order by WSID";
+        try(Connection conn = DatabaseConnection.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                Workshop workshop = new Workshop();
+                workshop.setWsid(rs.getInt("WSID"));
+                workshop.setWsdate(rs.getDate("WSDate").toString());
+                workshop.setWstime(rs.getTime("WSTime").toString());
+                workshop.setWstopic(rs.getString("WSTopic"));
+                workshop.setLectName(rs.getString("LectName"));
+                workshop.setLecttitle(rs.getString("LectTitle"));
+                workshop.setLectphone(rs.getString("LectPhone"));
+                workshop.setLectemail(rs.getString("LectEmail"));
+                workshop.setLectaddr(rs.getString("LectAddress"));
+                workshops.add(workshop);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return workshops;
+    }
+
     public Workshop getWorkshopById(int id){
         Workshop workshop = null;
-        String sql = "SELECT w.WSID, WSDate, WSTime, WSTopic, LectName, LectTitle, LectPhone, LectEmail, LectAddress"+
+        String sql = "SELECT w.WSID, WSDate, WSTime, WSTopic, LectName, LectTitle, LectPhone, LectEmail, LectAddress "+
         "FROM work_shop as w, lecturer as l WHERE w.WSID = ? and w.WSID = l.WSID";
         try(Connection conn = DatabaseConnection.getConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -87,9 +116,7 @@ public class WorkshopDAO {
             String sqlDate = workshop.getWsdate();
             workshopStmt.setDate(1, Date.valueOf(sqlDate));
 
-            //12 to 24小時制轉換
-            String time12Hour = workshop.getWstime(); // 去除首尾空格
-            String time24Hour = convertTo24(time12Hour); // 轉換為 24 小時制
+            String time24Hour = workshop.getWstime()+":00"; // 去除首尾空格
             workshopStmt.setTime(2, Time.valueOf(time24Hour));
 
             workshopStmt.setString(3, workshop.getWstopic());
@@ -99,7 +126,7 @@ public class WorkshopDAO {
             if (rs.next()) {
                 int wsid = rs.getInt(1); // 自動生成的 WSID
                 // 插入 lecturers
-                lecturerStmt.setString(1, workshop.getlectname());
+                lecturerStmt.setString(1, workshop.getLectname());
                 lecturerStmt.setString(2, workshop.getLecttitle());
                 lecturerStmt.setString(3, workshop.getLectphone());
                 lecturerStmt.setString(4, workshop.getLectemail());
@@ -107,6 +134,39 @@ public class WorkshopDAO {
                 lecturerStmt.setInt(6, wsid);
                 lecturerStmt.executeUpdate();
             }
+            return true; // 成功執行
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean updateWorkshop(Workshop workshop){
+        String workshopSql = "UPDATE work_shop SET WSDate = ?, WSTime = ?, WSTopic = ? WHERE WSID = ?";
+        String lecturerSql = "UPDATE lecturer SET LectName = ?, LectTitle = ?, LectPhone = ?, LectEmail = ?, LectAddress = ? WHERE WSID = ?";
+
+        try (Connection conn = DatabaseConnection.getConnection();
+            PreparedStatement workshopStmt = conn.prepareStatement(workshopSql);
+            PreparedStatement lecturerStmt = conn.prepareStatement(lecturerSql)) {
+
+            String sqlDate = workshop.getWsdate();
+            workshopStmt.setDate(1, Date.valueOf(sqlDate));
+
+            String time24Hour = workshop.getWstime()+":00"; // 去除首尾空格
+            workshopStmt.setTime(2, Time.valueOf(time24Hour));
+
+            workshopStmt.setString(3, workshop.getWstopic());
+            workshopStmt.setInt(4, workshop.getWsid());
+            workshopStmt.executeUpdate();
+
+            lecturerStmt.setString(1, workshop.getLectname());
+            lecturerStmt.setString(2, workshop.getLecttitle());
+            lecturerStmt.setString(3, workshop.getLectphone());
+            lecturerStmt.setString(4, workshop.getLectemail());
+            lecturerStmt.setString(5, workshop.getLectaddr());
+            lecturerStmt.setInt(6, workshop.getWsid());
+            lecturerStmt.executeUpdate();
+            
             return true; // 成功執行
         } catch (SQLException e) {
             e.printStackTrace();

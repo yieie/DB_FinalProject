@@ -14,18 +14,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+
+
 @RestController
 @RequestMapping("/api/Score")
 public class ScoreController {
     // private ScoreDAO scoreDAO = new ScoreDAO();
 
-    //拿所有評分資料，會限制年份、組別(全組別、創意發想組、創業實作組)
-    //如果rank不為空，回傳資料以rank排序
-    //評分資料與資料庫內結構不同，要去Score.dart看實際需要回傳什麼
     @PostMapping("/Constraints")
-    public ResponseEntity<List<Score>> getScoresWithConstraints(@RequestBody Map<String, Object> constraint) {
-        // Score scores = scoreDAO.getScoresWithConstraints(constraint);
-        // Map key: 'year'  'teamtype'
+    public ResponseEntity<List<Score>> getScoresWithConstraints(@RequestBody Score score) {
+        //Score score = scoreDAO.getScoresWithConstraints(score);
 
         List<Score> scores = new ArrayList<>();
         Score score1 = new Score();
@@ -60,25 +58,9 @@ public class ScoreController {
         return ResponseEntity.ok().build();
     }
 
-    //拿評審評的所有分數，要回傳分數1~4，總分，隊伍的id、名字、組別，評審的名字(不是id!!)，如果有排名要回傳排名
-    //只需要回傳當年度的成績
-    @GetMapping("/getJudge/{judgeid}")
-    public ResponseEntity<List<Score>> getScoreByJudgeId(@PathVariable String judgeid) {
-        // List<Score> scores = scoreDAO.getScoreByJudgeId(judgeid);
-        List<Score> scores = new ArrayList<>();
-        Score score1 = new Score();
-        score1.setTeamId("1");
-        score1.setTeamName("team1");
-        score1.setTeamType("type1");
-        score1.setJudgeName("judge1");
-        score1.setRate1("1");
-        score1.setRate2("2");
-        score1.setRate3("3");
-        score1.setRate4("4");
-        score1.setTotalRate("10");
-        score1.setTeamRank("1");
-        scores.add(score1);
-        return ResponseEntity.ok(scores);
+    @GetMapping("path")
+    public String getMethodName(@RequestParam String param) {
+        return new String();
     }
     
 }

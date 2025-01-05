@@ -66,7 +66,7 @@ public class Workshop {
         return wstopic;
     }
 
-    public String getlectname() {
+    public String getLectname() {
         return lectname;
     }
 
