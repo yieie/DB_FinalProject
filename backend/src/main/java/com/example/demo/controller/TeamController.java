@@ -146,12 +146,12 @@ public class TeamController {
     //拿學生切結書(affidavit)、同意書(consent)的後端url
     @GetMapping("/{teamid}/files")
     public ResponseEntity<Map<String, String>> getTeamFiles(@PathVariable String teamid) {
-        // Map<String, String> files = teamDAO.getTeamFiles(teamid);
+        Map<String, String> files = teamDAO.getTeamFiles(teamid);
 
         // 假資料
-        Map<String, String> files = new HashMap<>();
-        files.put("affidavit", "affidavit1");
-        files.put("consent", "consent1");
+        // Map<String, String> files = new HashMap<>();
+        // files.put("affidavit", "affidavit1");
+        // files.put("consent", "consent1");
 
         return ResponseEntity.ok(files);
     }
@@ -159,7 +159,7 @@ public class TeamController {
     // 給teamname teamtype
     @PostMapping("/add")
     public ResponseEntity<Void> addTeam(@RequestBody Team team) {
-        // teamDAO.addTeam(team);
+        teamDAO.addTeam(team);
         // 有這些會改
         System.out.println(team.getTeamName());
         System.out.println(team.getTeamType());
@@ -187,17 +187,17 @@ public class TeamController {
     //只需要拿隊伍狀態為初賽隊伍 or 決賽
     @GetMapping("/incontest")
     public ResponseEntity<List<Team>> getInContestTeams() {
-        // List<Team> teams = teamDAO.getInContestTeams();
+        List<Team> teams = teamDAO.getInContestTeams();
 
         // 假資料
-        Team team = new Team();
-        team.setTeamId("3");
-        team.setTeamName("team3");
-        team.setTeamType("type3");
-        team.setTeamState("未審核");
-        team.setWorkName("work3");
+        // Team team = new Team();
+        // team.setTeamId("3");
+        // team.setTeamName("team3");
+        // team.setTeamType("type3");
+        // team.setTeamState("未審核");
+        // team.setWorkName("work3");
         
-        // return ResponseEntity.ok(teams);
-        return ResponseEntity.ok(List.of(team));
+        
+        return ResponseEntity.ok(teams);
     }
 }

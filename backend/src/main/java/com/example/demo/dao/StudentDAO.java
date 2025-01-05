@@ -70,7 +70,7 @@ public class StudentDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        
+        System.out.println("蛤 "+student.getStuName());
         return student;
     }
     
@@ -154,6 +154,33 @@ public class StudentDAO {
         return workid; // 回傳工作 ID 或 '無'
     }
     
+    public void addStudent(List<Student> students) {
+    
+        // SQL 更新語句，根據學生 ID 來更新資料
+        String query = "INSERT INTO student (StuID, StuName, StuEmail, StuSex, StuPhone, StuDepartment, StuGrade, IsLeader) VALUES (?, ?, ?, ?, ?)";
+        
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            
+            // 設定參數值
+            for (Student student : students) {
+                stmt.setString(1, student.getStuID());
+                stmt.setString(2, student.getStuName());
+                stmt.setString(3, student.getStuEmail());
+                stmt.setString(4, student.getStuSex());
+                stmt.setString(5, student.getStuPhone());
+                stmt.setString(6, student.getStuDepartment());
+                stmt.setString(7, student.getStuGrade());
+                stmt.setBoolean(8, student.getStuRole());
+                
+                // 執行更新操作
+                stmt.executeUpdate();
+            }
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
 
 

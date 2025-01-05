@@ -63,6 +63,7 @@ public class ScoreDAO {
                         score.setRate4(String.valueOf(r4));
                         score.setTotalRate(String.valueOf(totalRate));
                         score.setTeamRank(rs.getString("TeamRank"));
+                        //System.out.println("隊伍"+score);
                         scores.add(score); // 加入到結果清單
                     }
                 }

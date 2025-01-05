@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Map;
+import java.util.HashMap;
 import java.text.SimpleDateFormat;
 import java.text.ParseException;
 
@@ -291,8 +292,6 @@ public class TeamDAO {
         return teams;
     }
 
-    
-
     public List<Team> getTeacherTeams(String trid, String year) {
         List<Team> teams = new ArrayList<>();
     
@@ -322,5 +321,69 @@ public class TeamDAO {
     
         return teams;
     }
+
+    public Map<String, String> getTeamFiles(String teamid) {
+        Map<String, String> teams = new HashMap<>();
     
+        String sql = "SELECT Affidavit, Consent FROM team WHERE TeamID = ?";
+    
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            
+            pstmt.setString(1, teamid); // 設置查詢條件
+        
+            // 執行查詢
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    teams.put("affidavit", rs.getString("Affidavit"));
+                    teams.put("consent", rs.getString("Consent"));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    
+        return teams;
+    }
+
+    public void addTeam(Team team) {
+        String query = "INSERT INTO team (TeamName, TeamType) VALUES (?, ?)";
+        
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+            
+            // 設定插入的欄位
+            stmt.setString(1, team.getTeamId());
+            stmt.setString(2, team.getTeamName());
+            stmt.setString(3, team.getTeamType());
+            
+            
+            // 執行插入操作
+            stmt.executeUpdate();
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public List<Team> getInContestTeams(){
+        List<Team> teams = new ArrayList<>();
+        String sql = "SELECT team.*, work.* FROM team LEFT JOIN work ON team.workID = work.workID WHERE team.TeamState IN ('初賽隊伍', '決賽隊伍')";
+        try(Connection conn = DatabaseConnection.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                Team team = new Team();
+                team.setTeamId(rs.getString("TeamID"));
+                team.setTeamName(rs.getString("TeamName"));
+                team.setTeamType(rs.getString("TeamType"));
+                team.setTeamState(rs.getString("TeamState"));
+                team.setWorkName(rs.getString("WorkName"));
+                teams.add(team);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return teams;
+    }
 }
