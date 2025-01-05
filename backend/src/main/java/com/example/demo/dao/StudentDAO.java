@@ -44,7 +44,7 @@ public class StudentDAO {
     }
 
     public Student getStudentDetails(String id) {
-        String query = "SELECT StuID, StuName, StuSex, StuPhone, StuEmail, StuDepartment, StuGrade, StuIDCard, IsLeader, TeamID FROM students WHERE StuID = ?";
+        String query = "SELECT StuID, StuName, StuSex, StuPhone, StuEmail, StuDepartment, StuGrade, StuIDCard, IsLeader, TeamID FROM student WHERE StuID = ?";
         
         Student student = null;
         
@@ -83,7 +83,7 @@ public class StudentDAO {
         String phone = data.get("phone");
     
         // SQL 更新語句，根據學生 ID 來更新資料
-        String query = "UPDATE students SET StuPasswd = ?, StuName = ?, StuEmail = ?, StuSex = ?, StuPhone = ? WHERE StuID = ?";
+        String query = "UPDATE student SET StuPasswd = ?, StuName = ?, StuEmail = ?, StuSex = ?, StuPhone = ? WHERE StuID = ?";
         
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
@@ -132,7 +132,7 @@ public class StudentDAO {
     public String getStudentWorkId(String stuid) {
         String workid = "無"; // 預設為 '無'
         
-        String query = "SELECT WorkID FROM students WHERE StuID = ?";
+        String query = "SELECT WorkID FROM student WHERE StuID = ?";
         
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
