@@ -152,8 +152,7 @@ class _ScoresState extends State<Scores> {
             if (_selectedYear != null && _selectedTeamtype != null)
               SingleChildScrollView(
                 child: SizedBox(
-                  height: 500,
-                  width: 850,
+                  height: 300,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
