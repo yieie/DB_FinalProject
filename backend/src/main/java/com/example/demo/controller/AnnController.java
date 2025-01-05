@@ -71,7 +71,7 @@ public class AnnController {
             ann.setAnnTitle(annTitle);
             ann.setAnnInfo(annInfo);
             ann.setAdminID(annAdmin);
-            System.out.println("加"+ann.getAdminID());
+            
             // 處理文件
             if (files != null) {
                 for (MultipartFile file : files) {

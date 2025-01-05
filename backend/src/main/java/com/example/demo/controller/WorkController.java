@@ -17,31 +17,32 @@ import com.example.demo.model.Work;
 import com.example.demo.model.Workshop;
 import org.springframework.web.bind.annotation.PutMapping;
 import com.example.demo.dao.WorkshopDAO;
+import com.example.demo.dao.WorkDAO;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @RestController
 @RequestMapping("/api/Work")
 public class WorkController {
-    // private final WorkDAO = new WorkDAO();
+    private final WorkDAO workDAO = new WorkDAO();
 
     @GetMapping("/{workid}/files")
     public ResponseEntity<Map<String, String>> getWorkFiles(@PathVariable String workid) {
         // 從資料庫拿作品的檔案
-        // Map<String, String> files = WorkDAO.getWorkFiles(workid);
-        Map<String, String> files = new HashMap<>();
-        files.put("ppt", "http://ppt.com");
-        files.put("poster", "http://poster.com");
+        Map<String, String> files = workDAO.getWorkFiles(workid);
+        // Map<String, String> files = new HashMap<>();
+        // files.put("ppt", "http://ppt.com");
+        // files.put("poster", "http://poster.com");
         return ResponseEntity.ok(files);
     }
 
     @PostMapping("/add")
     public ResponseEntity<Void> addWork(@RequestBody Work work) {
-        // WorkDAO.addWork(work);
+        workDAO.addWork(work);
         // 有這些會新增
-        System.out.println(work.getWorkName());
-        System.out.println(work.getWorkSummary());
-        System.out.println(work.getWorkSdgs());
+        // System.out.println(work.getWorkName());
+        // System.out.println(work.getWorkSummary());
+        // System.out.println(work.getWorkSdgs());
         return ResponseEntity.ok().build();
     }
 }

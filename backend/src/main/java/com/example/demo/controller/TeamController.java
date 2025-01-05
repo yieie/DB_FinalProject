@@ -170,16 +170,16 @@ public class TeamController {
     //只需要拿隊伍ID、名稱、狀態、組別
     @GetMapping("/trTeam/{trid}/{year}")
     public ResponseEntity<List<Team>> getTeacherTeams(@PathVariable String trid, @PathVariable String year) {
-        // List<Team> teams = teamDAO.getTeacherTeams(trid, year);
+        List<Team> teams = teamDAO.getTeacherTeams(trid, year);
 
         // 假資料
-        List<Team> teams = new ArrayList<>();
-        Team team = new Team();
-        team.setTeamId("1");
-        team.setTeamName("team1");
-        team.setTeamType("type1");
-        team.setTeamState("已審核");
-        teams.add(team);
+        // List<Team> teams = new ArrayList<>();
+        // Team team = new Team();
+        // team.setTeamId("1");
+        // team.setTeamName("team1");
+        // team.setTeamType("type1");
+        // team.setTeamState("已審核");
+        // teams.add(team);
         return ResponseEntity.ok(teams);
     }
 

@@ -15,12 +15,9 @@ import com.example.demo.model.Judge;
 import com.example.demo.model.Teacher;
 import com.example.demo.dao.JudgeDAO;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-
-
 
 @RestController
 @RequestMapping("/api/Judge")
@@ -40,48 +37,43 @@ public class JudgeController {
 
     @GetMapping("/detailsData/{id}")
     public ResponseEntity<Judge> getJudgeDetails(@PathVariable String id) {
-        //Judge judge = judgeDAO.getJudgeDetails(id);
-        Judge judge = new Judge();
+        Judge judge = judgeDAO.getJudgeDetails(id);
+        // Judge judge = new Judge();
         // judge.setJudgeid(id);
-        judge.setJudgename("王小明");
-        judge.setJudgeemail("mail.com");
-        judge.setJudgesexual("男");
-        judge.setJudgephone("0912345678");
-        judge.setJudgetitle("教授");
+        // judge.setJudgename("王小明");
+        // judge.setJudgeemail("mail.com");
+        // judge.setJudgesexual("男");
+        // judge.setJudgephone("0912345678");
+        // judge.setJudgetitle("教授");
 
         return ResponseEntity.ok(judge);
     }
     
     //更新使用者資料
     @PostMapping("/{id}/update")
-    public ResponseEntity<Void> updateJudge(@PathVariable String id, @RequestBody Map<String, String> data) {
-        // teamDAO.updateJudge(data);
+    public ResponseEntity<Void> updateJudge(@PathVariable String id, @RequestBody Judge judge) {
+        judgeDAO.updateJudge(judge);
         // 有這些會改
         // 'passwd': passwd,
         // 'name': name,
         // 'sexual': sexual,
         // 'phone': phone
-        System.out.println(data.get("id"));
-        System.out.println(data.get("passwd"));
-        System.out.println(data.get("name"));
-        System.out.println(data.get("email"));
-        System.out.println(data.get("sexual"));
-        System.out.println(data.get("phone"));
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("/all")
     public ResponseEntity<List<Judge>> getAllJudges() {
-        // List<Judge> judges = judgeDAO.getAllJudges();
+        List<Judge> judges = judgeDAO.getAllJudges();
 
-        Judge judge1 = new Judge();
-        judge1.setJudgeid("1");
-        judge1.setJudgename("王小明");
-        judge1.setJudgeemail("mail.com");
-        judge1.setJudgesexual("男");
-        judge1.setJudgephone("0912345678");
-        judge1.setJudgetitle("教授");
-        List<Judge> judges = List.of(judge1);
+        // Judge judge1 = new Judge();
+        // judge1.setJudgeid("1");
+        // judge1.setJudgename("王小明");
+        // judge1.setJudgeemail("mail.com");
+        // judge1.setJudgesexual("男");
+        // judge1.setJudgephone("0912345678");
+        // judge1.setJudgetitle("教授");
+        // List<Judge> judges = List.of(judge1);
         return ResponseEntity.ok(judges);
     } 
 }
+
