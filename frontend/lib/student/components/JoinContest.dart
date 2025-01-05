@@ -169,8 +169,8 @@ class _JoinContestState extends State<JoinContest>{
       }
     }
     Map<String, dynamic> work = {
-      'workname': _worknameController,
-      'worksummary': _worksummaryController,
+      'workname': _worknameController.text,
+      'worksummary': _worksummaryController.text,
       'worksdgs': sdg
     };
     try{
@@ -184,9 +184,9 @@ class _JoinContestState extends State<JoinContest>{
   @override
   void initState(){
     super.initState();
-    // fetchStudentData();
+    fetchStudentData();
     _addStudent();
-    _addStudent();
+    // _addStudent();
   }
 
   @override
@@ -407,7 +407,7 @@ class _JoinContestState extends State<JoinContest>{
                               setState(() {
                                 _stuemailController[index].text = '${_stuidController[index].text}@mail.nuk.edu.tw';
                               });
-                              print(_stuemailController[index].text);
+                              // print(_stuemailController[index].text);
                             },
                           ),
                         ),

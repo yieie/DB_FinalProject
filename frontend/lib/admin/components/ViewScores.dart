@@ -151,64 +151,64 @@ class _ScoresState extends State<Scores> {
             // 成績列表
             if (_selectedYear != null && _selectedTeamtype != null)
               Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "$_selectedYear 年成績：",
-                      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 10),
-                    Container(
-                      padding: const EdgeInsets.all(15),
-                      child: const Row(
-                        children: [
-                          Expanded(flex: 2 ,child: Text('隊伍組別')),
-                          Expanded(flex: 3 ,child: Text('隊伍ID')),
-                          Expanded(flex: 3, child: Text('隊伍名稱')),
-                          Expanded(flex: 2, child: Text('評審委員')),
-                          Expanded(flex: 2, child: Text('分數1')),
-                          Expanded(flex: 2, child: Text("分數2")),
-                          Expanded(flex: 2, child: Text("分數3")),
-                          Expanded(flex: 2, child: Text("分數4")),
-                          Expanded(flex: 2, child: Text('總分')),
-                          Expanded(flex: 1, child: Text('排名')),
-                        ],
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "$_selectedYear 年成績：",
+                        style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                       ),
-                    ),
-                    Expanded(
-                      child: ListView.builder(
-                        itemCount: scores.length,
-                        itemBuilder: (context, index) {
-                          final team = scores[index];
-                          return Card(
-                            color: team.teamrank=='1'?Colors.amber:
-                                   team.teamrank=='2'?Colors.grey.shade300:
-                                   team.teamrank=='3'?const Color(0xFFCD7F32):Colors.blue.shade100,
-                            margin: const EdgeInsets.symmetric(vertical: 8),
-                            child: Container(
-                              padding: const EdgeInsets.all(15),
-                              child: Row(
-                                children: [
-                                  Expanded(flex: 2 ,child: Text(team.teamtype)),
-                                  Expanded(flex: 3 ,child: Text(team.teamid)),
-                                  Expanded(flex: 3, child: Text(team.teamname)),
-                                  Expanded(flex: 2, child: Text(team.judgename)),
-                                  Expanded(flex: 2, child: Text(team.Rate1!)),
-                                  Expanded(flex: 2, child: Text(team.Rate2!)),
-                                  Expanded(flex: 2, child: Text(team.Rate3!)),
-                                  Expanded(flex: 2, child: Text(team.Rate4!)),
-                                  Expanded(flex: 2, child: Text(team.totalrate!)),
-                                  Expanded(flex: 1, child: Text(team.teamrank??'')),
-                                ],
-                              ),
-                            )
-                          );
-                        },
+                      const SizedBox(height: 10),
+                      Container(
+                        padding: const EdgeInsets.all(15),
+                        child: const Row(
+                          children: [
+                            Expanded(flex: 2 ,child: Text('隊伍組別')),
+                            Expanded(flex: 3 ,child: Text('隊伍ID')),
+                            Expanded(flex: 3, child: Text('隊伍名稱')),
+                            Expanded(flex: 2, child: Text('評審委員')),
+                            Expanded(flex: 2, child: Text('分數1')),
+                            Expanded(flex: 2, child: Text("分數2")),
+                            Expanded(flex: 2, child: Text("分數3")),
+                            Expanded(flex: 2, child: Text("分數4")),
+                            Expanded(flex: 2, child: Text('總分')),
+                            Expanded(flex: 1, child: Text('排名')),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
-                ),
+                      Expanded(
+                        child: ListView.builder(
+                          itemCount: scores.length,
+                          itemBuilder: (context, index) {
+                            final team = scores[index];
+                            return Card(
+                              color: team.teamrank=='1'?Colors.amber:
+                                     team.teamrank=='2'?Colors.grey.shade300:
+                                     team.teamrank=='3'?const Color(0xFFCD7F32):Colors.blue.shade100,
+                              margin: const EdgeInsets.symmetric(vertical: 8),
+                              child: Container(
+                                padding: const EdgeInsets.all(15),
+                                child: Row(
+                                  children: [
+                                    Expanded(flex: 2 ,child: Text(team.teamtype)),
+                                    Expanded(flex: 3 ,child: Text(team.teamid)),
+                                    Expanded(flex: 3, child: Text(team.teamname)),
+                                    Expanded(flex: 2, child: Text(team.judgename)),
+                                    Expanded(flex: 2, child: Text(team.Rate1!)),
+                                    Expanded(flex: 2, child: Text(team.Rate2!)),
+                                    Expanded(flex: 2, child: Text(team.Rate3!)),
+                                    Expanded(flex: 2, child: Text(team.Rate4!)),
+                                    Expanded(flex: 2, child: Text(team.totalrate!)),
+                                    Expanded(flex: 1, child: Text(team.teamrank??'')),
+                                  ],
+                                ),
+                              )
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
               )
             else
               const Center(
