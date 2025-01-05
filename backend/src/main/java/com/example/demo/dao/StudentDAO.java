@@ -56,7 +56,7 @@ public class StudentDAO {
             
             if (rs.next()) {
                 student = new Student();
-                student.setStuID(rs.getString("StuID"));
+                //student.setStuID(rs.getString("StuID"));
                 student.setStuName(rs.getString("StuName"));
                 student.setStuSex(rs.getString("StuSex"));
                 student.setStuPhone(rs.getString("StuPhone"));
