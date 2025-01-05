@@ -55,7 +55,7 @@ public class JudgeController {
     //更新使用者資料
     @PostMapping("/{id}/update")
     public ResponseEntity<Void> updateJudge(@PathVariable String id, @RequestBody Map<String, String> data) {
-        // teamDAO.updateJudge(id, judge);
+        // teamDAO.updateJudge(data);
         // 有這些會改
         // 'passwd': passwd,
         // 'name': name,

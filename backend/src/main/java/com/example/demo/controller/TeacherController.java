@@ -49,7 +49,7 @@ public class TeacherController {
     //更新使用者資料
     @PostMapping("/{id}/update")
     public ResponseEntity<Void> updateTeacher(@PathVariable String id, @RequestBody Map<String, String> data) {
-        // teamDAO.updateTeam(id, teacher);
+        // teamDAO.updateTeam(data);
         // 有這些會改
         // 'id':id,
         // 'passwd': passwd,
