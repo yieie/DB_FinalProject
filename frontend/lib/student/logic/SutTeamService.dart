@@ -24,7 +24,7 @@ class StuTeamService {
 
   //拿學生切結書(affidavit)、同意書(consent)的後端url
   Future<List<String>> getStudentTeamfiles(String teamid) async{
-    final response = await _apiService.get('/Team/$teamid/files');
+    final response = await _apiService.get('/Teams/$teamid/files');
     return [response['affidavit'],response['consent']];
   }
 
@@ -34,6 +34,7 @@ class StuTeamService {
     return [response['workintro'],response['workposter']];
   }
 
+  // 先跳過
   //更新說明書、切結書、同意書、海報、yturl、githuburl
   Future<void> uploadWorkNTeamfileNurl(
     String teamid,
@@ -106,7 +107,7 @@ class StuTeamService {
       await _apiService.post('/Tr/add', tr);
     }
 
-    await _apiService.post('/Team/add', team);
+    await _apiService.post('/Teams/add', team);
     await _apiService.post('/Work/add', work);
     await _apiService.post('/Stu/add', { 'students':stus });
 

@@ -143,4 +143,26 @@ public class TeamController {
         return ResponseEntity.ok(teams);
     }
     
+    //拿學生切結書(affidavit)、同意書(consent)的後端url
+    @GetMapping("/{teamid}/files")
+    public ResponseEntity<Map<String, String>> getTeamFiles(@PathVariable String teamid) {
+        // Map<String, String> files = teamDAO.getTeamFiles(teamid);
+
+        // 假資料
+        Map<String, String> files = new HashMap<>();
+        files.put("affidavit", "affidavit1");
+        files.put("consent", "consent1");
+
+        return ResponseEntity.ok(files);
+    }
+
+    // 給teamname teamtype
+    @PostMapping("/add")
+    public ResponseEntity<Void> addTeam(@RequestBody Team team) {
+        // teamDAO.addTeam(team);
+        // 有這些會改
+        System.out.println(team.getTeamName());
+        System.out.println(team.getTeamType());
+        return ResponseEntity.ok().build();
+    }
 }
