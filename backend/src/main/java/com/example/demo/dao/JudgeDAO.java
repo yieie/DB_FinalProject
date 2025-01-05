@@ -53,7 +53,7 @@ public class JudgeDAO {
 
             if (rs.next()) {
                 judge = new Judge();
-                judge.setJudgeemail(rs.getString("TJEmail"));
+                judge.setJudgeid(rs.getString("TJEmail"));
                 judge.setJudgename(rs.getString("TJName"));
                 judge.setJudgeemail(rs.getString("TJEmail"));
                 judge.setJudgesexual(rs.getString("TJSex"));

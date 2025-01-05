@@ -25,15 +25,10 @@ public class AuthDAO {
                 userIdField = "StuID";
                 passwordField = "StuPasswd";
                 break;
-            case "tr":
-                tableName = "teacher";
+            case "tj":
+                tableName = "teacher_judge";
                 userIdField = "TJEmail";
-                passwordField = "TrPasswd"; // 這裡要和資料庫的欄位名稱一樣
-                break;
-            case "judge":
-                tableName = "judge";
-                userIdField = "TJEmail";
-                passwordField = "TJPassword";  // 這裡要和資料庫的欄位名稱一樣
+                passwordField = "TJPassword"; // 這裡要和資料庫的欄位名稱一樣
                 break;
             default:
                 throw new IllegalArgumentException("Invalid usertype: " + usertype);

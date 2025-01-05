@@ -37,14 +37,14 @@ public class JudgeController {
 
     @GetMapping("/detailsData/{id}")
     public ResponseEntity<Judge> getJudgeDetails(@PathVariable String id) {
-        //Judge judge = judgeDAO.getJudgeDetails(id);
-        Judge judge = new Judge();
-        judge.setJudgeid(id);
-        judge.setJudgename("王小明");
-        judge.setJudgeemail("mail.com");
-        judge.setJudgesexual("男");
-        judge.setJudgephone("0912345678");
-        judge.setJudgetitle("教授");
+        Judge judge = judgeDAO.getJudgeDetails(id);
+        // Judge judge = new Judge();
+        // judge.setJudgeid(id);
+        // judge.setJudgename("王小明");
+        // judge.setJudgeemail("mail.com");
+        // judge.setJudgesexual("男");
+        // judge.setJudgephone("0912345678");
+        // judge.setJudgetitle("教授");
 
         return ResponseEntity.ok(judge);
     }
@@ -76,3 +76,4 @@ public class JudgeController {
         return ResponseEntity.ok(judges);
     } 
 }
+
