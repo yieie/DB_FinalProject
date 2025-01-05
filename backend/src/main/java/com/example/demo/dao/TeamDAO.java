@@ -68,8 +68,7 @@ public class TeamDAO {
                         break;
                 }
             }
-            // System.out.println("未審核"+Notreview);
-            // System.out.println("已審核"+Approved);
+
             team.setNotreview(Notreview);
             team.setIncomplete(Incomplete);
             team.setApproved(Approved);
@@ -291,4 +290,35 @@ public class TeamDAO {
         }
         return teams;
     }
+
+    public List<Team> getTeacherTeams(String trid, String year) {
+        List<Team> teams = new ArrayList<>();
+    
+        String sql = "SELECT * FROM team WHERE TeacherEmail = ? AND TeamID LIKE ?";
+    
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            
+            // 設置參數
+            pstmt.setString(1, trid); // 第一個問號是 TeacherEmail
+            pstmt.setString(2, year + "%"); // 第二個問號是 TeamID 開頭年份
+    
+            // 執行查詢
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    Team team = new Team();
+                    team.setTeamId(rs.getString("TeamID"));
+                    team.setTeamName(rs.getString("TeamName"));
+                    team.setTeamType(rs.getString("TeamType"));
+                    team.setTeamState(rs.getString("TeamState"));
+                    teams.add(team);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    
+        return teams;
+    }
+    
 }

@@ -37,14 +37,14 @@ public class JudgeController {
 
     @GetMapping("/detailsData/{id}")
     public ResponseEntity<Judge> getJudgeDetails(@PathVariable String id) {
-        Judge judge = judgeDAO.getJudgeDetails(id);
-        // Judge judge = new Judge();
-        // judge.setJudgeid(id);
-        // judge.setJudgename("王小明");
-        // judge.setJudgeemail("mail.com");
-        // judge.setJudgesexual("男");
-        // judge.setJudgephone("0912345678");
-        // judge.setJudgetitle("教授");
+        //Judge judge = judgeDAO.getJudgeDetails(id);
+        Judge judge = new Judge();
+        judge.setJudgeid(id);
+        judge.setJudgename("王小明");
+        judge.setJudgeemail("mail.com");
+        judge.setJudgesexual("男");
+        judge.setJudgephone("0912345678");
+        judge.setJudgetitle("教授");
 
         return ResponseEntity.ok(judge);
     }
@@ -63,16 +63,16 @@ public class JudgeController {
 
     @GetMapping("/all")
     public ResponseEntity<List<Judge>> getAllJudges() {
-        // List<Judge> judges = judgeDAO.getAllJudges();
+        List<Judge> judges = judgeDAO.getAllJudges();
 
-        Judge judge1 = new Judge();
-        judge1.setJudgeid("1");
-        judge1.setJudgename("王小明");
-        judge1.setJudgeemail("mail.com");
-        judge1.setJudgesexual("男");
-        judge1.setJudgephone("0912345678");
-        judge1.setJudgetitle("教授");
-        List<Judge> judges = List.of(judge1);
+        // Judge judge1 = new Judge();
+        // judge1.setJudgeid("1");
+        // judge1.setJudgename("王小明");
+        // judge1.setJudgeemail("mail.com");
+        // judge1.setJudgesexual("男");
+        // judge1.setJudgephone("0912345678");
+        // judge1.setJudgetitle("教授");
+        // List<Judge> judges = List.of(judge1);
         return ResponseEntity.ok(judges);
     } 
 }

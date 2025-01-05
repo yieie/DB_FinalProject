@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.demo.model.Score;
+import com.example.demo.dao.ScoreDAO;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
@@ -19,11 +20,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RestController
 @RequestMapping("/api/Score")
 public class ScoreController {
-    // private ScoreDAO scoreDAO = new ScoreDAO();
+    private ScoreDAO scoreDAO = new ScoreDAO();
 
     @PostMapping("/Constraints")
     public ResponseEntity<List<Score>> getScoresWithConstraints(@RequestBody Score score) {
-        //Score score = scoreDAO.getScoresWithConstraints(score);
+        //List<Score> scores = scoreDAO.getScoresWithConstraints(score);
 
         List<Score> scores = new ArrayList<>();
         Score score1 = new Score();
@@ -53,7 +54,7 @@ public class ScoreController {
     */
     @PostMapping("/add/{teamid}")
     public ResponseEntity<Void> addScore(@RequestBody Map<String, Object> data, @PathVariable String teamid) {
-        // scoreDAO.addScore(data, teamid);
+        scoreDAO.addScore(data, teamid);
         System.out.println(data);
         return ResponseEntity.ok().build();
     }

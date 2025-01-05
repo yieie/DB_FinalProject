@@ -1,6 +1,7 @@
 package com.example.demo.dao;
 
 import com.example.demo.model.Judge;
+import com.example.demo.model.Teacher;
 import com.example.demo.config.DatabaseConnection;
 
 import java.io.File;
@@ -41,38 +42,24 @@ public class JudgeDAO {
         }
     }
 
-    public Judge getJudgeDetails(String judgeEmail) {
+    public Judge getJudgeDetails(String id) {
         Judge judge = null;
-        String sql1 = "SELECT * FROM teacher_judge WHERE TJEmail = ?";
-        String sql2 = "SELECT JudgeTitle FROM judge WHERE TJEmail = ?";
-    
+        String sql = "SELECT * FROM teacher_judge AS tj LEFT JOIN judge AS d ON tj.TJEmail = d.TJEmail WHERE tj.TJEmail = ?";
+
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement pstmt1 = conn.prepareStatement(sql1);
-             PreparedStatement pstmt2 = conn.prepareStatement(sql2)) {
-            
-            // 查詢 teacher_judge 資料表中的資料
-            pstmt1.setString(1, judgeEmail);
-            try (ResultSet rs1 = pstmt1.executeQuery()) {
-                if (rs1.next()) {
-                    judge = new Judge();
-                    judge.setJudgeid(rs1.getString("TJEmail"));
-                    judge.setJudgeemail(rs1.getString("TJEmail"));
-                    judge.setJudgename(rs1.getString("TJName"));
-                    judge.setJudgesexual(rs1.getString("TJSex"));
-                    judge.setJudgephone(rs1.getString("TJPhone"));
-                }
+            PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, id);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                judge = new Judge();
+                judge.setJudgeemail(rs.getString("TJEmail"));
+                judge.setJudgename(rs.getString("TJName"));
+                judge.setJudgeemail(rs.getString("TJEmail"));
+                judge.setJudgesexual(rs.getString("TJSex"));
+                judge.setJudgephone(rs.getString("TJPhone"));
+                judge.setJudgetitle(rs.getString("JudgeTitle"));
             }
-    
-            // 查詢 judge 資料表中的資料（如有需要）
-            if (judge != null) {
-                pstmt2.setString(1, judgeEmail);
-                try (ResultSet rs2 = pstmt2.executeQuery()) {
-                    if (rs2.next()) {
-                        judge.setJudgetitle(rs2.getString("JudgeTitle"));
-                    }
-                }
-            }
-    
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -109,4 +96,35 @@ public class JudgeDAO {
         }
     }
 
+    public List<Judge> getAllJudges(){
+        List<Judge> judges = new ArrayList<>();
+        String sql1 = "SELECT * FROM judge";
+        String sql2 = "SELECT * FROM teacher_judge WHERE TJEmail = ?";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement pstmt1 = conn.prepareStatement(sql1);
+             PreparedStatement pstmt2 = conn.prepareStatement(sql2);
+             ResultSet rs1 = pstmt1.executeQuery()) {
+            
+            while (rs1.next()) {
+                Judge judge = new Judge();
+                judge.setJudgetitle(rs1.getString("JudgeTitle"));
+                judge.setJudgeid(rs1.getString("TJEmail"));
+                judge.setJudgeemail(rs1.getString("TJEmail"));
+
+                pstmt2.setString(1, judge.getJudgeid());
+                try (ResultSet rs2 = pstmt2.executeQuery()) {
+                    if (rs2.next()) {
+                        judge.setJudgename(rs2.getString("TJName"));
+                        judge.setJudgesexual(rs2.getString("TJSex"));
+                        judge.setJudgephone(rs2.getString("TJPhone"));
+                    }
+                }
+
+                judges.add(judge);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return judges;
+    }
 }

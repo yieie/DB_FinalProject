@@ -13,11 +13,26 @@ import java.util.List;
 public class TeacherController {
     private TeacherDAO teacherDAO = new TeacherDAO();
 
-    @GetMapping("{teacheremail}")
-    public ResponseEntity<Teacher> getTeamTeacher(@PathVariable String teacheremail) {
-        Teacher teacher = teacherDAO.getTeacherByEmail(teacheremail);
+    // @GetMapping("{teacheremail}")
+    // public ResponseEntity<Teacher> getTeamTeacher(@PathVariable String teacheremail) {
+    //     Teacher teacher = teacherDAO.getTeacherByEmail(teacheremail);
 
-        //在資料庫裏面email只存在id欄位，在前端為了方便呼叫會多email欄位
+    //     //在資料庫裏面email只存在id欄位，在前端為了方便呼叫會多email欄位
+    //     // Teacher teacher = new Teacher();
+    //     // teacher.setTrId("teacher.gamil");
+    //     // teacher.setTrName("王小明");
+    //     // teacher.setTrEmail("teacher.gamil");
+    //     // teacher.setTrSexual("男");
+    //     // teacher.setTrPhone("0912345678");
+    //     // teacher.setTrJobType("教授");
+    //     // teacher.setTrDepartment("資訊工程學系");
+    //     // teacher.setTrOrganization("國立高雄大學");
+    //     return ResponseEntity.ok(teacher);
+    // }
+
+    @GetMapping("/detailsData/{id}")
+    public ResponseEntity<Teacher> getTeacherDetails(@PathVariable String id) {
+        Teacher teacher = teacherDAO.getTeacherDetails(id);
         // Teacher teacher = new Teacher();
         // teacher.setTrId("teacher.gamil");
         // teacher.setTrName("王小明");
@@ -30,25 +45,10 @@ public class TeacherController {
         return ResponseEntity.ok(teacher);
     }
 
-    @GetMapping("/detailsData/{id}")
-    public ResponseEntity<Teacher> getTeacherDetails(@PathVariable String id) {
-        // Teacher teacher = teacherDAO.getTeacherDetails(id);
-        Teacher teacher = new Teacher();
-        teacher.setTrId("teacher.gamil");
-        teacher.setTrName("王小明");
-        teacher.setTrEmail("teacher.gamil");
-        teacher.setTrSexual("男");
-        teacher.setTrPhone("0912345678");
-        teacher.setTrJobType("教授");
-        teacher.setTrDepartment("資訊工程學系");
-        teacher.setTrOrganization("國立高雄大學");
-        return ResponseEntity.ok(teacher);
-    }
-
     //更新使用者資料
     @PostMapping("/{id}/update")
     public ResponseEntity<Void> updateTeacher(@PathVariable String id, @RequestBody Teacher teacher) {
-        // teamDAO.updateTeam(id, teacher);
+        teacherDAO.updateTeacher(id, teacher);
         // 有這些會改
         // 'id':id,
         // 'passwd': passwd,
