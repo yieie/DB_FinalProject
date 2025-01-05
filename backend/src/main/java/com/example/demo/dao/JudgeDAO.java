@@ -81,32 +81,32 @@ public class JudgeDAO {
 
     
     public boolean updateJudge(Judge judge) {
-    String sql1 = "UPDATE teacher_judge SET TJPassword = ?, TJName = ?, TJSex = ?, TJPhone = ? WHERE TJEmail = ?";
-    String sql2 = "UPDATE judge SET JudgeTitle = ? WHERE TJEmail = ?";
-    try (Connection conn = DatabaseConnection.getConnection();
-         PreparedStatement pstmt1 = conn.prepareStatement(sql1);
-         PreparedStatement pstmt2 = conn.prepareStatement(sql2)) {
+        String sql1 = "UPDATE teacher_judge SET TJPassword = ?, TJName = ?, TJSex = ?, TJPhone = ? WHERE TJEmail = ?";
+        String sql2 = "UPDATE judge SET JudgeTitle = ? WHERE TJEmail = ?";
+        try (Connection conn = DatabaseConnection.getConnection();
+            PreparedStatement pstmt1 = conn.prepareStatement(sql1);
+            PreparedStatement pstmt2 = conn.prepareStatement(sql2)) {
 
-        // 更新 teacher_judge 資料表
-        pstmt1.setString(1, judge.getJudgepasswd());
-        pstmt1.setString(2, judge.getJudgename());
-        pstmt1.setString(3, judge.getJudgesexual());
-        pstmt1.setString(4, judge.getJudgephone());
-        pstmt1.setString(5, judge.getJudgeid());  // 根據 Email (JudgeID) 更新
+            // 更新 teacher_judge 資料表
+            pstmt1.setString(1, judge.getJudgepasswd());
+            pstmt1.setString(2, judge.getJudgename());
+            pstmt1.setString(3, judge.getJudgesexual());
+            pstmt1.setString(4, judge.getJudgephone());
+            pstmt1.setString(5, judge.getJudgeid());  // 根據 Email (JudgeID) 更新
 
-        // 更新 judge 資料表
-        pstmt2.setString(1, judge.getJudgetitle());
-        pstmt2.setString(2, judge.getJudgeid());  // 根據 Email (JudgeID) 更新
+            // 更新 judge 資料表
+            pstmt2.setString(1, judge.getJudgetitle());
+            pstmt2.setString(2, judge.getJudgeid());  // 根據 Email (JudgeID) 更新
 
-        // 執行更新語句
-        pstmt1.executeUpdate();
-        pstmt2.executeUpdate();
+            // 執行更新語句
+            pstmt1.executeUpdate();
+            pstmt2.executeUpdate();
 
-        return true;  // 更新成功
-    } catch (SQLException e) {
-        e.printStackTrace();
-        return false;  // 發生錯誤，更新失敗
+            return true;  // 更新成功
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;  // 發生錯誤，更新失敗
+        }
     }
-}
 
 }
