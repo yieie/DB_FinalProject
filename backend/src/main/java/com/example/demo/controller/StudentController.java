@@ -93,8 +93,8 @@ public class StudentController {
 
     @PostMapping("/add")
     public ResponseEntity<Void> addStudent(@RequestBody List<Student> students) {
-        // studentDAO.addStudent(students);
-        // 這裡看不懂前端isleader怎麼傳
+        //studentDAO.addStudent(students);
+        
         for(Student student: students) {
             System.out.println(student.getStuID());
             System.out.println(student.getStuName());
