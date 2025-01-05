@@ -6,50 +6,63 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Ann {
-    private int annID;
-    private String annTitle;
-    private String annInfo;
+    @JsonProperty("annid")
+    private int annid;
+    @JsonProperty("anntitle")
+    private String anntitle;
+    @JsonProperty("anninfo")
+    private String anninfo;
+    @JsonProperty("poster")
     private List<String> poster = new ArrayList<>();
-    private byte[] posterData; // 保留，如果需要直接存 Poster 的 byte[]
-    private List<String> fileName = new ArrayList<>();
-    private List<String> fileUrl = new ArrayList<>();
-    private String fileType;
-    private byte[] fileData;
-    private String adminID;
-    private List<String> filePath = new ArrayList<>(); // 後端用
-    private List<String> posterPath = new ArrayList<>(); // 後端用
+    @JsonProperty("posterdata")
+    private byte[] posterdata; // 保留，如果需要直接存 Poster 的 byte[]
+    @JsonProperty("filename")
+    private List<String> filename = new ArrayList<>();
+    @JsonProperty("fileurl")
+    private List<String> fileurl = new ArrayList<>();
+    @JsonProperty("filetype")
+    private String filetype;
+    @JsonProperty("filedata")
+    private byte[] filedata;
+    @JsonProperty("adminid")
+    private String adminid;
+    @JsonProperty("anntime")
+    private List<String> filepath = new ArrayList<>(); // 後端用
+    @JsonProperty("posterpath")
+    private List<String> posterpath = new ArrayList<>(); // 後端用
 
     // @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private LocalDateTime annTime;
+    private LocalDateTime anntime;
 
     private List<FileData> files = new ArrayList<>();
     private List<FileData> images = new ArrayList<>();
 
     public int getAnnID() {
-        return annID;
+        return annid;
     }
 
-    public void setAnnID(int annID) {
-        this.annID = annID;
+    public void setAnnID(int annid) {
+        this.annid = annid;
     }
 
     public String getAnnTitle() {
-        return annTitle;
+        return anntitle;
     }
 
-    public void setAnnTitle(String annTitle) {
-        this.annTitle = annTitle;
+    public void setAnnTitle(String anntitle) {
+        this.anntitle = anntitle;
     }
 
     public String getAnnInfo() {
-        return annInfo;
+        return anninfo;
     }
 
-    public void setAnnInfo(String annInfo) {
-        this.annInfo = annInfo;
+    public void setAnnInfo(String anninfo) {
+        this.anninfo = anninfo;
     }
 
     public List<String> getPoster() {
@@ -61,63 +74,63 @@ public class Ann {
     }
 
     public byte[] getPosterData() {
-        return posterData;
+        return posterdata;
     }
 
-    public void setPosterData(byte[] posterData) {
-        this.posterData = posterData;
+    public void setPosterData(byte[] posterdata) {
+        this.posterdata = posterdata;
     }
 
     public List<String> getFileName() {
-        return fileName;
+        return filename;
     }
 
-    public void setFileName(List<String> fileName) {
-        this.fileName = fileName;
+    public void setFileName(List<String> filename) {
+        this.filename = filename;
     }
 
     public List<String> getFileUrl() {
-        return fileUrl;
+        return fileurl;
     }
 
-    public void setFileUrl(List<String> fileUrl) {
-        this.fileUrl = fileUrl;
+    public void setFileUrl(List<String> fileurl) {
+        this.fileurl = fileurl;
     }
 
     public String getFileType() {
-        return fileType;
+        return filetype;
     }
 
-    public void setFileType(String fileType) {
-        this.fileType = fileType;
+    public void setFileType(String filetype) {
+        this.filetype = filetype;
     }
 
     public byte[] getFileData() {
-        return fileData;
+        return filedata;
     }
 
-    public void setFileData(byte[] fileData) {
-        this.fileData = fileData;
+    public void setFileData(byte[] filedata) {
+        this.filedata = filedata;
     }
 
     public String getAdminID() {
-        return adminID;
+        return adminid;
     }
 
-    public void setAdminID(String adminID) {
-        this.adminID = adminID;
+    public void setAdminID(String adminid) {
+        this.adminid = adminid;
     }
 
     public String getAnnTime() {
-        if (annTime != null) {
+        if (anntime != null) {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            return annTime.format(formatter);
+            return anntime.format(formatter);
         }
         return null;
     }
 
-    public void setAnnTime(LocalDateTime annTime) {
-        this.annTime = annTime;
+    public void setAnnTime(LocalDateTime anntime) {
+        this.anntime = anntime;
     }
 
     public void addFile(String fileName, String fileType, String filePath) {
@@ -137,33 +150,33 @@ public class Ann {
     }
 
     public List<String> getFilePath() {
-        return filePath;
+        return filepath;
     }
 
-    public void setFilePath(List<String> filePath) {
-        this.filePath = filePath;
+    public void setFilePath(List<String> filepath) {
+        this.filepath = filepath;
     }
 
     public List<String> getPosterPath() {
-        return posterPath;
+        return posterpath;
     }
 
-    public void setPosterPath(List<String> posterPath) {
-        this.posterPath = posterPath;
+    public void setPosterPath(List<String> posterpath) {
+        this.posterpath = posterpath;
     }
 
     @Override
     public String toString() {
         return "Ann{" +
-                "annID=" + annID +
-                ", annTitle='" + annTitle + '\'' +
-                ", annInfo='" + annInfo + '\'' +
+                "annID=" + annid +
+                ", annTitle='" + anntitle + '\'' +
+                ", annInfo='" + anninfo + '\'' +
                 ", poster='" + poster + '\'' +
-                ", fileName='" + fileName + '\'' +
-                ", fileType='" + fileType + '\'' +
-                ", fileData='" + fileData + '\'' +
-                ", adminID='" + adminID + '\'' +
-                ", annTime=" + annTime +
+                ", fileName='" + filename + '\'' +
+                ", fileType='" + filetype + '\'' +
+                ", fileData='" + filedata + '\'' +
+                ", adminID='" + adminid + '\'' +
+                ", annTime=" + anntime +
                 '}';
     }
 

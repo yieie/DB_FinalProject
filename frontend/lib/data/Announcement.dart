@@ -16,16 +16,16 @@ class Announcement{
 
   factory Announcement.fromJson(Map<String, dynamic> json){
     return Announcement(
-      id: json['annID'] as int,
-      date: json['annTime'] as String,
-      title: json['annTitle'] as String,
-      info: json['annInfo'] as String?,
+      id: json['annid'] as int,
+      date: json['anntime'] as String,
+      title: json['anntitle'] as String,
+      info: json['anninfo'] as String?,
       admin: json['admin'] as String?,
       imgamount: json['posteramount'] as String?,
       imageurl: (json['poster'] as List<dynamic>?)?.cast<String>(),
       fileamount: json['fileamount'] as String?,
-      filename: (json['fileName'] as List<dynamic>?)?.cast<String>(),
-      fileurl: (json['fileUrl'] as List<dynamic>?)?.cast<String>(),
+      filename: (json['filename'] as List<dynamic>?)?.cast<String>(),
+      fileurl: (json['fileurl'] as List<dynamic>?)?.cast<String>(),
     );
   }
 

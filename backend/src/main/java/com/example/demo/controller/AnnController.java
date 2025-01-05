@@ -126,12 +126,14 @@ public class AnnController {
             @RequestPart(value = "files", required = false) MultipartFile[] files,
             @RequestPart(value = "Images", required = false) MultipartFile[] images) {
         try {
+            System.out.println(annId);
             Ann ann = new Ann();
             // 資料庫要自己加現在的時間
             ann.setAnnID(id);
             ann.setAnnTitle(annTitle);
             ann.setAnnInfo(annInfo);
             ann.setAdminID(annAdmin);
+            System.out.println(ann.getAdminID());
 
             if (files != null) {
                 for (MultipartFile file : files) {
