@@ -100,7 +100,7 @@ class StuTeamService {
     Map<String, dynamic> team,
     Map<String, dynamic> work,
     List<Map<String, dynamic>> stus,
-    List<PlatformFile> idcard
+    // List<PlatformFile> idcard
   ) async{
 
     if(tr != null){
@@ -122,10 +122,10 @@ class StuTeamService {
      * }
      * 
      */
-    Map<String,dynamic> idcard_order={};
+/*     Map<String,dynamic> idcard_order={};
     for(int i=0;i<stus.length;i++){
       idcard_order.addAll({'$i': stus[i]['stuid']});
     }
-    await _apiService.uploadFile('/Stu/add/idcard', Imgs: idcard, additionalData: idcard_order);
+    await _apiService.uploadFile('/Stu/add/idcard', Imgs: idcard, additionalData: idcard_order); */
   }
 }

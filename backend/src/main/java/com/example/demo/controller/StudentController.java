@@ -48,18 +48,18 @@ public class StudentController {
 
     @GetMapping("/detailsData/{id}")
     public ResponseEntity<Student> getStudentDetails(@PathVariable String id) {
-        Student student = studentDAO.getStudentDetails(id);
-        // Student student = new Student();
+        // Student student = studentDAO.getStudentDetails(id);
+        Student student = new Student();
         // student.setStuID("B08901001");
-        // student.setStuName("王小明");
-        // student.setStuEmail("email.com");
-        // student.setStuSex("男");
-        // student.setStuPhone("0912345678");
-        // student.setStuDepartment("資工系");
-        // student.setStuGrade("大三");
-        // student.setStuRole(true);
-        // student.setTeamId("1");
-        // student.setStuIdCard("A123456789");
+        student.setStuName("王小明");
+        student.setStuEmail("email.com");
+        student.setStuSex("男");
+        student.setStuPhone("0912345678");
+        student.setStuDepartment("資工系");
+        student.setStuGrade("大三");
+        student.setStuRole(true);
+        student.setTeamId("1");
+        student.setStuIdCard("A123456789");
         return ResponseEntity.ok(student);
     }
     

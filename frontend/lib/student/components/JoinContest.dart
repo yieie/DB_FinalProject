@@ -34,7 +34,7 @@ class _JoinContestState extends State<JoinContest>{
   final List<String> _stucollegeController=[];
   final List<String> _stumajorController=[];
   final List<String> _stugradeController=[];
-  final List<PlatformFile> _stuIDcard=[];
+  // final List<PlatformFile> _stuIDcard=[];
   String _presentStuController='無';
 
   final List<String> joinstate=['隊員資料','指導老師資料','參賽作品基本資料'];
@@ -72,7 +72,7 @@ class _JoinContestState extends State<JoinContest>{
           }
           _stumajorController.add(user.major);
           _stugradeController.add(user.grade);
-          _stuIDcard.add(PlatformFile(name: '', size: 0));
+          // _stuIDcard.add(PlatformFile(name: '', size: 0));
         });
       }else{
         throw Exception();
@@ -82,11 +82,11 @@ class _JoinContestState extends State<JoinContest>{
     }
   }
 
-  void handleImagesChanged(int index, List<PlatformFile> files) {
-    setState(() {
-        _stuIDcard[index] = files.first;
-    });
-  }
+  // void handleImagesChanged(int index, List<PlatformFile> files) {
+  //   setState(() {
+  //       _stuIDcard[index] = files.first;
+  //   });
+  // }
 
   void _addStudent(){
     if(_stuidController.length==6){
@@ -101,7 +101,7 @@ class _JoinContestState extends State<JoinContest>{
         _stucollegeController.add('請選擇');
         _stumajorController.add('請選擇');
         _stugradeController.add('請選擇');
-        _stuIDcard.add(PlatformFile(name: '', size: 0));
+        // _stuIDcard.add(PlatformFile(name: '', size: 0));
       });
     }
   }
@@ -120,7 +120,7 @@ class _JoinContestState extends State<JoinContest>{
         _stucollegeController.removeAt(index);
         _stumajorController.removeAt(index);
         _stugradeController.removeAt(index);
-        _stuIDcard.removeAt(index);
+        // _stuIDcard.removeAt(index);
       });
     }
   }
@@ -174,7 +174,7 @@ class _JoinContestState extends State<JoinContest>{
       'worksdgs': sdg
     };
     try{
-      await _stuTeamService.postJoinContest(tr.isEmpty?null:tr, team, work, stus, _stuIDcard);
+      await _stuTeamService.postJoinContest(tr.isEmpty?null:tr, team, work, stus);
     }catch(e){
       print(e);
     }
@@ -538,11 +538,11 @@ class _JoinContestState extends State<JoinContest>{
                         }).toList(),
                       ),
                   ]),
-                  UploadImgs(
+                  /* UploadImgs(
                     max: 1,
                     title:"學生證正面上傳區",
                     onImagesChanged:(files)=>handleImagesChanged(index, files)
-                  )
+                  ) */
                 ],
               ),
             ),
