@@ -70,7 +70,7 @@ public class StudentDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        System.out.println("蛤 "+student.getStuName());
+        System.out.println("蛤 "+student);
         return student;
     }
     

@@ -353,9 +353,8 @@ public class TeamDAO {
              PreparedStatement stmt = conn.prepareStatement(query)) {
             
             // 設定插入的欄位
-            stmt.setString(1, team.getTeamId());
-            stmt.setString(2, team.getTeamName());
-            stmt.setString(3, team.getTeamType());
+            stmt.setString(1, team.getTeamName());
+            stmt.setString(2, team.getTeamType());
             
             
             // 執行插入操作

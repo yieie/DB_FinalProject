@@ -6,7 +6,7 @@ class TeamsStatusService {
   //拿所有隊伍狀態，已報名、待審核、已審核、需補件、待補件的隊伍數
   Future<TeamsStatus> getTeamsStatus() async{
     final response = await _apiService.get('/Teams/Status');
-    print(response);
+    //print(response);
     return TeamsStatus.fromJson(response);
   }
 }
