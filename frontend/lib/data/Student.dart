@@ -23,7 +23,7 @@ class Student extends User{
 
   factory Student.fromJson(Map<String,dynamic> json){
     return Student(
-      id: json['stuid']??'useraccount',
+      id: json['stuid'] as String,
       name: json['stuname'] as String, 
       email: json['stuemail'] as String, 
       sexual: json['stusexual'] as String, 
