@@ -17,6 +17,6 @@ class RegisterService {
       'grade': stu.grade
     }
     );
-    return response.body;
+    return response.toString();
   }
 }

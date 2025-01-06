@@ -84,7 +84,7 @@ public class AuthController {
 
     // 只有學生要註冊
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody Map<String, Object> data) {
+    public ResponseEntity<Map<String, String>> register(@RequestBody Map<String, Object> data) {
         String stuId = (String) data.get("id");
         String stuPasswd = (String) data.get("passwd");
         String stuName = (String) data.get("name");
@@ -106,9 +106,13 @@ public class AuthController {
         // boolean isRegistered = authDAO.register(stuId, stuPasswd, stuName, stuSex, stuPhone, stuEmail, stuDepartment, stuGrade);
         boolean isRegistered = true;
         if (isRegistered) {
-            return ResponseEntity.ok("Register successful");
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Register successful");
+            return ResponseEntity.ok(response);
         }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Register failed");
+        Map<String, String> errorResponse = new HashMap<>();
+        errorResponse.put("message", "Register failed");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
 
     }
     
