@@ -155,7 +155,9 @@ class _ScoresState extends State<Scores> {
 
             // 成績列表
             if (_selectedYear != null && _selectedTeamtype != null)
-              Expanded(
+              SingleChildScrollView(
+                child: SizedBox(
+                  height: 300,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -214,6 +216,7 @@ class _ScoresState extends State<Scores> {
                       ),
                     ],
                   ),
+                ),
               )
             else
               const Center(

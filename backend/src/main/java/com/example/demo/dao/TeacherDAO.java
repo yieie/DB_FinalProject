@@ -27,6 +27,7 @@ public class TeacherDAO {
                 teacher = new Teacher();
                 teacher.setTrId(rs.getString("TJEmail"));
                 teacher.setTrName(rs.getString("TJName"));
+                teacher.setTrPasswd(rs.getString("TJPassword"));
                 teacher.setTrEmail(rs.getString("TJemail"));
                 teacher.setTrSexual(rs.getString("TJSex"));
                 teacher.setTrPhone(rs.getString("TJPhone"));

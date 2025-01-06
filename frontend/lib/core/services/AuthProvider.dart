@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 class AuthProvider with ChangeNotifier {
   bool _isLoggedIn = true;
   bool get isLoggedIn => _isLoggedIn;
-  String _usertype = "none";
+  String _usertype = "admin";
   String get usertype => _usertype;
-  String _useraccount = 'null';
+  String _useraccount = 'a1115524';
   String get useraccount => _useraccount;
 
   bool _isSidebarOpen = false;

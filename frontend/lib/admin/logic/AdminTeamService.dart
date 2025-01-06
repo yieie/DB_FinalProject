@@ -11,7 +11,7 @@ class AdminTeamService {
   //回傳資料請以隊伍狀態排序，依序為報名待審核、已補件、待審核初賽資格、需補件、已審核、初賽隊伍、決賽隊伍
   Future<List<Team>> getBasicAllTeam() async{
     final response = await _apiService.get('/Teams/Cond');
-    
+    print(response);
     return (response as List).map((json) => Team.fromJson(json)).toList();
   }
 
@@ -26,7 +26,7 @@ class AdminTeamService {
   //拿隊伍的所有資料
   Future<Team> getDetailTeam(String teamid) async{
     final response = await _apiService.get('/Teams/$teamid');
-    
+    print(response);
     return Team.fromJson(response);
   }
 
@@ -34,15 +34,15 @@ class AdminTeamService {
   //回傳資料請將代表人(leader)放在首位
   Future<List<Student>> getTeamStudent(String teamid) async{
     final response = await _apiService.get('/Stu/$teamid');
-    
+    print(response);
     return (response as List).map((json)=>Student.fromJson(json)).toList();
   }
 
   //拿隊伍指導老師的資料
   Future<Teacher> getTeamTeacher(String teacheremail) async{
-    
+    print(teacheremail);
     final response = await _apiService.get('/Tr/$teacheremail');
-    
+    print(response);
     return Teacher.fromJson(response);
   }
 
