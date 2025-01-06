@@ -81,7 +81,7 @@ public class StudentDAO {
         String email = data.get("email");
         String sexual = data.get("sexual");
         String phone = data.get("phone");
-    
+        System.out.println("密碼"+passwd);
         // SQL 更新語句，根據學生 ID 來更新資料
         String query = "UPDATE student SET StuPasswd = ?, StuName = ?, StuEmail = ?, StuSex = ?, StuPhone = ? WHERE StuID = ?";
         

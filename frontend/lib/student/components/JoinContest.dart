@@ -151,18 +151,19 @@ class _JoinContestState extends State<JoinContest>{
     if(_tremailController.text.isNotEmpty){
       tr={
         'trid':_tremailController.text,
-        'trname':_trnameController.text,
+        'trname':_trnameController,
         'trsexual':_trsexController,
-        'trphone': _trphoneController.text,
-        'trjobtype': _trjobtypeController.text,
-        'trdepartment': _trdepartmentController.text,
-        'trorganization': _troranizationController.text
+        'trphone': _trphoneController,
+        'trjobtype': _trjobtypeController,
+        'trdepartment': _trdepartmentController,
+        'trorganization': _troranizationController
       };
     }
 
     Map<String, dynamic> team = {
       'teamname':_teamnameController.text,
-      'teamtype':_teamtypeController
+      'teamtype':_teamtypeController,
+      'teamstate': "報名待審核"
     };
     print(team);
     String sdg='';

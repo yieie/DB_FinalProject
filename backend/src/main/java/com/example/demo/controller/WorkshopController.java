@@ -77,7 +77,6 @@ public class WorkshopController {
     public ResponseEntity<Boolean> registerWorkshop(@PathVariable int wsid, @RequestBody Map<String, String> stuid) {
         boolean isRegistered = workshopDAO.registerWorkshop(wsid, stuid);
         //boolean isRegistered = true; // 假設報名成功，測試用
-        System.out.println(wsid+"詭異"+stuid);
         if (isRegistered) {
             return ResponseEntity.status(HttpStatus.OK).body(true); // 成功回傳 true
         } else {

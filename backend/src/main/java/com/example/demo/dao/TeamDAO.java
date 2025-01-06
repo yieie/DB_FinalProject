@@ -347,7 +347,7 @@ public class TeamDAO {
     }
 
     public void addTeam(Team team) {
-        String query = "INSERT INTO team (TeamName, TeamType) VALUES (?, ?)";
+        String query = "INSERT INTO team (TeamName, TeamType, TeamState) VALUES (?, ?, ?)";
         
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
@@ -355,7 +355,7 @@ public class TeamDAO {
             // 設定插入的欄位
             stmt.setString(1, team.getTeamName());
             stmt.setString(2, team.getTeamType());
-            
+            stmt.setString(3, team.getTeamState());
             
             // 執行插入操作
             stmt.executeUpdate();
