@@ -64,9 +64,10 @@ class _showWorkshopState extends State<showWorkshop>{
   List<Workshop>? workshops;
   final StuWorkshopservice _stuWorkshopservice = StuWorkshopservice();
 
-    Future<void> fetchWorkshops() async {
+  Future<void> fetchWorkshops() async {
     try {
       workshops = await _stuWorkshopservice.getAllWorkshop();
+      setState(() {});
     } catch (e) {
       print('Error fetching workshops: $e');
       setState(() {

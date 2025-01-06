@@ -47,7 +47,7 @@ class Scores extends StatefulWidget {
 
 class _ScoresState extends State<Scores> {
   String? _selectedYear; // 當前選中的年份
-  final List<String> _years = ["2024","2023","2022","2021","2020","2019","2018","2017","2016","2015","2014","2013","2012"]; // 可選年份列表
+  final List<String> _years = ["2025","2024","2023","2022","2021","2020","2019","2018","2017","2016","2015","2014","2013","2012"]; // 可選年份列表
   final List<String> _teamtype=['全組別','創意發想組','創業實作組'];
   String? _selectedTeamtype;
   final AdminTeamService _adminTeamService = AdminTeamService();
@@ -56,8 +56,13 @@ class _ScoresState extends State<Scores> {
   Score(teamid: '2024team001', teamname: '哈哈哈', teamtype: '創意發想組', judgename: '王大強',Rate1: '90',Rate2: '91',Rate3: '92',Rate4: '93',totalrate: '92.5',teamrank: '2')];
 
   Future<void> fetchScores(String year,String teamtype) async{
-    scores = await _adminTeamService.getScoresWithConstraints({'year':year,'teamtype':teamtype});
-    setState(() {});
+    try{
+      scores = await _adminTeamService.getScoresWithConstraints({'year':year,'teamtype':teamtype});
+      setState(() {});
+    }catch(e){
+      print(e);
+    }
+
   }
 
   @override

@@ -72,6 +72,7 @@ class _WorkshopDataState extends State<WorkshopData> {
         Workshop(wsid: 2, wsdate: "2024-12-25", wstime: "10:00", wstopic: "實現力", lectName: "李教授"),
       ];
     }
+    setState(() {});
   }
 
   @override
@@ -163,15 +164,15 @@ class AddNEditWorkshopForm extends StatefulWidget {
 }
 
 class _AddNEditWorkshopFormState extends State<AddNEditWorkshopForm> {
-  final _topicController = TextEditingController();
+  TextEditingController? _topicController;
   TimeOfDay? selectedTime;
   String formattime="";
   DateTime? selectedDate;
-  final _lectnameController = TextEditingController();
-  final _lectphoneController = TextEditingController();
-  final _lectemailController = TextEditingController();
-  final _lecttitleController = TextEditingController();
-  final _lectaddrController = TextEditingController();
+  TextEditingController? _lectnameController;
+  TextEditingController? _lectphoneController;
+  TextEditingController? _lectemailController;
+  TextEditingController? _lecttitleController;
+  TextEditingController? _lectaddrController;
 
   WorkshopService _workshopService = WorkshopService();
   Workshop workshop= Workshop(wsid: -1, wsdate: '', wstime: '', wstopic: '');
@@ -182,12 +183,12 @@ class _AddNEditWorkshopFormState extends State<AddNEditWorkshopForm> {
         wsid: int.parse(widget.wsid), 
         wsdate: "${selectedDate!.year}-${selectedDate!.month}-${selectedDate!.day}", 
         wstime: formattime, 
-        wstopic: _topicController.text,
-        lectName: _lectnameController.text,
-        lectphone: _lectphoneController.text,
-        lectemail: _lectemailController.text,
-        lecttitle: _lecttitleController.text,
-        lectaddr: _lectaddrController.text
+        wstopic: _topicController!.text,
+        lectName: _lectnameController!.text,
+        lectphone: _lectphoneController!.text,
+        lectemail: _lectemailController!.text,
+        lecttitle: _lecttitleController!.text,
+        lectaddr: _lectaddrController!.text
       );
     });
     print(workshop.wsid);
@@ -294,10 +295,11 @@ class _AddNEditWorkshopFormState extends State<AddNEditWorkshopForm> {
   Future<void> fectchWorkshop() async{
     try{
       workshop = await _workshopService.getWorkshop(widget.wsid);
-      print('Fetched ${workshop!} announcements');
+      setState(() {});
     }
     catch(e){
-      print('Error: fectch Announments');
+      setState(() {});
+      print(e);
     }
   }
 
@@ -308,6 +310,13 @@ class _AddNEditWorkshopFormState extends State<AddNEditWorkshopForm> {
     if(widget.wsid != '-1'){
       fectchWorkshop();
     }
+
+    _topicController = TextEditingController(text: workshop.wstopic);
+    _lectnameController = TextEditingController(text: workshop.lectName??'');
+    _lectphoneController = TextEditingController(text: workshop.lectphone??'');
+    _lectemailController = TextEditingController(text: workshop.lectemail??'');
+    _lecttitleController = TextEditingController(text: workshop.lecttitle??'');
+    _lectaddrController = TextEditingController(text: workshop.lectaddr??'');
   }
 
   @override
@@ -321,7 +330,7 @@ class _AddNEditWorkshopFormState extends State<AddNEditWorkshopForm> {
           children: [
             Text(widget.wsid=='-1'?"新增工作坊":"修改工作坊",style: TextStyle(fontSize: 24),),
             TextField(
-              controller: _topicController..text=workshop.wstopic,
+              controller: _topicController,
               decoration: InputDecoration(labelText: "主題"),
             ),
             SizedBox(height: 20,),
@@ -367,23 +376,23 @@ class _AddNEditWorkshopFormState extends State<AddNEditWorkshopForm> {
               ]
             ),
             TextField(
-              controller: _lectnameController..text=workshop.lectName??'',
+              controller: _lectnameController,
               decoration: InputDecoration(labelText: "講師姓名"),
             ),
             TextField(
-              controller: _lectemailController..text=workshop.lectemail??'',
+              controller: _lectemailController,
               decoration: InputDecoration(labelText: "講師Email"),
             ),
             TextField(
-              controller: _lectphoneController..text=workshop.lectphone??'',
+              controller: _lectphoneController,
               decoration: InputDecoration(labelText: "講師電話"),
             ),
             TextField(
-              controller: _lecttitleController..text=workshop.lecttitle??'',
+              controller: _lecttitleController,
               decoration: InputDecoration(labelText: "講師頭銜"),
             ),
             TextField(
-              controller: _lectaddrController..text=workshop.lectaddr??'',
+              controller: _lectaddrController,
               decoration: InputDecoration(labelText: "講師地址"),
             ),
             SizedBox(height: 20),
