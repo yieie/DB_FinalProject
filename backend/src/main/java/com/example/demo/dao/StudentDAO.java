@@ -44,7 +44,7 @@ public class StudentDAO {
     }
 
     public Student getStudentDetails(String id) {
-        String query = "SELECT StuID, StuName, StuSex, StuPhone, StuEmail, StuDepartment, StuGrade, StuIDCard, IsLeader, TeamID FROM student WHERE StuID = ?";
+        String query = "SELECT StuID, StuName, StuPasswd, StuSex, StuPhone, StuEmail, StuDepartment, StuGrade, StuIDCard, IsLeader, TeamID FROM student WHERE StuID = ?";
         
         Student student = null;
         
@@ -56,8 +56,8 @@ public class StudentDAO {
             
             if (rs.next()) {
                 student = new Student();
-                student.setStuID(rs.getString("StuID"));
                 student.setStuName(rs.getString("StuName"));
+                //student.setStuPasswd(rs.getString("StuPasswd"));
                 student.setStuSex(rs.getString("StuSex"));
                 student.setStuPhone(rs.getString("StuPhone"));
                 student.setStuEmail(rs.getString("StuEmail"));

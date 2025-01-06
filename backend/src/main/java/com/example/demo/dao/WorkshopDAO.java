@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Locale;
 import java.text.SimpleDateFormat;
 import java.text.ParseException;
+import java.util.Map;
 
 
 public class WorkshopDAO {
@@ -174,13 +175,12 @@ public class WorkshopDAO {
         }
     }
 
-    public boolean registerWorkshop(int wsid, String stuid){
+    public boolean registerWorkshop(int wsid, Map<String, String> stuid){
         String sql = "INSERT INTO attend (WSID, StuID) VALUES (?, ?)";
         try (Connection conn = DatabaseConnection.getConnection();
             PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, wsid);
-            pstmt.setString(2, stuid);
-            System.out.println("蛤 "+wsid+" "+stuid);
+            pstmt.setString(2, stuid.get("stuid"));
             pstmt.executeUpdate();
             return true;
         } catch (SQLException e) {

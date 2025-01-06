@@ -13,7 +13,18 @@ class PersonalDataService {
     // final response = await _apiService.post('/$usertype/detailsData', {'${usertype}ID': useraccount});
     final response = await _apiService.get('/$usertype/detailsData/$useraccount');
     if(usertype == 'Stu'){
-      return Student.fromJson(response);
+      return Student(
+        id: useraccount, 
+        name: response['stuname'] as String, 
+        email: response['stuemail'] as String, 
+        sexual: response['stusexual'] as String, 
+        phone: response['stuphone'] as String, 
+        major: response['stumajor'] as String, 
+        grade: response['stugrade'] as String,
+        isLeader: response['stuisLeader'] as bool?,
+        teamid: response['teamid'] as String?,
+        stuIdCard: response['stuIdCard'] as String?
+      );
     }else if(usertype == 'Tr'){
       return Teacher.fromJson(response);
     }else if(usertype == 'Judge'){
