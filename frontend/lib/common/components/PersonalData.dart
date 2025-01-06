@@ -140,7 +140,8 @@ class _PersonalDataState extends State<PersonalData> {
                           ),
                         ],
                       ),
-                      child: Form(
+                      child: user==null? const Center(child: CircularProgressIndicator())
+                      :Form(
                         key: _formKey,
                         child: Column(
                           children: [
