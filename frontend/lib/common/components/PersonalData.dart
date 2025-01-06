@@ -41,7 +41,7 @@ class _PersonalDataState extends State<PersonalData> {
   Future<void> fetchUserData(String usertype, String useraccount) async{
     try{
       user= await _personalDataService.getUserData(usertype, useraccount);
-      //user!.id = useraccount;
+      // user!.id = useraccount;
       setState(() {});
     }catch(e){
       print(e);
@@ -109,7 +109,8 @@ class _PersonalDataState extends State<PersonalData> {
           AnimatedContainer(
             duration: const Duration(milliseconds: 300),
             margin: EdgeInsets.only(left: authProvider.isSidebarOpen ? 250 : 0),
-            child: Padding(
+            child: Container(
+              height: 700,
               padding: const EdgeInsets.all(20),
               child: SingleChildScrollView(
                 child: Column(
