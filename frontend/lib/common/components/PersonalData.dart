@@ -41,7 +41,7 @@ class _PersonalDataState extends State<PersonalData> {
   Future<void> fetchUserData(String usertype, String useraccount) async{
     try{
       user= await _personalDataService.getUserData(usertype, useraccount);
-      user!.id = useraccount;
+      //user!.id = useraccount;
       setState(() {});
     }catch(e){
       print(e);

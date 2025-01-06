@@ -180,6 +180,7 @@ public class WorkshopDAO {
             PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, wsid);
             pstmt.setString(2, stuid);
+            System.out.println("蛤 "+wsid+" "+stuid);
             pstmt.executeUpdate();
             return true;
         } catch (SQLException e) {

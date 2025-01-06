@@ -56,7 +56,7 @@ public class StudentDAO {
             
             if (rs.next()) {
                 student = new Student();
-                //student.setStuID(rs.getString("StuID"));
+                student.setStuID(rs.getString("StuID"));
                 student.setStuName(rs.getString("StuName"));
                 student.setStuSex(rs.getString("StuSex"));
                 student.setStuPhone(rs.getString("StuPhone"));
@@ -70,7 +70,7 @@ public class StudentDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        System.out.println("蛤 "+student.getStuName());
+        System.out.println("蛤 "+student);
         return student;
     }
     
