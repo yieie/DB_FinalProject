@@ -58,4 +58,26 @@ public class AuthDAO {
         // 若未找到用戶或發生錯誤，返回 false
         return false;
     }
+
+    public boolean register(String stuId, String stuPasswd, String stuName, String stuSex, String stuPhone, String stuEmail, String stuDepartment, String stuGrade){
+        String sql = "INSERT INTO student (StuID, StuPasswd, StuName, StuSex, StuPhone, StuEmail, StuDepartment, StuGrade) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, stuId);
+            pstmt.setString(2, stuPasswd);
+            pstmt.setString(3, stuName);
+            pstmt.setString(4, stuSex);
+            pstmt.setString(5, stuPhone);
+            pstmt.setString(6, stuEmail);
+            pstmt.setString(7, stuDepartment);
+            pstmt.setString(8, stuGrade);
+            pstmt.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+
+    }
 }
