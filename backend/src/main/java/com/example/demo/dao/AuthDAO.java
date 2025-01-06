@@ -30,6 +30,7 @@ public class AuthDAO {
                 userIdField = "TJEmail";
                 passwordField = "TJPassword"; // 這裡要和資料庫的欄位名稱一樣
                 break;
+            
             default:
                 throw new IllegalArgumentException("Invalid usertype: " + usertype);
         }

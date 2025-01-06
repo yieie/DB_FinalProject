@@ -1,5 +1,6 @@
 import 'package:db_finalproject/admin/AdminMainPage.dart';
 import 'package:db_finalproject/admin/components/admin.dart';
+import 'package:db_finalproject/common/components/HistoryData.dart';
 import 'package:db_finalproject/judge/JudgeMainPage.dart';
 import 'package:db_finalproject/student/StuMainPage.dart';
 import 'package:db_finalproject/student/components/JoinContest.dart';
@@ -38,6 +39,8 @@ void main() {
           return MaterialPageRoute(builder: (context) => const TrMainPage());
         }else if(uri.path == '/stu'){
           return MaterialPageRoute(builder: (context) => const StuMainPage());
+        }else if(uri.path == '/history'){
+          return MaterialPageRoute(builder: (context) => const HistoryData());
         }else if (uri.path == '/login'){
           return MaterialPageRoute(builder: (context) => const LoginPage());
         }else if (uri.path == '/register'){
