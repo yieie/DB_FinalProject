@@ -57,6 +57,8 @@ class _PersonalDataState extends State<PersonalData> {
     Future.microtask(() {
       final authProvider = Provider.of<AuthProvider>(context, listen: false);
       if (authProvider.usertype != 'none' && authProvider.useraccount != 'none') {
+        print(authProvider.usertype);
+        print(authProvider.useraccount);
         fetchUserData(authProvider.usertype, authProvider.useraccount);
       }
   /*     if(authProvider.usertype == 'stu'){
