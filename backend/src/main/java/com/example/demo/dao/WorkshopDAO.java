@@ -173,4 +173,18 @@ public class WorkshopDAO {
             return false;
         }
     }
+
+    public boolean registerWorkshop(int wsid, String stuid){
+        String sql = "INSERT INTO attend (WSID, StuID) VALUES (?, ?)";
+        try (Connection conn = DatabaseConnection.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, wsid);
+            pstmt.setString(2, stuid);
+            pstmt.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }
