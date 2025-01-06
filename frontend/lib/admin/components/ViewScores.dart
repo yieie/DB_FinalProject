@@ -47,7 +47,7 @@ class Scores extends StatefulWidget {
 
 class _ScoresState extends State<Scores> {
   String? _selectedYear; // 當前選中的年份
-  final List<String> _years = ["2024","2023","2022","2021","2020","2019","2018","2017","2016","2015","2014","2013","2012"]; // 可選年份列表
+  final List<String> _years = ["2025","2024","2023","2022","2021","2020","2019","2018","2017","2016","2015","2014","2013","2012"]; // 可選年份列表
   final List<String> _teamtype=['全組別','創意發想組','創業實作組'];
   String? _selectedTeamtype;
   final AdminTeamService _adminTeamService = AdminTeamService();
