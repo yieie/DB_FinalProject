@@ -159,6 +159,7 @@ public class TeamController {
     // 給teamname teamtype
     @PostMapping("/add")
     public ResponseEntity<Void> addTeam(@RequestBody Team team) {
+        System.out.println(team.getTeamState());
         teamDAO.addTeam(team);
         // 有這些會改
         System.out.println(team.getTeamName());

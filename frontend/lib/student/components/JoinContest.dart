@@ -161,8 +161,9 @@ class _JoinContestState extends State<JoinContest>{
     }
 
     Map<String, dynamic> team = {
-      'teamname':_teamnameController,
-      'teamtype':_teamtypeController
+      'teamname':_teamnameController.text,
+      'teamtype':_teamtypeController,
+      'teamstate': "報名待審核"
     };
     print(team);
     String sdg='';
