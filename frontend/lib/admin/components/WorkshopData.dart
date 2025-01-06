@@ -72,6 +72,7 @@ class _WorkshopDataState extends State<WorkshopData> {
         Workshop(wsid: 2, wsdate: "2024-12-25", wstime: "10:00", wstopic: "實現力", lectName: "李教授"),
       ];
     }
+    setState(() {});
   }
 
   @override
