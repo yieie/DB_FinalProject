@@ -56,8 +56,13 @@ class _ScoresState extends State<Scores> {
   Score(teamid: '2024team001', teamname: '哈哈哈', teamtype: '創意發想組', judgename: '王大強',Rate1: '90',Rate2: '91',Rate3: '92',Rate4: '93',totalrate: '92.5',teamrank: '2')];
 
   Future<void> fetchScores(String year,String teamtype) async{
-    scores = await _adminTeamService.getScoresWithConstraints({'year':year,'teamtype':teamtype});
-    setState(() {});
+    try{
+      scores = await _adminTeamService.getScoresWithConstraints({'year':year,'teamtype':teamtype});
+      setState(() {});
+    }catch(e){
+      print(e);
+    }
+
   }
 
   @override
