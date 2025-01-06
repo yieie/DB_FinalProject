@@ -126,6 +126,7 @@ class _JoinContestState extends State<JoinContest>{
   }
 
   Future<void> _saveChanges() async{
+    print(_presentStuController);
     List<Map<String,dynamic>> stus=[];
     for(int i=0;i<_stuidController.length;i++){
       stus.add(
@@ -145,6 +146,7 @@ class _JoinContestState extends State<JoinContest>{
         stus[i].addAll({'stuisleader':'false'});
       }
     }
+    print(stus[0]);
     Map<String,dynamic> tr={};
     if(_tremailController.text.isNotEmpty){
       tr={
@@ -162,17 +164,22 @@ class _JoinContestState extends State<JoinContest>{
       'teamname':_teamnameController,
       'teamtype':_teamtypeController
     };
+    print(team);
     String sdg='';
     for(int i=0;i<17;i++){
       if(_sdgsController[i]==true){
         sdg='$sdg,$i';
       }
     }
+    if(sdg==''){
+      sdg='none';
+    }
     Map<String, dynamic> work = {
       'workname': _worknameController.text,
       'worksummary': _worksummaryController.text,
       'worksdgs': sdg
     };
+    print(work);
     try{
       await _stuTeamService.postJoinContest(tr.isEmpty?null:tr, team, work, stus);
     }catch(e){
@@ -184,9 +191,9 @@ class _JoinContestState extends State<JoinContest>{
   @override
   void initState(){
     super.initState();
-    fetchStudentData();
+    // fetchStudentData();
     _addStudent();
-    // _addStudent();
+    _addStudent();
   }
 
   @override
@@ -758,10 +765,10 @@ class _JoinContestState extends State<JoinContest>{
                     const Text("創意發想組",style: TextStyle(fontSize: 18),),
                     Radio<String>(
                       value: "創業實作組",
-                      groupValue: _trsexController,
+                      groupValue: _teamtypeController,
                       onChanged: (value) {
                         setState(() {
-                          _trsexController = "創業實作組";
+                          _teamtypeController = "創業實作組";
                         });
                       },
                     ),
