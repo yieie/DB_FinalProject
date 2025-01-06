@@ -74,8 +74,8 @@ public class WorkshopController {
 
     //學生報名工作坊，送學生id到後端
     @PostMapping("/register/{wsid}")
-    public ResponseEntity<Boolean> registerWorkshop(@PathVariable int wsid, @RequestBody String stuid) {
-        boolean isRegistered = workshopDAO.registerWorkshop(wsid, stuid);
+    public ResponseEntity<Boolean> registerWorkshop(@PathVariable int wsid, @RequestBody Map<String, String> stuid) {
+        boolean isRegistered = workshopDAO.registerWorkshop(wsid, stuid.get("stuid"));
         //boolean isRegistered = true; // 假設報名成功，測試用
 
         if (isRegistered) {

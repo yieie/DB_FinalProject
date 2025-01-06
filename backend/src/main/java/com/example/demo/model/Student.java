@@ -13,6 +13,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Student {
     @JsonProperty("stuid")
     private String stuid;
+    @JsonProperty("stupasswd")
+    private String stupasswd;
     @JsonProperty("stuname")
     private String stuname;
     @JsonProperty("stuemail")
@@ -38,6 +40,14 @@ public class Student {
 
     public void setStuID(String stuid) {
         this.stuid = stuid;
+    }
+
+    public String getStuPasswd() {
+        return stupasswd;
+    }
+
+    public void setStuPasswd(String stupasswd) {
+        this.stupasswd = stupasswd;
     }
 
     public String getStuName() {
@@ -116,6 +126,7 @@ public class Student {
     public String toString() {
         return "Student{" +
                 "stuid='" + stuid + '\'' +
+                ", stupasswd='" + stupasswd + '\'' +
                 ", stuname='" + stuname + '\'' +
                 ", stuemail='" + stuemail + '\'' +
                 ", stusexual='" + stusexual + '\'' +

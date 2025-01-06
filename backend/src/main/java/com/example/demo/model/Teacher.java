@@ -14,6 +14,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Teacher {
     @JsonProperty("trid")
     private String trid;
+    @JsonProperty("trpasswd")
+    private String trpasswd;
     @JsonProperty("trname")
     private String trname;
     @JsonProperty("tremail")
@@ -35,6 +37,14 @@ public class Teacher {
 
     public void setTrId(String trid) {
         this.trid = trid;
+    }
+
+    public String getTrPasswd() {
+        return trpasswd;
+    }
+
+    public void setTrPasswd(String trpasswd) {
+        this.trpasswd = trpasswd;
     }
 
     public String getTrName() {
@@ -97,6 +107,7 @@ public class Teacher {
     public String toString() {
         return "Teacher{" +
                 "trid='" + trid + '\'' +
+                ", trpasswd='" + trpasswd + '\'' +
                 ", trname='" + trname + '\'' +
                 ", tremail='" + tremail + '\'' +
                 ", trsexual='" + trsexual + '\'' +
