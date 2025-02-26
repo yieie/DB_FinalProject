@@ -1,6 +1,7 @@
 import 'package:db_finalproject/data/Announcement.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:db_finalproject/core/services/ApiService.dart';
+import 'package:db_finalproject/core/services/Authprovider.dart';
 
 class AdminAnnService{
   final ApiService _apiService = ApiService();
@@ -45,6 +46,7 @@ class AdminAnnService{
     List<PlatformFile>? files,
     List<PlatformFile>? imgs
   ) async {
+    ann.admin = AuthProvider().useraccount;
     if(files != null && imgs != null){
       await _apiService.uploadFile(
         '/Ann/edit/${ann.id}',

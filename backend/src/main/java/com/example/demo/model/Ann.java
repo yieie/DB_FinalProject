@@ -17,20 +17,12 @@ public class Ann {
     private String anninfo;
     @JsonProperty("poster")
     private List<String> poster = new ArrayList<>();
-    @JsonProperty("posterdata")
-    private byte[] posterdata; // 保留，如果需要直接存 Poster 的 byte[]
     @JsonProperty("filename")
     private List<String> filename = new ArrayList<>();
     @JsonProperty("fileurl")
     private List<String> fileurl = new ArrayList<>();
-    @JsonProperty("filetype")
-    private String filetype;
-    @JsonProperty("filedata")
-    private byte[] filedata;
     @JsonProperty("adminid")
     private String adminid;
-    @JsonProperty("filepath")
-    private List<String> filepath = new ArrayList<>(); // 後端用
     @JsonProperty("posterpath")
     private List<String> posterpath = new ArrayList<>(); // 後端用
 
@@ -73,14 +65,6 @@ public class Ann {
         this.poster = poster;
     }
 
-    public byte[] getPosterData() {
-        return posterdata;
-    }
-
-    public void setPosterData(byte[] posterdata) {
-        this.posterdata = posterdata;
-    }
-
     public List<String> getFileName() {
         return filename;
     }
@@ -95,22 +79,6 @@ public class Ann {
 
     public void setFileUrl(List<String> fileurl) {
         this.fileurl = fileurl;
-    }
-
-    public String getFileType() {
-        return filetype;
-    }
-
-    public void setFileType(String filetype) {
-        this.filetype = filetype;
-    }
-
-    public byte[] getFileData() {
-        return filedata;
-    }
-
-    public void setFileData(byte[] filedata) {
-        this.filedata = filedata;
     }
 
     public String getAdminID() {
@@ -149,14 +117,6 @@ public class Ann {
         return images;
     }
 
-    public List<String> getFilePath() {
-        return filepath;
-    }
-
-    public void setFilePath(List<String> filepath) {
-        this.filepath = filepath;
-    }
-
     public List<String> getPosterPath() {
         return posterpath;
     }
@@ -168,15 +128,13 @@ public class Ann {
     @Override
     public String toString() {
         return "Ann{" +
-                "annID=" + annid +
-                ", annTitle='" + anntitle + '\'' +
-                ", annInfo='" + anninfo + '\'' +
+                "annid=" + annid +
+                ", anntitle='" + anntitle + '\'' +
+                ", anninfo='" + anninfo + '\'' +
                 ", poster='" + poster + '\'' +
-                ", fileName='" + filename + '\'' +
-                ", fileType='" + filetype + '\'' +
-                ", fileData='" + filedata + '\'' +
-                ", adminID='" + adminid + '\'' +
-                ", annTime=" + anntime +
+                ", filename='" + filename + '\'' +
+                ", adminid='" + adminid + '\'' +
+                ", anntime=" + anntime +
                 '}';
     }
 

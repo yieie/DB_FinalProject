@@ -1,22 +1,13 @@
 package com.example.demo.dao;
-
 import com.example.demo.model.Ann;
 import com.example.demo.config.DatabaseConnection;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.web.multipart.MultipartFile;
-
 public class AnnDAO {
-
-    private static final String UPLOAD_DIR = "uploads/";
-
     public List<Ann> getBasicAnnouncements() {
         List<Ann> announcements = new ArrayList<>();
         String sql = "SELECT AnnID, AnnTitle, AnnTime FROM ANN";
@@ -79,6 +70,7 @@ public class AnnDAO {
                                 // 假設 file 的 URL 和檔案名稱分別存於 FileURL 和 FileName 欄位
                                 fileURLs.add(rs3.getString("AnnFileURL"));
                                 fileNames.add(rs3.getString("AnnFileName")); // 新增檔案名稱
+                                System.out.println("檔案名稱: "+rs3.getString("AnnFileName"));
                             }
                         }
                     }
@@ -126,7 +118,7 @@ public class AnnDAO {
                     pstmt2.executeUpdate();
                 }
     
-                List<String> fileUrls = ann.getFilePath();  // 多個 File URL
+                List<String> fileUrls = ann.getFileUrl();  // 多個 File URL
                 List<String> fileNames = ann.getFileName(); // 多個 File 名稱
                 for (int i = 0; i < fileUrls.size(); i++) {
                     pstmt3.setString(1, fileUrls.get(i));  // 設定 File URL
@@ -145,9 +137,6 @@ public class AnnDAO {
     
 
     public boolean updateAnnouncement(Ann ann) {
-        // 更新公告的基本資料
-        System.out.println("三小"+ann.getAnnID()+ann.getAdminID());
-
         String sql1 = "UPDATE ann SET AnnTitle = ?, AnnInfo = ?, AnnTime = ?, AdminID = ? WHERE AnnID = ?";
         
         // 更新海報資料
@@ -169,7 +158,7 @@ public class AnnDAO {
             pstmt1.executeUpdate();
         
             // 更新 `ann_annposter` 表
-            List<String> posters = ann.getPoster();  // 多個 Poster 路徑
+            List<String> posters = ann.getPosterPath();  // 多個 Poster 路徑
             for (String poster : posters) {
                 pstmt2.setString(1, poster);  // 更新海報路徑
                 pstmt2.setInt(2, ann.getAnnID()); // 使用 AnnID 來關聯
@@ -191,22 +180,5 @@ public class AnnDAO {
             e.printStackTrace();
             return false;
         }
-    }
-    
-
-    public String saveFile(String fileName, byte[] data) throws IOException {
-        if (data == null || fileName == null) {
-            return null;
-        }
-        String relativePath = UPLOAD_DIR + fileName;
-        File dir = new File(UPLOAD_DIR);
-        if (!dir.exists()) {
-            dir.mkdirs();
-        }
-        File file = new File(relativePath);
-        try (FileOutputStream fos = new FileOutputStream(file)) {
-            fos.write(data);
-        }
-        return relativePath; // 返回相對路徑
     }
 }

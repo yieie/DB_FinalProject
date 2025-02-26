@@ -154,26 +154,26 @@ public class StudentDAO {
         return workid; // 回傳工作 ID 或 '無'
     }
     
-    public void addStudent(List<Student> students) {
-    
-        // SQL 更新語句，根據學生 ID 來更新資料
-        String query = "INSERT INTO student (StuID, StuName, StuEmail, StuSex, StuPhone, StuDepartment, StuGrade, IsLeader) VALUES (?, ?, ?, ?, ?)";
+    public void addStudent(List<Map<String, Object>> students) {
+
+        // SQL 插入語句
+        String query = "INSERT INTO student (StuID, StuName, StuEmail, StuSex, StuPhone, StuDepartment, StuGrade, IsLeader) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(query)) {
             
-            // 設定參數值
-            for (Student student : students) {
-                stmt.setString(1, student.getStuID());
-                stmt.setString(2, student.getStuName());
-                stmt.setString(3, student.getStuEmail());
-                stmt.setString(4, student.getStuSex());
-                stmt.setString(5, student.getStuPhone());
-                stmt.setString(6, student.getStuDepartment());
-                stmt.setString(7, student.getStuGrade());
-                stmt.setBoolean(8, student.getStuRole());
-                
-                // 執行更新操作
+            // 遍歷學生數據列表，設置參數值
+            for (Map<String, Object> student : students) {
+                stmt.setString(1, (String) student.get("StuID"));
+                stmt.setString(2, (String) student.get("StuName"));
+                stmt.setString(3, (String) student.get("StuEmail"));
+                stmt.setString(4, (String) student.get("StuSex"));
+                stmt.setString(5, (String) student.get("StuPhone"));
+                stmt.setString(6, (String) student.get("StuDepartment"));
+                stmt.setString(7, (String) student.get("StuGrade"));
+                stmt.setBoolean(8, (Boolean) student.get("IsLeader"));
+    
+                // 執行插入操作
                 stmt.executeUpdate();
             }
             
@@ -181,6 +181,7 @@ public class StudentDAO {
             e.printStackTrace();
         }
     }
+    
 }
 
 

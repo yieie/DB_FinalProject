@@ -12,10 +12,14 @@ import org.springframework.web.multipart.MultipartFile;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 // Ann格式: Ann{annID=-1, annTitle='', annInfo='werwer', poster='', fileName='', fileType='null', fileData='', adminID='admin1', annTime=null}
 // 資料庫要自己加現在的時間
 
@@ -23,18 +27,11 @@ import java.time.format.DateTimeParseException;
 @RequestMapping("/api/Ann")
 public class AnnController {
     private final AnnDAO annDAO = new AnnDAO();
+    private static final String UPLOAD_DIR = "C:/Users/User/DB_FinalProject/DB_FinalProject/backend/src/main/resources/static/images";
 
     @GetMapping("/list")
     public ResponseEntity<List<Ann>> getBasicAnnouncements() {
         List<Ann> announcements = annDAO.getBasicAnnouncements();
-        // Ann ann = new Ann();
-        // ann.setAnnID(1);
-        // ann.setAnnTitle("testannnnn");
-        // ann.setAnnInfo("test");
-        // ann.setAdminID("admin1");
-        // ann.setAnnTime(LocalDateTime.now());
-        // List<Ann> announcements = List.of(ann);
-
         if (announcements.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         }
@@ -52,8 +49,6 @@ public class AnnController {
         return ResponseEntity.ok(announcement);
     }
 
-    @Autowired
-    private ObjectMapper objectMapper;
     @PostMapping(value = "/add", consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
     public ResponseEntity<String> addAnnouncement(
             @RequestParam("annid") int annId,
@@ -64,42 +59,42 @@ public class AnnController {
             @RequestPart(value = "files", required = false) MultipartFile[] files,
             @RequestPart(value = "Images", required = false) MultipartFile[] images) {
         try {
-            // 將 RequestParam 組裝為 Ann 物件
             Ann ann = new Ann();
             ann.setAnnID(annId);
-            // 資料庫要自己加現在的時間
             ann.setAnnTitle(annTitle);
             ann.setAnnInfo(annInfo);
             ann.setAdminID(annAdmin);
-            
+            System.out.println(ann.getAdminID() + " " + ann.getAnnID() + " " + ann.getAnnTitle() + " " + ann.getAnnInfo());
             // 處理文件
-            if (files != null) {
-                for (MultipartFile file : files) {
-                    String originalFilename = file.getOriginalFilename(); // 檔案名稱
-                    String contentType = file.getContentType(); // 檔案類型
-                    ann.setFileName(List.of(originalFilename));
-                    ann.setFileType(contentType);
-                    String filePath = annDAO.saveFile(file.getOriginalFilename(), file.getBytes());
-                    ann.addFile(file.getOriginalFilename(), file.getContentType(), filePath);
-                    ann.setFilePath(List.of(filePath));
-                    System.out.println(ann.getFilePath());
-                }
-            }
+            // if (files != null) {
+            //     for (MultipartFile file : files) {
+            //         String originalFilename = file.getOriginalFilename(); // 檔案名稱
+            //         String contentType = file.getContentType(); // 檔案類型
+            //         ann.setFileName(List.of(originalFilename));
+            //         ann.setFileType(contentType);
+            //         String filePath = annDAO.saveFile(file.getOriginalFilename(), file.getBytes());
+            //         ann.addFile(file.getOriginalFilename(), file.getContentType(), filePath);
+            //         ann.setFilePath(List.of(filePath));
+            //         System.out.println(ann.getFilePath());
+            //     }
+            // }
 
             // 處理圖片
+            // 確保 `uploads/` 目錄存在
+            Path uploadPath = Paths.get(UPLOAD_DIR);
+            if (!Files.exists(uploadPath)) {
+                Files.createDirectories(uploadPath);
+            }
             if (images != null) {
                 for (MultipartFile image : images) {
-                    String contentType = image.getContentType(); // 圖片類型 (MIME 類型)
-                    ann.setFileType(contentType);
-                    String imagePath = annDAO.saveFile(image.getOriginalFilename(), image.getBytes());
-                    ann.addImage(image.getOriginalFilename(), image.getContentType(), imagePath);
+                    String filename = System.currentTimeMillis() + "_" + image.getOriginalFilename();
+                    Path filePath = uploadPath.resolve(filename);
+                    Files.copy(image.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+                    // 更新資料庫內 `imagePath`
+                    String imagePath = filename;
                     ann.setPosterPath(List.of(imagePath));
-                    System.out.println(ann.getPosterPath() + "\n");
                 }
             }
-            
-            System.out.println(ann);
-
 
             boolean isAdded = annDAO.addAnnouncement(ann);
             if (isAdded) {
@@ -124,32 +119,31 @@ public class AnnController {
             @RequestPart(value = "files", required = false) MultipartFile[] files,
             @RequestPart(value = "Images", required = false) MultipartFile[] images) {
         try {
-            // System.out.println(annId);
+            System.out.println("annAdmin: " + annAdmin);
             Ann ann = new Ann();
-            // 資料庫要自己加現在的時間
             ann.setAnnID(id);
             ann.setAnnTitle(annTitle);
             ann.setAnnInfo(annInfo);
             ann.setAdminID(annAdmin);
-            System.out.println("靠"+ann.getAdminID());
-            if (files != null) {
-                for (MultipartFile file : files) {
-                    String originalFilename = file.getOriginalFilename(); // 檔案名稱
-                    String contentType = file.getContentType(); // 檔案類型
-                    ann.setFileName(List.of(originalFilename));
-                    ann.setFileType(contentType);
-                    String filePath = annDAO.saveFile(file.getOriginalFilename(), file.getBytes());
-                    ann.addFile(file.getOriginalFilename(), file.getContentType(), filePath);
-                    ann.setFilePath(List.of(filePath));
-                }
-            }
-
+            // if (files != null) {
+            //     for (MultipartFile file : files) {
+            //         String originalFilename = file.getOriginalFilename(); // 檔案名稱
+            //         String contentType = file.getContentType(); // 檔案類型
+            //         ann.setFileName(List.of(originalFilename));
+            //         ann.setFileType(contentType);
+            //         String filePath = annDAO.saveFile(file.getOriginalFilename(), file.getBytes());
+            //         ann.addFile(file.getOriginalFilename(), file.getContentType(), filePath);
+            //         ann.setFilePath(List.of(filePath));
+            //     }
+            // }
+            Path uploadPath = Paths.get(UPLOAD_DIR);
             if (images != null) {
                 for (MultipartFile image : images) {
-                    String contentType = image.getContentType(); // 圖片類型 (MIME 類型)
-                    ann.setFileType(contentType);
-                    String imagePath = annDAO.saveFile(image.getOriginalFilename(), image.getBytes());
-                    ann.addImage(image.getOriginalFilename(), image.getContentType(), imagePath);
+                    String filename = System.currentTimeMillis() + "_" + image.getOriginalFilename();
+                    Path filePath = uploadPath.resolve(filename);
+                    Files.copy(image.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+                    // 更新資料庫內 `imagePath`
+                    String imagePath = filename;
                     ann.setPosterPath(List.of(imagePath));
                 }
             }

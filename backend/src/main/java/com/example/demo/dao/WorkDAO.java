@@ -43,22 +43,39 @@ public class WorkDAO {
     }
 
     public void addWork(Work work) {
-        String query = "INSERT INTO works (WorkName, WorkSummary, WorkSdgs) VALUES (?, ?, ?)";
+        String selectQuery = "SELECT WorkID FROM work ORDER BY WorkID DESC LIMIT 1";
+        String insertQuery = "INSERT INTO work (WorkID, WorkName, WorkSummary, WorkSdgs, WorkYear) VALUES (?, ?, ?, ?, ?)";
         
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(query)) {
+             PreparedStatement selectStmt = conn.prepareStatement(selectQuery);
+             PreparedStatement insertStmt = conn.prepareStatement(insertQuery)) {
+    
+            // 查詢當前最大的 WorkID
+            String newWorkID = "work1"; // 默認值
+            try (ResultSet rs = selectStmt.executeQuery()) {
+                if (rs.next()) {
+                    String currentWorkID = rs.getString("WorkID");
+                    int currentNumber = Integer.parseInt(currentWorkID.replace("work", ""));
+                    newWorkID = "work" + (currentNumber + 1); // 生成下一個 WorkID
+                }
+            }
+    
+            // 獲取當前年份
+            int currentYear = LocalDate.now().getYear();
+    
+            // 插入新數據
+            insertStmt.setString(1, newWorkID);
+            insertStmt.setString(2, work.getWorkName());
+            insertStmt.setString(3, work.getWorkSummary());
+            insertStmt.setString(4, work.getWorkSdgs());
+            insertStmt.setInt(5, currentYear); // 設置 WorkYear
             
-            // 設定插入的欄位
-            stmt.setString(1, work.getWorkName());
-            stmt.setString(2, work.getWorkSummary());
-            stmt.setString(3, work.getWorkSdgs());
-            
-            // 執行插入操作
-            stmt.executeUpdate();
-            
+            insertStmt.executeUpdate();
+    
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+    
     
 }

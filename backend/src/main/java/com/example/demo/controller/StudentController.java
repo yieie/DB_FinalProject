@@ -100,7 +100,7 @@ public class StudentController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Void> addStudent(@RequestBody List<Student> students) {
+    public ResponseEntity<Void> addStudent(@RequestBody List<Map<String, Object>> students) {
         studentDAO.addStudent(students);
         
         // for(Student student: students) {

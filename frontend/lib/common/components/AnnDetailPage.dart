@@ -48,6 +48,7 @@ class _AnnDetailPageState extends State<AnnDetailPage>{
   Widget build(BuildContext context) {
     final scrSize = MediaQuery.of(context).size;
     final double screenWidth = scrSize.width;
+    final String backendUrl = "http://localhost:8080/images";
     bool iswidthful = scrSize.width > 1000 ? true : false;
     return Scaffold(
       backgroundColor: Colors.white,
@@ -97,7 +98,22 @@ class _AnnDetailPageState extends State<AnnDetailPage>{
                     child: Text(AnnDetail.info!),
                   ),
 
-                  // if(AnnDetail.imageurl!=null)
+                  if (AnnDetail.imageurl != null && AnnDetail.imageurl!.isNotEmpty) 
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: AnnDetail.imageurl!.map((imagePath) {
+                        final String fullUrl = "$backendUrl/$imagePath";
+                        return Padding(
+                          padding: const EdgeInsets.only(top: 10),
+                          child: Image.network(
+                            fullUrl,
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) => const Icon(Icons.error, color: Colors.red),
+                          ),
+                        );
+                      }).toList(),
+                    ),
+
                     // Image.network('http://localhost:8081/images/testpic1.png'),
 
                   //還沒有實際文件檔案可以測試，所以先印出文件名稱

@@ -107,9 +107,11 @@ class StuTeamService {
       await _apiService.post('/Tr/add', tr);
     }
 
-    await _apiService.post('/Teams/add', team);
-    await _apiService.post('/Work/add', work);
-    await _apiService.post('/Stu/add', { 'students':stus });
+    await Future.wait([
+      _apiService.post('/Teams/add', team),
+      _apiService.post('/Work/add', work),
+      _apiService.post('/Stu/add', {'students': stus}),
+    ]);
 
     //把stus裡每個學生id依序抓出來就是學生證順序
     /*
